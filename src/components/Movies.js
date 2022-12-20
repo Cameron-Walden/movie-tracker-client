@@ -12,11 +12,10 @@ import {
   Typography,
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { styled } from "@mui/material/styles";
 import { red } from "@mui/material/colors";
+import notAvailable from "../img/no_image.jpeg";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -35,14 +34,9 @@ export default function Movies({ movies }) {
   const handleExpandClick = () => setExpanded(!expanded);
 
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="center"
-      alignItems="center"
-    >
-      {movies?.results.map((movie) => (
-        <Grid>
+    <Grid container direction="row" justifyContent="center" alignItems="center">
+      {movies?.results?.map((movie, idx) => (
+        <Grid key={idx}>
           <Card sx={{ maxWidth: 345 }}>
             <CardHeader
               avatar={
@@ -56,13 +50,21 @@ export default function Movies({ movies }) {
             <CardMedia
               component="img"
               height="194"
-              image={`https://image.tmdb.org/t/p/w200${movie?.poster_path}`}
-              alt={movie.title}
+              image={
+                movie?.poster_path
+                  ? `https://image.tmdb.org/t/p/w200${movie?.poster_path}`
+                  : notAvailable
+              }
+              alt={movie?.title}
               sx={{ padding: "1em 1em 0 1em", objectFit: "contain" }}
             />
             <CardContent>
               <Typography variant="body2" color="text.secondary">
-                vote average: {movie.vote_average}<br/>vote count: {movie.vote_count}
+                {movie?.vote_average
+                  ? "vote average: " + movie?.vote_average
+                  : ""}
+                <br />
+                {movie?.vote_count ? "vote count: " + movie?.vote_count : ""}
               </Typography>
             </CardContent>
             <CardActions disableSpacing>
@@ -80,7 +82,7 @@ export default function Movies({ movies }) {
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
               <CardContent>
-                <Typography paragraph>{movie.overview}</Typography>
+                <Typography paragraph>{movie?.overview}</Typography>
               </CardContent>
             </Collapse>
           </Card>
@@ -89,4 +91,3 @@ export default function Movies({ movies }) {
     </Grid>
   );
 }
-
