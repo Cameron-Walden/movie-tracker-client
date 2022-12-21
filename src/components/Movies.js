@@ -29,9 +29,10 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function Movies({ movies }) {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState({});
 
-  const handleExpandClick = () => setExpanded(!expanded);
+  const handleExpandClick = (id) =>
+    setExpanded((expanded) => ({ ...expanded, [id]: !expanded[id] }));
 
   return (
     <Grid container direction="row" justifyContent="center" alignItems="center">
@@ -73,14 +74,14 @@ export default function Movies({ movies }) {
               </IconButton>
               <ExpandMore
                 expand={expanded}
-                onClick={handleExpandClick}
+                onClick={() => handleExpandClick(movie.id)}
                 aria-expanded={expanded}
                 aria-label="show more"
               >
                 <ExpandMoreIcon />
               </ExpandMore>
             </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <Collapse in={expanded[movie.id]} timeout="auto" unmountOnExit>
               <CardContent>
                 <Typography paragraph>{movie?.overview}</Typography>
               </CardContent>
