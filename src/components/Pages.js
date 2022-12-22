@@ -11,7 +11,9 @@ export default function Pages({ search, setMovies, totalResults }) {
 
   const nextPage = async (page) => {
     try {
-      let movieResponse = await axios?.get(`http://localhost:3001/movie?title=${search}&page=${page}`);
+      let movieResponse = await axios?.get(
+        `http://localhost:3001/movies?title=${search}&page=${page}`
+      );
       setMovies(movieResponse?.data);
       setCurrentPage(page);
     } catch (error) {
@@ -36,7 +38,7 @@ export default function Pages({ search, setMovies, totalResults }) {
       ) : (
         ""
       )}
-      {totalResults > 20 ? pages : totalResults <= 1 ? '' : ''}
+      {totalResults > 20 ? pages : totalResults <= 1 ? "" : ""}
       {currentPage < pages + 1 ? (
         <Button onClick={() => nextPage(currentPage + 1)}>
           <ArrowCircleRightIcon />

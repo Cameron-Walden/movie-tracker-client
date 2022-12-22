@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Form from "./Form";
+import Header from "./Header";
 import Movies from "./Movies";
 import Pages from "./Pages";
 
@@ -11,7 +11,7 @@ export default function Main() {
 
   const getMovies = async () => {
     try {
-      let movieResponse = await axios?.get(`http://localhost:3001/movie?title=${search}`);
+      let movieResponse = await axios?.get(`http://localhost:3001/movies?title=${search}`);
       setMovies(movieResponse?.data);
       setTotalResults(movieResponse?.data?.total_results);
     } catch (error) {
@@ -26,7 +26,7 @@ export default function Main() {
 
   return (
     <div>
-      <Form search={search} setSearch={setSearch} getMovies={getMovies} />
+      <Header search={search} setSearch={setSearch} getMovies={getMovies} />
       <Movies movies={movies} />
       <Pages
         search={search}
