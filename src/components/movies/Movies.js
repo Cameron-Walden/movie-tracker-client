@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Container,
   Grid,
@@ -11,8 +11,10 @@ import {
   CardContent,
   CardActions,
   Typography,
+  Modal,
+  Box,
 } from "@mui/material";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
 import { red } from "@mui/material/colors";
@@ -30,11 +32,36 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
 export default function Movies({ movies }) {
   const [expanded, setExpanded] = useState({});
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
-  const handleExpandClick = (id) =>
-    setExpanded((expanded) => ({ ...expanded, [id]: !expanded[id] }));
+  const handleExpandClick = (id) => setExpanded((expandTxt) => ({ ...expandTxt, [id]: !expandTxt[id] }));
+
+  const handleOpenModal = (id) => {
+    let findId = movies?.results?.find((movie) => movie.id === id);
+    setOpenModal(true);
+    setSelectedMovie(findId);
+  };
+
+  const handleCloseModal = () => setOpenModal(false);
+
+  useEffect(() => {
+    handleOpenModal();
+  }, []);
 
   return (
     <Container className="container">
@@ -76,9 +103,28 @@ export default function Movies({ movies }) {
                 </Typography>
               </CardContent>
               <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                  <FavoriteIcon />
+                <IconButton
+                  aria-label="add to favorites"
+                  onClick={() => handleOpenModal(movie.id)}
+                >
+                  <VisibilityIcon />
                 </IconButton>
+                <Modal
+                  open={openModal}
+                  onClose={handleCloseModal}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box sx={style}>
+                    <Typography
+                      id="modal-modal-title"
+                      variant="h6"
+                      component="h2"
+                    >
+                      {selectedMovie?.title}
+                    </Typography>
+                  </Box>
+                </Modal>
                 <ExpandMore
                   expand={expanded}
                   onClick={() => handleExpandClick(movie.id)}
