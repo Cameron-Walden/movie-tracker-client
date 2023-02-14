@@ -12,7 +12,7 @@ export default function Pages({ search, setMovies, totalResults }) {
   const nextPage = async (page) => {
     try {
       let movieResponse = await axios?.get(
-        `http://localhost:3001/movies?title=${search}&page=${page}`
+        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_MOVIE_API}&query=${search}&page=${page}`
       );
       setMovies(movieResponse?.data);
       setCurrentPage(page);

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "./Header";
-import Movies from "./Movies";
+import Movies from '../components/movies/Movies';
 import Pages from "./Pages";
 
 export default function Main() {
@@ -11,7 +11,7 @@ export default function Main() {
 
   const getMovies = async () => {
     try {
-      let movieResponse = await axios?.get(`http://localhost:3001/movies?title=${search}`);
+      let movieResponse = await axios?.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_MOVIE_API}&query=${search}`);
       setMovies(movieResponse?.data);
       setTotalResults(movieResponse?.data?.total_results);
     } catch (error) {
