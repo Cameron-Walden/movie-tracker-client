@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Container,
   Grid,
@@ -14,10 +15,10 @@ import {
   Modal,
   Box,
 } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
 import { red } from "@mui/material/colors";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import notAvailable from "../../img/no_image.jpeg";
 import "./Movies.css";
 
@@ -49,6 +50,8 @@ export default function Movies({ movies }) {
   const [openModal, setOpenModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
 
+  const [savedMovies, setSavedMovies] = useState([])
+
   const handleExpandClick = (id) => setExpanded((expandTxt) => ({ ...expandTxt, [id]: !expandTxt[id] }));
 
   const handleOpenModal = (id) => {
@@ -59,8 +62,38 @@ export default function Movies({ movies }) {
 
   const handleCloseModal = () => setOpenModal(false);
 
+    const addUserReview = async (movieReview) => {
+    try {
+      let userMovieReview = movies?.results?.find(movie => movie.title === movieReview)
+      console.log(userMovieReview, 'umr')
+      const config = {
+        data: {
+          headers: { 'Content-type': 'application/json' },
+          title: userMovieReview?.title,
+          description: userMovieReview?.overview,
+        },
+        method: 'post',
+        baseUrl: 'http://localhost:3001/reviews'
+      }
+      console.log(config, 'config before setSavedMovies')
+      console.log(savedMovies, 'savedMoviezs before setsave')
+      setSavedMovies(savedMovies, config)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getSavedMovies = async () => {
+    const savedMovie = 'http://localhost:3001/reviews';
+    const response = await axios.get(savedMovie);
+    console.log(response, 'res')
+    setSavedMovies(response.data)
+  }
+
   useEffect(() => {
     handleOpenModal();
+    addUserReview();
+    getSavedMovies();
   }, []);
 
   return (
@@ -122,6 +155,7 @@ export default function Movies({ movies }) {
                       component="h2"
                     >
                       {selectedMovie?.title}
+                      <button onClick={() => addUserReview(movie.title)}>add fave</button>
                     </Typography>
                   </Box>
                 </Modal>
