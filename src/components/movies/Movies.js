@@ -15,35 +15,13 @@ import {
   Modal,
   Box,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { ExpandMore } from "./expandMore";
+import { style } from "./style";
 import { red } from "@mui/material/colors";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import notAvailable from "../../img/no_image.jpeg";
 import "./Movies.css";
-
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
 
 export default function Movies({ movies }) {
   const [expanded, setExpanded] = useState({});
