@@ -23,14 +23,15 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import notAvailable from "../../img/no_image.jpeg";
 import "./Movies.css";
 
+
 export default function Movies({ movies }) {
   const [expanded, setExpanded] = useState({});
   const [openModal, setOpenModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [savedMovies, setSavedMovies] = useState([]);
 
-  const [savedMovies, setSavedMovies] = useState([])
-
-  const handleExpandClick = (id) => setExpanded((expandTxt) => ({ ...expandTxt, [id]: !expandTxt[id] }));
+  const handleExpandClick = (id) =>
+    setExpanded((expandTxt) => ({ ...expandTxt, [id]: !expandTxt[id] }));
 
   const handleOpenModal = (id) => {
     let findId = movies?.results?.find((movie) => movie.id === id);
@@ -39,38 +40,32 @@ export default function Movies({ movies }) {
   };
 
   const handleCloseModal = () => setOpenModal(false);
-
-    const addUserReview = async (movieReview) => {
+ 
+  const addUserReview = async () => {
     try {
-      let userMovieReview = movies?.results?.find(movie => movie.title === movieReview)
-      console.log(userMovieReview, 'umr')
       const config = {
+        headers: { "Content-type": "application/json" },
         data: {
-          headers: { 'Content-type': 'application/json' },
-          title: userMovieReview?.title,
-          description: userMovieReview?.overview,
+          title: selectedMovie.title,
+          description: selectedMovie.overview,
         },
-        method: 'post',
-        baseUrl: 'http://localhost:3001/reviews'
-      }
-      console.log(config, 'config before setSavedMovies')
-      console.log(savedMovies, 'savedMoviezs before setsave')
-      setSavedMovies(savedMovies, config)
+      };
+      let url = "http://localhost:3001/reviews";
+      let res = await axios.post(url, config.data);
+      setSavedMovies([...savedMovies, res]);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const getSavedMovies = async () => {
-    const savedMovie = 'http://localhost:3001/reviews';
+    const savedMovie = "http://localhost:3001/reviews";
     const response = await axios.get(savedMovie);
-    console.log(response, 'res')
-    setSavedMovies(response.data)
-  }
+    setSavedMovies(response.data);
+  };
 
   useEffect(() => {
     handleOpenModal();
-    addUserReview();
     getSavedMovies();
   }, []);
 
@@ -120,23 +115,27 @@ export default function Movies({ movies }) {
                 >
                   <VisibilityIcon />
                 </IconButton>
-                <Modal
-                  open={openModal}
-                  onClose={handleCloseModal}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
-                >
-                  <Box sx={style}>
-                    <Typography
-                      id="modal-modal-title"
-                      variant="h6"
-                      component="h2"
-                    >
-                      {selectedMovie?.title}
-                      <button onClick={() => addUserReview(movie.title)}>add fave</button>
-                    </Typography>
-                  </Box>
-                </Modal>
+                {selectedMovie && (
+                  <Modal
+                    open={openModal}
+                    onClose={handleCloseModal}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box sx={style}>
+                      <Typography
+                        id="modal-modal-title"
+                        variant="h6"
+                        component="h2"
+                      >
+                        {selectedMovie?.title}
+                        <button onClick={() => addUserReview(movie.id)}>
+                          add fave
+                        </button>
+                      </Typography>
+                    </Box>
+                  </Modal>
+                )}
                 <ExpandMore
                   expand={expanded}
                   onClick={() => handleExpandClick(movie.id)}
