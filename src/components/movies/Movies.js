@@ -12,17 +12,14 @@ import {
   CardContent,
   CardActions,
   Typography,
-  Modal,
-  Box,
 } from "@mui/material";
 import { ExpandMore } from "./expandMore";
-import { style } from "./style";
+import MovieModal from "../movieModal/MovieModal";
 import { red } from "@mui/material/colors";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import notAvailable from "../../img/no_image.jpeg";
 import "./Movies.css";
-
 
 export default function Movies({ movies }) {
   const [expanded, setExpanded] = useState({});
@@ -40,7 +37,7 @@ export default function Movies({ movies }) {
   };
 
   const handleCloseModal = () => setOpenModal(false);
- 
+
   const addUserReview = async () => {
     try {
       const config = {
@@ -115,27 +112,13 @@ export default function Movies({ movies }) {
                 >
                   <VisibilityIcon />
                 </IconButton>
-                {selectedMovie && (
-                  <Modal
-                    open={openModal}
-                    onClose={handleCloseModal}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                  >
-                    <Box sx={style}>
-                      <Typography
-                        id="modal-modal-title"
-                        variant="h6"
-                        component="h2"
-                      >
-                        {selectedMovie?.title}
-                        <button onClick={() => addUserReview(movie.id)}>
-                          add fave
-                        </button>
-                      </Typography>
-                    </Box>
-                  </Modal>
-                )}
+                <MovieModal
+                  selectedMovie={selectedMovie}
+                  openModal={openModal}
+                  handleCloseModal={handleCloseModal}
+                  addUserReview={addUserReview}
+                  movie={movie}
+                />
                 <ExpandMore
                   expand={expanded}
                   onClick={() => handleExpandClick(movie.id)}
