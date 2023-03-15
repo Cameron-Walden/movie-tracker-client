@@ -38,23 +38,6 @@ export default function Movies({ movies }) {
 
   const handleCloseModal = () => setOpenModal(false);
 
-  const addUserReview = async () => {
-    try {
-      const config = {
-        headers: { "Content-type": "application/json" },
-        data: {
-          title: selectedMovie.title,
-          description: selectedMovie.overview,
-        },
-      };
-      let url = "http://localhost:3001/reviews";
-      let res = await axios.post(url, config.data);
-      setSavedMovies([...savedMovies, res]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const getSavedMovies = async () => {
     const savedMovie = "http://localhost:3001/reviews";
     const response = await axios.get(savedMovie);
@@ -114,9 +97,10 @@ export default function Movies({ movies }) {
                 </IconButton>
                 <MovieModal
                   selectedMovie={selectedMovie}
+                  savedMovies={savedMovies}
+                  setSavedMovies={setSavedMovies}
                   openModal={openModal}
                   handleCloseModal={handleCloseModal}
-                  addUserReview={addUserReview}
                   movie={movie}
                 />
                 <ExpandMore
