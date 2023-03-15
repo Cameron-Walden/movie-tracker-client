@@ -8,10 +8,9 @@ import {
   CardActions,
   Typography,
   Button,
-  Rating, 
-  Stack
+  Rating,
+  Stack,
 } from "@mui/material";
-import TextareaAutosize from "@mui/base/TextareaAutosize";
 import { style } from "./style";
 
 export default function MovieModal({
@@ -20,22 +19,26 @@ export default function MovieModal({
   setSavedMovies,
   openModal,
   handleCloseModal,
-  movie,
 }) {
   const [starRating, setStarRating] = useState(0);
+  const [userReview, setUserReview] = useState("");
 
   const addUserReview = async (e, res) => {
+    e.preventDefault();
     const config = {
       headers: { "Content-type": "application/json" },
       data: {
         title: selectedMovie.title,
         description: selectedMovie.overview,
-        user_rating: starRating
+        user_rating: starRating,
+        user_review: userReview,
       },
     };
     try {
       const url = "http://localhost:3001/reviews";
       const response = await axios.post(url, config.data);
+      console.log(response, "response");
+      setUserReview(userReview);
       setStarRating(starRating);
       setSavedMovies([...savedMovies, response]);
     } catch (error) {
@@ -65,13 +68,9 @@ export default function MovieModal({
                 <Typography variant="h5" component="div">
                   I watched on here
                 </Typography>
-                <TextareaAutosize
-                  maxRows={4}
-                  aria-label="maximum height"
-                  placeholder="Add a review..."
-                  style={{ width: 200 }}
-                  label="user_review"
-                />
+                <form onChange={(e) => setUserReview(e.target.value)}>
+                  <textarea value={userReview} rows="4" cols="20" />
+                </form>
                 <Stack spacing={1}>
                   <Rating
                     name="user_rating"
