@@ -12,6 +12,7 @@ import {
   Stack,
 } from "@mui/material";
 import { style } from "./style";
+import { DatePicker } from "@mui/x-date-pickers";
 
 export default function MovieModal({
   selectedMovie,
@@ -37,7 +38,6 @@ export default function MovieModal({
     try {
       const url = "http://localhost:3001/reviews";
       const response = await axios.post(url, config.data);
-      console.log(response, "response");
       setUserReview(userReview);
       setStarRating(starRating);
       setSavedMovies([...savedMovies, response]);
@@ -65,9 +65,9 @@ export default function MovieModal({
                 >
                   {selectedMovie?.title} {selectedMovie?.release_date}
                 </Typography>
-                <Typography variant="h5" component="div">
-                  I watched on here
-                </Typography>
+                <div>
+                  I watched on <DatePicker />
+                </div>
                 <form onChange={(e) => setUserReview(e.target.value)}>
                   <textarea value={userReview} rows="4" cols="20" />
                 </form>
