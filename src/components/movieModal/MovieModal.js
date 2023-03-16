@@ -23,6 +23,7 @@ export default function MovieModal({
 }) {
   const [starRating, setStarRating] = useState(0);
   const [userReview, setUserReview] = useState("");
+  const [date, setDate] = useState('')
 
   const addUserReview = async (e, res) => {
     e.preventDefault();
@@ -33,11 +34,13 @@ export default function MovieModal({
         description: selectedMovie.overview,
         user_rating: starRating,
         user_review: userReview,
+        date_watched: date
       },
     };
     try {
       const url = "http://localhost:3001/reviews";
       const response = await axios.post(url, config.data);
+      setDate(date)
       setUserReview(userReview);
       setStarRating(starRating);
       setSavedMovies([...savedMovies, response]);
@@ -66,7 +69,7 @@ export default function MovieModal({
                   {selectedMovie?.title} {selectedMovie?.release_date}
                 </Typography>
                 <div>
-                  I watched on <DatePicker />
+                  I watched on <DatePicker value={date} onChange={(day) => setDate(day)} />
                 </div>
                 <form onChange={(e) => setUserReview(e.target.value)}>
                   <textarea value={userReview} rows="4" cols="20" />
