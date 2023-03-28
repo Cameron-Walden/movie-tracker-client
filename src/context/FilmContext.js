@@ -7,6 +7,8 @@ export default function Context(props) {
   const [search, setSearch] = useState("");
   const [movies, setMovies] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
+  const [savedMovies, setSavedMovies] = useState([]);
+
   const getMovies = async () => {
     try {
       let movieResponse = await axios?.get(
@@ -23,6 +25,7 @@ export default function Context(props) {
     getMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  
   return (
     <FilmContext.Provider
       value={{
@@ -32,6 +35,8 @@ export default function Context(props) {
         setMovies,
         totalResults,
         setTotalResults,
+        savedMovies,
+        setSavedMovies,
         getMovies,
       }}
     >

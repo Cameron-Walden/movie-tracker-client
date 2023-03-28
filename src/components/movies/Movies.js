@@ -25,7 +25,6 @@ export default function Movies({ movies }) {
   const [expanded, setExpanded] = useState({});
   const [openModal, setOpenModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const [savedMovies, setSavedMovies] = useState([]);
 
   const handleExpandClick = (id) =>
     setExpanded((expandTxt) => ({ ...expandTxt, [id]: !expandTxt[id] }));
@@ -38,16 +37,9 @@ export default function Movies({ movies }) {
 
   const handleCloseModal = () => setOpenModal(false);
 
-  const getSavedMovies = async () => {
-    const savedMovie = "http://localhost:3001/reviews";
-    const response = await axios.get(savedMovie);
-    setSavedMovies(response.data);
-  };
-
   useEffect(() => {
     handleOpenModal();
-    getSavedMovies();
-  }, []);
+  });
 
   return (
     <Container className="container">
