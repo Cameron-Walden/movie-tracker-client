@@ -46,7 +46,7 @@ export default function MovieModal({
       setUserReview(userReview);
       setStarRating(starRating);
       console.log(savedMovies, 'savedmovie')
-      setSavedMovies([...savedMovies, response]);
+      setSavedMovies([...savedMovies, response.data]);
     } catch (error) {
       res.status(500).send(error);
     }
@@ -99,3 +99,7 @@ export default function MovieModal({
     </>
   );
 }
+
+
+
+  

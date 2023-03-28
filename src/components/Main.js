@@ -4,10 +4,10 @@ import Movies from '../components/movies/Movies';
 import Pages from "./Pages";
 
 export default function Main() {
-  const { search, movies, setMovies, totalResults } = useContext(FilmContext)
+  const { search, setMovies, totalResults } = useContext(FilmContext)
   return (
     <div>
-      <Movies movies={movies} />
+      <Movies />
       <Pages
         search={search}
         setMovies={setMovies}
