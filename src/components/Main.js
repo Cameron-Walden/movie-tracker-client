@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { FilmContext } from "../context/FilmContext";
 import axios from "axios";
 import Header from "./Header";
 import Movies from '../components/movies/Movies';
 import Pages from "./Pages";
 
 export default function Main() {
-  const [search, setSearch] = useState("");
+  const { search, setSearch }= useContext(FilmContext)
   const [movies, setMovies] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
 
