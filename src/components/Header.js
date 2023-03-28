@@ -31,7 +31,7 @@ export default function Header() {
             MovieTracker
           </Typography>
           <Link to="/" className="home-route" sx={{ color: "white" }}>
-            Saved
+            Home
           </Link>
           <Link to="/saved-film" className="saved-film" sx={{ color: "white" }}>
             Saved
