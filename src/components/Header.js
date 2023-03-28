@@ -8,7 +8,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Search from "./search/Search";
 import { Link } from "react-router-dom";
 
-export default function Header({ search, setSearch, getMovies }) {
+export default function Header() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -36,7 +36,7 @@ export default function Header({ search, setSearch, getMovies }) {
           <Link to="/saved-film" className="saved-film" sx={{ color: "white" }}>
             Saved
           </Link>
-          <Search search={search} setSearch={setSearch} getMovies={getMovies} />
+          <Search />
         </Toolbar>
       </AppBar>
     </Box>
