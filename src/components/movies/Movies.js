@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import {
   Container,
   Grid,
@@ -22,6 +21,7 @@ import notAvailable from "../../img/no_image.jpeg";
 import "./Movies.css";
 
 export default function Movies({ movies }) {
+
   const [expanded, setExpanded] = useState({});
   const [openModal, setOpenModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -89,8 +89,8 @@ export default function Movies({ movies }) {
                 </IconButton>
                 <MovieModal
                   selectedMovie={selectedMovie}
-                  savedMovies={savedMovies}
-                  setSavedMovies={setSavedMovies}
+                  // savedMovies={savedMovies}
+                  // setSavedMovies={setSavedMovies}
                   openModal={openModal}
                   handleCloseModal={handleCloseModal}
                   movie={movie}
