@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { FilmContext } from "../../context/FilmContext";
 import {
   Container,
   Grid,
@@ -20,8 +21,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import notAvailable from "../../img/no_image.jpeg";
 import "./Movies.css";
 
-export default function Movies({ movies }) {
-
+export default function Movies() {
+  const { movies } = useContext(FilmContext)
   const [expanded, setExpanded] = useState({});
   const [openModal, setOpenModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -39,7 +40,7 @@ export default function Movies({ movies }) {
 
   useEffect(() => {
     handleOpenModal();
-  });
+  }, []);
 
   return (
     <Container className="container">
