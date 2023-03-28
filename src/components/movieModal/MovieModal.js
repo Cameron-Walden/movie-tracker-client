@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { FilmContext } from "../../context/FilmContext";
 import axios from "axios";
 import {
   Modal,
@@ -16,11 +17,10 @@ import { DatePicker } from "@mui/x-date-pickers";
 
 export default function MovieModal({
   selectedMovie,
-  savedMovies,
-  setSavedMovies,
   openModal,
   handleCloseModal,
 }) {
+  const { savedMovies, setSavedMovies } = useContext(FilmContext)
   const [starRating, setStarRating] = useState(0);
   const [userReview, setUserReview] = useState("");
   const [date, setDate] = useState('')
@@ -37,12 +37,15 @@ export default function MovieModal({
         date_watched: date
       },
     };
+    console.log(config.data.user_review, 'ur')
     try {
       const url = "http://localhost:3001/reviews";
       const response = await axios.post(url, config.data);
+      console.log(response, 'response')
       setDate(date)
       setUserReview(userReview);
       setStarRating(starRating);
+      console.log(savedMovies, 'savedmovie')
       setSavedMovies([...savedMovies, response]);
     } catch (error) {
       res.status(500).send(error);
