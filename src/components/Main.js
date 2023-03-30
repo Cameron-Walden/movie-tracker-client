@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { FilmContext } from "../context/FilmContext";
 import Movies from '../components/movies/Movies';
+import Popular from "./Popular";
 import Pages from "./Pages";
 
 export default function Main() {
@@ -8,6 +9,7 @@ export default function Main() {
   return (
     <div>
       <Movies />
+      <Popular />
       <Pages
         search={search}
         setMovies={setMovies}
