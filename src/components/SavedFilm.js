@@ -2,13 +2,17 @@ import { useContext, useEffect } from "react";
 import { FilmContext } from "../context/FilmContext";
 import axios from "axios";
 import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import {
+  Table,
+  TableBody,
+  TableContainer,
+  TableCell,
+  tableCellClasses,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -24,7 +28,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
   },
@@ -37,6 +40,12 @@ export default function SavedFilm() {
     const savedMovie = "http://localhost:3001/reviews";
     const response = await axios.get(savedMovie);
     setSavedMovies(response.data);
+  };
+
+  const deleteFromSaved = async (id) => {
+    const deleteFilm = `http://localhost:3001/reviews/${id}`;
+    await axios.delete(deleteFilm);
+    getSavedMovies();
   };
 
   useEffect(() => {
@@ -59,17 +68,24 @@ export default function SavedFilm() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {savedMovies.map((film) => (
-              <StyledTableRow key={film.id}>
+            {savedMovies?.map((film) => (
+              <StyledTableRow key={film?._id}>
                 <StyledTableCell component="th" scope="row">
                   {film.title}
                 </StyledTableCell>
                 <StyledTableCell align="right">released tbd</StyledTableCell>
-                <StyledTableCell align="right">{film.user_rating}</StyledTableCell>
+                <StyledTableCell align="right">
+                  {film.user_rating}
+                </StyledTableCell>
                 <StyledTableCell align="right">liked tbd</StyledTableCell>
                 <StyledTableCell align="right">rewacth tbd</StyledTableCell>
-                <StyledTableCell align="right">{film.user_review}</StyledTableCell>
-                <StyledTableCell align="right">edit tbd</StyledTableCell>
+                <StyledTableCell align="right">
+                  {film.user_review}
+                </StyledTableCell>
+
+                <StyledTableCell align="right">
+                  <EditIcon onClick={() => deleteFromSaved(film?._id)} />
+                </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
