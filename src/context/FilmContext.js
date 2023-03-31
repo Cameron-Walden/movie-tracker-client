@@ -8,6 +8,7 @@ export default function Context(props) {
   const [movies, setMovies] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
   const [savedMovies, setSavedMovies] = useState([]);
+  const [hasUserSearched, setHasUserSearched] = useState(false);
 
   const getMovies = async () => {
     try {
@@ -38,6 +39,8 @@ export default function Context(props) {
         savedMovies,
         setSavedMovies,
         getMovies,
+        hasUserSearched,
+        setHasUserSearched
       }}
     >
       {props.children}

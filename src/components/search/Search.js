@@ -6,7 +6,7 @@ import { SearchIconWrapper } from "./searchStyles";
 import { StyledInputBase } from "./searchStyles";
 
 export default function Search() {
-  const { search, setSearch, getMovies } = useContext(FilmContext)
+  const { search, setSearch, getMovies, setHasUserSearched } = useContext(FilmContext)
   const handleSearch = (e) => {
     e.preventDefault();
     setSearch(e.target.value);
@@ -15,6 +15,7 @@ export default function Search() {
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       getMovies();
+      setHasUserSearched(true)
     }
   };
 
