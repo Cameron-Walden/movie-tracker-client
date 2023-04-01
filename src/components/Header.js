@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import {
   AppBar,
@@ -13,13 +13,20 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Search from "./search/Search";
+import { FilmContext } from "../context/FilmContext";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(null);
+  const { setHasUserSearched } = useContext(FilmContext)
 
   const handleOpenMenu = (e) => setIsOpen(e.currentTarget);
 
   const handleCloseMenu = () => setIsOpen(null);
+
+  const goHome = () => {
+    handleCloseMenu()
+    setHasUserSearched(false)
+  }
 
   const openMenu = Boolean(isOpen);
 
@@ -57,7 +64,7 @@ export default function Header() {
                 className="home-route"
                 style={{ textDecoration: "none", color: "black" }}
               >
-                <MenuItem onClick={handleCloseMenu}>Home</MenuItem>
+                <MenuItem onClick={goHome}>Home</MenuItem>
               </Link>
               <Link
                 to="/saved-film"
