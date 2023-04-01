@@ -20,10 +20,10 @@ export default function MovieModal({
   openModal,
   handleCloseModal,
 }) {
-  const { savedMovies, setSavedMovies } = useContext(FilmContext)
+  const { savedMovies, setSavedMovies } = useContext(FilmContext);
   const [starRating, setStarRating] = useState(0);
   const [userReview, setUserReview] = useState("");
-  const [date, setDate] = useState('')
+  const [date, setDate] = useState("");
 
   const addUserReview = async (e, res) => {
     e.preventDefault();
@@ -34,18 +34,18 @@ export default function MovieModal({
         description: selectedMovie.overview,
         user_rating: starRating,
         user_review: userReview,
-        date_watched: date
+        date_watched: date,
       },
     };
-    console.log(config.data.user_review, 'ur')
+    console.log(config.data.user_review, "ur");
     try {
       const url = "http://localhost:3001/reviews";
       const response = await axios.post(url, config.data);
-      console.log(response, 'response')
-      setDate(date)
+      console.log(response, "response");
+      setDate(date);
       setUserReview(userReview);
       setStarRating(starRating);
-      console.log(savedMovies, 'savedmovie')
+      console.log(savedMovies, "savedmovie");
       setSavedMovies([...savedMovies, response.data]);
     } catch (error) {
       res.status(500).send(error);
@@ -72,10 +72,16 @@ export default function MovieModal({
                   {selectedMovie?.title} {selectedMovie?.release_date}
                 </Typography>
                 <div>
-                  I watched on <DatePicker value={date} onChange={(day) => setDate(day)} />
+                  I watched on{" "}
+                  <DatePicker value={date} onChange={(day) => setDate(day)} />
                 </div>
-                <form onChange={(e) => setUserReview(e.target.value)}>
-                  <textarea value={userReview} rows="4" cols="20" />
+                <form>
+                  <textarea
+                    value={userReview}
+                    onChange={(e) => setUserReview(e.target.value)}
+                    rows="4"
+                    cols="20"
+                  />
                 </form>
                 <Stack spacing={1}>
                   <Rating
@@ -99,7 +105,3 @@ export default function MovieModal({
     </>
   );
 }
-
-
-
-  
