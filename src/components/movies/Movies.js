@@ -22,9 +22,8 @@ import notAvailable from "../../img/no_image.jpeg";
 import "./Movies.css";
 
 export default function Movies() {
-  const { movies } = useContext(FilmContext)
+  const { movies, setOpenModal } = useContext(FilmContext)
   const [expanded, setExpanded] = useState({});
-  const [openModal, setOpenModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
 
   const handleExpandClick = (id) =>
@@ -90,9 +89,6 @@ export default function Movies() {
                 </IconButton>
                 <MovieModal
                   selectedMovie={selectedMovie}
-                  // savedMovies={savedMovies}
-                  // setSavedMovies={setSavedMovies}
-                  openModal={openModal}
                   handleCloseModal={handleCloseModal}
                   movie={movie}
                 />
