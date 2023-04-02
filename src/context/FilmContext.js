@@ -4,6 +4,7 @@ import axios from "axios";
 export const FilmContext = createContext();
 
 export default function Context(props) {
+
   const [search, setSearch] = useState("");
   const [movies, setMovies] = useState([]);
   const [totalResults, setTotalResults] = useState(0);

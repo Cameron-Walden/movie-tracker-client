@@ -15,7 +15,7 @@ import { StyledTableCell, StyledTableRow } from "./styles";
 
 export default function SavedFilm() {
   const { savedMovies, setSavedMovies } = useContext(FilmContext);
-
+  
   const getSavedMovies = async () => {
     const savedMovie = "http://localhost:3001/reviews";
     const response = await axios.get(savedMovie);
@@ -33,12 +33,13 @@ export default function SavedFilm() {
   }, []);
 
   return (
-    <>
+    <Container>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
               <StyledTableCell>Film</StyledTableCell>
+              <StyledTableCell></StyledTableCell>
               <StyledTableCell align="right">Released</StyledTableCell>
               <StyledTableCell align="right">Rating</StyledTableCell>
               <StyledTableCell align="right">Like</StyledTableCell>
@@ -50,7 +51,21 @@ export default function SavedFilm() {
           <TableBody>
             {savedMovies?.map((film) => (
               <StyledTableRow key={film?._id}>
-                <StyledTableCell component="th" scope="row">
+                 <StyledTableCell>
+                    <img
+                      src={`https://image.tmdb.org/t/p/w500/${film.poster}`}
+                      alt={film.title}
+                      style={{ width: "4em", height: "6em" }}
+                    />
+                  </StyledTableCell>
+                <StyledTableCell
+                  component="th"
+                  scope="row"
+                  style={{
+                    maxWidth: "50%",
+                    maxHeight: "50%",
+                  }}
+                >
                   {film.title}
                 </StyledTableCell>
                 <StyledTableCell align="right">released tbd</StyledTableCell>
@@ -71,6 +86,6 @@ export default function SavedFilm() {
           </TableBody>
         </Table>
       </TableContainer>
-    </>
+    </Container>
   );
 }

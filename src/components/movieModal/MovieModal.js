@@ -21,6 +21,8 @@ export default function MovieModal({ selectedMovie, handleCloseModal }) {
   const [userReview, setUserReview] = useState("");
   const [date, setDate] = useState("");
 
+  
+
   const addUserReview = async (e, res) => {
     e.preventDefault();
     const config = {
@@ -28,6 +30,7 @@ export default function MovieModal({ selectedMovie, handleCloseModal }) {
       data: {
         title: selectedMovie.title,
         description: selectedMovie.overview,
+        poster: selectedMovie.poster_path,
         user_rating: starRating,
         user_review: userReview,
         date_watched: date,
