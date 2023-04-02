@@ -9,6 +9,7 @@ export default function Context(props) {
   const [totalResults, setTotalResults] = useState(0);
   const [savedMovies, setSavedMovies] = useState([]);
   const [hasUserSearched, setHasUserSearched] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const getMovies = async () => {
     try {
@@ -40,7 +41,9 @@ export default function Context(props) {
         setSavedMovies,
         getMovies,
         hasUserSearched,
-        setHasUserSearched
+        setHasUserSearched,
+        openModal,
+        setOpenModal
       }}
     >
       {props.children}
