@@ -15,12 +15,8 @@ import {
 import { style } from "./style";
 import { DatePicker } from "@mui/x-date-pickers";
 
-export default function MovieModal({
-  selectedMovie,
-  openModal,
-  handleCloseModal,
-}) {
-  const { savedMovies, setSavedMovies } = useContext(FilmContext);
+export default function MovieModal({ selectedMovie, handleCloseModal }) {
+  const { savedMovies, setSavedMovies, openModal } = useContext(FilmContext);
   const [starRating, setStarRating] = useState(0);
   const [userReview, setUserReview] = useState("");
   const [date, setDate] = useState("");
@@ -37,15 +33,12 @@ export default function MovieModal({
         date_watched: date,
       },
     };
-    console.log(config.data.user_review, "ur");
     try {
       const url = "http://localhost:3001/reviews";
       const response = await axios.post(url, config.data);
-      console.log(response, "response");
       setDate(date);
       setUserReview(userReview);
       setStarRating(starRating);
-      console.log(savedMovies, "savedmovie");
       setSavedMovies([...savedMovies, response.data]);
     } catch (error) {
       res.status(500).send(error);
