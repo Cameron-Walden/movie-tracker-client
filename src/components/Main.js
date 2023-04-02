@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { FilmContext } from "../context/FilmContext";
 import Movies from "../components/movies/Movies";
-import Popular from "./Popular";
+import Popular from "./popular/Popular";
 import Pages from "./Pages";
 
 export default function Main() {
