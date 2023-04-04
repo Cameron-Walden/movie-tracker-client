@@ -17,16 +17,16 @@ import { FilmContext } from "../context/FilmContext";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(null);
-  const { setHasUserSearched } = useContext(FilmContext)
+  const { setHasUserSearched } = useContext(FilmContext);
 
   const handleOpenMenu = (e) => setIsOpen(e.currentTarget);
 
   const handleCloseMenu = () => setIsOpen(null);
 
   const goHome = () => {
-    handleCloseMenu()
-    setHasUserSearched(false)
-  }
+    handleCloseMenu();
+    setHasUserSearched(false);
+  };
 
   const openMenu = Boolean(isOpen);
 
@@ -67,11 +67,18 @@ export default function Header() {
                 <MenuItem onClick={goHome}>Home</MenuItem>
               </Link>
               <Link
-                to="/saved-film"
-                className="saved-film"
+                to="/saved-films"
+                className="saved-films"
                 style={{ textDecoration: "none", color: "black" }}
               >
                 <MenuItem onClick={handleCloseMenu}>Saved Films</MenuItem>
+              </Link>
+              <Link
+                to="/watchlist"
+                className="watchlist"
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                <MenuItem onClick={handleCloseMenu}>Watchlist</MenuItem>
               </Link>
             </Menu>
           </div>
