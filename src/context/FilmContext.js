@@ -8,6 +8,7 @@ export default function Context(props) {
   const [search, setSearch] = useState("");
   const [movies, setMovies] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
+  const [selectedMovie, setSelectedMovie] = useState(null);
   const [savedMovies, setSavedMovies] = useState([]);
   const [hasUserSearched, setHasUserSearched] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -41,6 +42,8 @@ export default function Context(props) {
         setMovies,
         totalResults,
         setTotalResults,
+        selectedMovie,
+        setSelectedMovie,
         savedMovies,
         setSavedMovies,
         getMovies,

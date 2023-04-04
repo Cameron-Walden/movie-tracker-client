@@ -24,10 +24,10 @@ import notAvailable from "../../img/no_image.jpeg";
 import "./Movies.css";
 
 export default function Movies() {
-  const { movies, setOpenModal } = useContext(FilmContext);
+  const { movies, setOpenModal, selectedMovie, setSelectedMovie } =
+    useContext(FilmContext);
   const [expanded, setExpanded] = useState({});
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const [watchlist, setWatchlist] = useState([])
+  const [watchlist, setWatchlist] = useState([]);
 
   const handleExpandClick = (id) =>
     setExpanded((expandTxt) => ({ ...expandTxt, [id]: !expandTxt[id] }));
@@ -48,13 +48,13 @@ export default function Movies() {
         title: selectedMovie.title,
         description: selectedMovie.overview,
         poster: selectedMovie.poster_path,
-        watched: false
+        watched: false,
       },
     };
     try {
       const url = "http://localhost:3001/watchlist";
       const response = await axios.post(url, config.data);
-      console.log(response, 'response')
+      console.log(response, "response");
       setWatchlist([...watchlist, response.data]);
     } catch (error) {
       res.status(500).send(error);
@@ -122,6 +122,7 @@ export default function Movies() {
                   handleCloseModal={handleCloseModal}
                   movie={movie}
                 />
+                {/* <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} /> */}
                 <ExpandMore
                   expand={expanded}
                   onClick={() => handleExpandClick(movie.id)}
