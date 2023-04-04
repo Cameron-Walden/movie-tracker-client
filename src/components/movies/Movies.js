@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import axios from "axios";
 import { FilmContext } from "../../context/FilmContext";
 import {
   Container,
@@ -17,14 +18,16 @@ import { ExpandMore } from "./expandMore";
 import MovieModal from "../movieModal/MovieModal";
 import { red } from "@mui/material/colors";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import MovieIcon from "@mui/icons-material/Movie";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import notAvailable from "../../img/no_image.jpeg";
 import "./Movies.css";
 
 export default function Movies() {
-  const { movies, setOpenModal } = useContext(FilmContext)
+  const { movies, setOpenModal } = useContext(FilmContext);
   const [expanded, setExpanded] = useState({});
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [watchlist, setWatchlist] = useState([])
 
   const handleExpandClick = (id) =>
     setExpanded((expandTxt) => ({ ...expandTxt, [id]: !expandTxt[id] }));
@@ -36,6 +39,27 @@ export default function Movies() {
   };
 
   const handleCloseModal = () => setOpenModal(false);
+
+  const addToWatchlist = async (e, res) => {
+    e.preventDefault();
+    const config = {
+      headers: { "Content-type": "application/json" },
+      data: {
+        title: selectedMovie.title,
+        description: selectedMovie.overview,
+        poster: selectedMovie.poster_path,
+        watched: false
+      },
+    };
+    try {
+      const url = "http://localhost:3001/watchlist";
+      const response = await axios.post(url, config.data);
+      console.log(response, 'response')
+      setWatchlist([...watchlist, response.data]);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  };
 
   useEffect(() => {
     handleOpenModal();
@@ -84,6 +108,12 @@ export default function Movies() {
                 <IconButton
                   aria-label="add to favorites"
                   onClick={() => handleOpenModal(movie.id)}
+                >
+                  <MovieIcon />
+                </IconButton>
+                <IconButton
+                  aria-label="add to watchlist"
+                  onClick={addToWatchlist}
                 >
                   <VisibilityIcon />
                 </IconButton>
