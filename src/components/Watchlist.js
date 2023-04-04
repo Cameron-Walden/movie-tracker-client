@@ -20,10 +20,21 @@ export default function Watchlist() {
   const getWatchlist = async () => {
     try {
       let response = await axios.get("http://localhost:3001/watchlist");
+      console.log(response.data, "res");
       setWatchlist(response.data);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const removeFromWatchlist = async (id) => {
+    try {
+      const removeFilm = `http://localhost:3001/watchlist/${id}`;
+      await axios.delete(removeFilm);
+    } catch (error) {
+      console.log(error);
+    }
+    getWatchlist();
   };
 
   useEffect(() => {
@@ -48,7 +59,7 @@ export default function Watchlist() {
           />
           <IconButton
             aria-label="remove from watchlist"
-            // onClick={addToWatchlist}
+            onClick={() => removeFromWatchlist(film._id)}
           >
             <VisibilityIcon />
           </IconButton>
