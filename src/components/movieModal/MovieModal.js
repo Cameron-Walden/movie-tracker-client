@@ -16,13 +16,18 @@ import { style } from "./style";
 import { DatePicker } from "@mui/x-date-pickers";
 
 export default function MovieModal({ selectedMovie, handleCloseModal }) {
-  const { savedMovies, setSavedMovies, openModal } = useContext(FilmContext);
-  const [starRating, setStarRating] = useState(0);
-  const [userReview, setUserReview] = useState("");
-  const [date, setDate] = useState("");
-
+  const {
+    savedMovies,
+    setSavedMovies,
+    openModal,
+    starRating,
+    setStarRating,
+    userReview,
+    setUserReview,
+    date,
+    setDate,
+  } = useContext(FilmContext);
   
-
   const addUserReview = async (e, res) => {
     e.preventDefault();
     const config = {

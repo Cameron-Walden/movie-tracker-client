@@ -6,19 +6,24 @@ import {
   Button,
   Card,
   CardActions,
+  CardContent,
   Container,
   Modal,
+  Stack,
+  Rating,
   Table,
   TableBody,
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
   Paper,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
+import { DatePicker } from "@mui/x-date-pickers";
 import { StyledTableCell, StyledTableRow } from "./styles";
 
 const style = {
@@ -34,7 +39,17 @@ const style = {
 };
 
 export default function SavedFilm() {
-  const { savedMovies, setSavedMovies } = useContext(FilmContext);
+  const {
+    savedMovies,
+    setSavedMovies,
+    selectedMovie,
+    starRating,
+    setStarRating,
+    userReview,
+    setUserReview,
+    date,
+    setDate,
+  } = useContext(FilmContext);
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedMovieEdit, setSelectedMovieEdit] = useState(null);
 
@@ -57,6 +72,31 @@ export default function SavedFilm() {
     await axios.delete(deleteFilm);
     getSavedMovies();
     handleCloseEdit();
+  };
+
+  const updateSaved = async (e, res) => {
+    e.preventDefault();
+    const config = {
+      headers: { "Content-type": "application/json" },
+      data: {
+        title: selectedMovie.title,
+        description: selectedMovie.overview,
+        poster: selectedMovie.poster_path,
+        user_rating: starRating,
+        user_review: userReview,
+        date_watched: date,
+      },
+    };
+    try {
+      const url = "http://localhost:3001/reviews";
+      const response = await axios.put(url, config.data);
+      setDate(date);
+      setUserReview(userReview);
+      setStarRating(starRating);
+      setSavedMovies([...savedMovies, response.data]);
+    } catch (error) {
+      res.status(500).send(error);
+    }
   };
 
   useEffect(() => {
@@ -96,12 +136,20 @@ export default function SavedFilm() {
                     maxWidth: "50%",
                     maxHeight: "50%",
                   }}
-                ></StyledTableCell>
+                >
+                  {film.title}
+                </StyledTableCell>
                 <StyledTableCell align="right">
                   <CalendarMonthIcon />
                 </StyledTableCell>
                 <StyledTableCell align="right">
-                  {film.user_rating}
+                  <Rating
+                    name="user_rating"
+                    defaultValue={null}
+                    precision={0.5}
+                    value={film.user_rating}
+                    onChange={(e, newVal) => setStarRating(newVal)}
+                  />
                 </StyledTableCell>
                 <StyledTableCell align="right">
                   <FavoriteIcon />
@@ -123,17 +171,61 @@ export default function SavedFilm() {
                 >
                   <Box sx={style}>
                     <Card sx={{ minWidth: 275 }}>
+                      <CardContent>
+                        <Typography
+                          sx={{ fontSize: 14 }}
+                          color="text.primary"
+                          gutterBottom
+                        >
+                          {selectedMovieEdit?.title}
+                        </Typography>
+                        <div>
+                          I watched on {selectedMovieEdit?.date_watched}
+                          <DatePicker
+                            selected={
+                              selectedMovieEdit?.date_watched
+                                ? new Date(selectedMovieEdit?.date_watched)
+                                : null
+                            }
+                            value={date}
+                            onChange={(newDay) => setDate(newDay)}
+                          />
+                        </div>
+                        <form>
+                          <textarea
+                            value={selectedMovieEdit?.user_review}
+                            onChange={(e) => setUserReview(e.target.value)}
+                            rows="4"
+                            cols="20"
+                          />
+                        </form>
+                        <Stack spacing={1}>
+                          <Rating
+                            name="user_rating"
+                            defaultValue={null}
+                            precision={0.5}
+                            value={selectedMovieEdit?.user_rating}
+                            onChange={(e, newVal) => setStarRating(newVal)}
+                          />
+                        </Stack>
+                      </CardContent>
                       <CardActions>
-                        <p>{selectedMovieEdit?.title}</p>
+                        <Button
+                          onClick={() => deleteFromSaved(film._id)}
+                          variant="contained"
+                          color="error"
+                        >
+                          Delete
+                        </Button>
+                        <Button
+                          onClick={() => updateSaved(film._id)}
+                          variant="contained"
+                          color="success"
+                        >
+                          Edit
+                        </Button>
                       </CardActions>
                     </Card>
-                    <Button
-                      onClick={() => deleteFromSaved(film._id)}
-                      variant="container"
-                      color="error"
-                    >
-                      Delete
-                    </Button>
                   </Box>
                 </Modal>
               </StyledTableRow>
