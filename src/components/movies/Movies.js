@@ -24,8 +24,7 @@ import notAvailable from "../../img/no_image.jpeg";
 import "./Movies.css";
 
 export default function Movies() {
-  const { movies, setOpenModal, selectedMovie, setSelectedMovie } =
-    useContext(FilmContext);
+  const { movies, setOpenModal, setSelectedMovie } = useContext(FilmContext);
   const [expanded, setExpanded] = useState({});
   const [watchlist, setWatchlist] = useState([]);
 
@@ -40,21 +39,19 @@ export default function Movies() {
 
   const handleCloseModal = () => setOpenModal(false);
 
-  const addToWatchlist = async (e, res) => {
-    e.preventDefault();
+  const addToWatchlist = async (film, res) => {
     const config = {
       headers: { "Content-type": "application/json" },
       data: {
-        title: selectedMovie.title,
-        description: selectedMovie.overview,
-        poster: selectedMovie.poster_path,
+        title: film.title,
+        description: film.overview,
+        poster: film.poster_path,
         watched: false,
       },
     };
     try {
       const url = "http://localhost:3001/watchlist";
       const response = await axios.post(url, config.data);
-      console.log(response, "response");
       setWatchlist([...watchlist, response.data]);
     } catch (error) {
       res.status(500).send(error);
@@ -113,16 +110,11 @@ export default function Movies() {
                 </IconButton>
                 <IconButton
                   aria-label="add to watchlist"
-                  onClick={addToWatchlist}
+                  onClick={() => addToWatchlist(movie)}
                 >
                   <VisibilityIcon />
                 </IconButton>
-                <MovieModal
-                  selectedMovie={selectedMovie}
-                  handleCloseModal={handleCloseModal}
-                  movie={movie}
-                />
-                {/* <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} /> */}
+                <MovieModal handleCloseModal={handleCloseModal} movie={movie} />
                 <ExpandMore
                   expand={expanded}
                   onClick={() => handleExpandClick(movie.id)}
