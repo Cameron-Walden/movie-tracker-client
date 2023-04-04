@@ -11,6 +11,9 @@ export default function Context(props) {
   const [savedMovies, setSavedMovies] = useState([]);
   const [hasUserSearched, setHasUserSearched] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [starRating, setStarRating] = useState(0);
+  const [userReview, setUserReview] = useState("");
+  const [date, setDate] = useState("");
 
   const getMovies = async () => {
     try {
@@ -44,7 +47,13 @@ export default function Context(props) {
         hasUserSearched,
         setHasUserSearched,
         openModal,
-        setOpenModal
+        setOpenModal,
+        starRating,
+        setStarRating,
+        userReview,
+        setUserReview,
+        date,
+        setDate
       }}
     >
       {props.children}
