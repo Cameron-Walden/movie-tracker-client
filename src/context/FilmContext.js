@@ -4,7 +4,6 @@ import axios from "axios";
 export const FilmContext = createContext();
 
 export default function Context(props) {
-
   const [search, setSearch] = useState("");
   const [movies, setMovies] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
@@ -32,7 +31,7 @@ export default function Context(props) {
     getMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
   return (
     <FilmContext.Provider
       value={{
@@ -56,7 +55,7 @@ export default function Context(props) {
         userReview,
         setUserReview,
         date,
-        setDate
+        setDate,
       }}
     >
       {props.children}

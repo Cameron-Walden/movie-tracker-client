@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { FilmContext } from "../../context/FilmContext";
 import axios from "axios";
 import {
@@ -15,10 +15,11 @@ import {
 import { style } from "./style";
 import { DatePicker } from "@mui/x-date-pickers";
 
-export default function MovieModal({ selectedMovie, handleCloseModal }) {
+export default function MovieModal({ handleCloseModal }) {
   const {
     savedMovies,
     setSavedMovies,
+    selectedMovie,
     openModal,
     starRating,
     setStarRating,
