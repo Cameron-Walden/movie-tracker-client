@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Main from "./components/Main";
 import SavedFilm from "./components/savedFilm/SavedFilm";
-import Watchlist from "./components/Watchlist";
+import Watchlist from "./components/watchlist/Watchlist";
 import "./App.css";
 
 function App() {
