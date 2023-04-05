@@ -24,6 +24,7 @@ export default function Popular() {
 
   return (
     <Grid
+      style={{ paddingLeft: "4em", paddingTop: "3em" }}
       container
       spacing={{ xs: 2, md: 3 }}
       columns={{ xs: 4, sm: 8, md: 12 }}
@@ -34,7 +35,7 @@ export default function Popular() {
       {popular.map((film) => (
         <Item>
           <img
-            src={`https://image.tmdb.org/t/p/w500/${film.poster_path}`}
+            src={`https://image.tmdb.org/t/p/w342/${film.poster_path}`}
             alt={film.title}
           />
         </Item>
