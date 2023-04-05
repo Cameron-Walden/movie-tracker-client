@@ -1,19 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { styled } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { IconButton, Typography } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Popover from "@mui/material/Popover";
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+import { Item } from "./watchlistStyle";
 
 export default function Watchlist() {
   const [watchlist, setWatchlist] = useState([]);
