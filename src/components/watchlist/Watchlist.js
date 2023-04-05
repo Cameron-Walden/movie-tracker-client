@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Grid from "@mui/material/Grid";
-import { IconButton, Typography } from "@mui/material";
+import { Grid, IconButton, Popover, Typography } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import Popover from "@mui/material/Popover";
 import { Item } from "./watchlistStyle";
+import "./Watchlist.css";
 
 export default function Watchlist() {
   const [watchlist, setWatchlist] = useState([]);
@@ -14,7 +13,7 @@ export default function Watchlist() {
     setAnchorEl(e.currentTarget);
     const updatedWatchlist = watchlist.map((film) => {
       if (film._id === id) {
-        return { ...film, popoverOpen: true };
+        return { ...film, anchorEl: e.currentTarget, popoverOpen: true };
       }
       return film;
     });
@@ -24,7 +23,7 @@ export default function Watchlist() {
   const handlePopoverClose = (id) => {
     const updatedWatchlist = watchlist.map((film) => {
       if (film._id === id) {
-        return { ...film, popoverOpen: false };
+        return { ...film, anchorEl: null, popoverOpen: false };
       }
       return film;
     });
@@ -40,6 +39,7 @@ export default function Watchlist() {
       const updatedWatchlist = response.data.map((film) => ({
         ...film,
         popoverOpen: false,
+        anchorEl: null,
       }));
       setWatchlist(updatedWatchlist);
     } catch (error) {
@@ -63,20 +63,19 @@ export default function Watchlist() {
 
   return (
     <>
-      <div style={{ paddingLeft: "3em", paddingTop: "3em" }}>
-        <Typography>You want to see {watchlist.length} movies</Typography>
+      <div style={{ paddingLeft: "4em", paddingTop: "3em" }}>
+        {watchlist.length === 0 ? (
+          <p>
+            you haven't added any movies to your watchlist. Start adding to
+            track
+          </p>
+        ) : watchlist.length === 1 ? (
+          <p>you want to watch 1 movie</p>
+        ) : (
+          <p>you want to watch {watchlist.length} movies</p>
+        )}
       </div>
-      <Grid
-        container
-        rowSpacing={1}
-        columnSpacing={{ xs: 12, sm: 12, md: 12 }}
-        spacing={{ xs: 12, md: 12 }}
-        columns={{ xs: 7, sm: 12, md: 12 }}
-        direction="row"
-        alignItems="center"
-        justifyContent="center"
-        paddingTop="3em"
-      >
+      <Grid className="film-grid" container rowSpacing={3} columnSpacing={2}>
         {watchlist.map((film) => (
           <div key={film._id}>
             <Item
@@ -110,7 +109,11 @@ export default function Watchlist() {
               <img
                 src={`https://image.tmdb.org/t/p/w500/${film?.poster}`}
                 alt={film.title}
-                style={{ width: "12em", height: "20em" }}
+                style={{
+                  width: "12em",
+                  height: "20em",
+                  justifyContent: "space-around",
+                }}
               />
               <IconButton
                 aria-label="remove from watchlist"
