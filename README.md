@@ -1,6 +1,6 @@
 # MovieTracker
 
-MovieTracker is a web application built using JavaScript, React, NodeJS and Express that allows users to search for movies, save them to their "watched" or "watchlist" lists, and rate and review movies they have watched Mocies are stored in [MongoDB(https://www.mongodb.com/)]. This app uses the [TMDB AP](https://www.themoviedb.org/) and [Axios](https://axios-http.com/) for fetching movie data and [MUI](https://mui.com/) for styling.
+MovieTracker is a feature-rich web application built using JavaScript, React, NodeJS and Express that allows users to search for movies, save them to their "watched" or "watchlist" lists, and rate and review movies they have watched. Movies are stored in [MongoDB(https://www.mongodb.com/)]. This app uses the [TMDB AP](https://www.themoviedb.org/) and [Axios](https://axios-http.com/) for fetching movie data and [MUI](https://mui.com/) for styling. I wanted to build this app, because for years I have kept track of all movies I've watched in the notes of my phone and I thought this would be a more interactive way for me to do so, on top of it being a fun project to build.
 
 ---
 
@@ -8,7 +8,7 @@ MovieTracker is a web application built using JavaScript, React, NodeJS and Expr
 
 To get started with MovieTracker, you can clone this repository to your local machine and run the following command to install the necessary dependencies:
 
-- npm i 
+`npm i`
 
 ---
 
@@ -16,11 +16,17 @@ Next, you'll want to sign up for an account at TMDB(https://www.themoviedb.org/)
 
 `REACT_APP_MOVIE_API=<your api key here>`
 
-Next, make sure to clone down the [server](https://github.com/Cameron-Walden/movie-tracker-server). and install all dependancies You can run it on a port of your choosing, or by default it will run on 3001
+Next, make sure to clone down the [server](https://github.com/Cameron-Walden/movie-tracker-server)
+and install all dependancies. Next, you'll want to head to [MongoDB](https://www.mongodb.com/) to get your own connection string. Once you have it, you'll want to add it along with your TMDB api key to your .env file (again, make sure to first add your .env file to your .gitignore) like:
+
+`MOVIE_API_KEY=<your TMDB api key here>`
+`DB_URL=<your mongodb connection string here>`
+
+You can then run the server on a port of your choosing, or by default it will run on 3001
 
 Once the dependencies have been installed, you can run the following command to start the app:
 
-npm start
+`npm start`
 
 The app should then be accessible on http://localhost:3000/.
 
