@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { FilmContext } from "../../context/FilmContext";
 import axios from "axios";
 import {
@@ -28,7 +28,7 @@ export default function MovieModal({ handleCloseModal }) {
     date,
     setDate,
   } = useContext(FilmContext);
-  
+
   const addUserReview = async (e, res) => {
     e.preventDefault();
     const config = {
@@ -45,14 +45,18 @@ export default function MovieModal({ handleCloseModal }) {
     try {
       const url = "http://localhost:3001/reviews";
       const response = await axios.post(url, config.data);
-      setDate(date);
-      setUserReview(userReview);
-      setStarRating(starRating);
       setSavedMovies([...savedMovies, response.data]);
+      handleCloseModal();
     } catch (error) {
       res.status(500).send(error);
     }
   };
+
+  useEffect(() => {
+    setStarRating(0);
+    setUserReview("");
+    setDate("");
+  }, [selectedMovie]);
 
   return (
     <>
