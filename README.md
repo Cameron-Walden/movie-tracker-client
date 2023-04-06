@@ -1,6 +1,6 @@
 # MovieTracker
 
-MovieTracker is a feature-rich web application built using JavaScript, React, NodeJS and Express that allows users to search for movies, save them to their "watched" or "watchlist" lists, and rate and review movies they have watched. Movies are stored in [MongoDB(https://www.mongodb.com/)]. This app uses the [TMDB AP](https://www.themoviedb.org/) and [Axios](https://axios-http.com/) for fetching movie data and [MUI](https://mui.com/) for styling. I wanted to build this app, because for years I have kept track of all movies I've watched in the notes of my phone and I thought this would be a more interactive way for me to do so, on top of it being a fun project to build.
+MovieTracker is a feature-rich web application built using JavaScript, React, NodeJS and Express that allows users to search for movies, save them to their "saved films" or "watchlist" lists, and rate and review movies they have watched. Movies are stored in [MongoDB](https://www.mongodb.com/). This app uses the [TMDB API](https://www.themoviedb.org/) and [Axios](https://axios-http.com/) for fetching movie data and [MUI](https://mui.com/) for styling. I wanted to build this app, because for years I have kept track of all movies I've watched in the notes of my phone and I thought this would be a more interactive way for me to do so, on top of it being a fun project to build.
 
 ---
 
@@ -19,7 +19,7 @@ Next, you'll want to sign up for an account at TMDB(https://www.themoviedb.org/)
 Next, make sure to clone down the [server](https://github.com/Cameron-Walden/movie-tracker-server)
 and install all dependancies. Next, you'll want to head to [MongoDB](https://www.mongodb.com/) to get your own connection string. Once you have it, you'll want to add it along with your TMDB api key to your .env file (again, make sure to first add your .env file to your .gitignore) like:
 
-`MOVIE_API_KEY=<your TMDB api key here>`
+`MOVIE_API_KEY=<your TMDB api key here>`\
 `DB_URL=<your mongodb connection string here>`
 
 You can then run the server on a port of your choosing, or by default it will run on 3001
@@ -39,11 +39,11 @@ Currently on the landing page, movies shown are the movies that are popular for 
 ## Contributing
 If you're interested in contributing to MovieTracker, we welcome and encourage your contributions! Here are a few ways you can contribute:
 
-- Reporting bugs: If you encounter any bugs or issues with the app, please let us know by submitting an issue on the GitHub repository. Be sure to include as much detail as possible so we can understand and replicate the issue.
+- Reporting bugs: If you encounter any bugs or issues with the app, please let me know by submitting an issue on the GitHub repository. Be sure to include as much detail as possible so I can understand and replicate the issue.
 
-- Suggesting new features: If you have an idea for a new feature or enhancement to the app, please let us know by submitting an issue on the GitHub repository. We'd love to hear your ideas and feedback!
+- Suggesting new features: If you have an idea for a new feature or enhancement to the app, please let me know by submitting an issue on the GitHub repository. I'd love to hear your ideas and feedback!
 
-- Submitting code contributions: If you're interested in contributing code to the project, please create a fork of the repository and submit a pull request with your changes. We'll review your changes and merge them into the main branch if they meet our guidelines.
+- Submitting code contributions: If you're interested in contributing code to the project, please create a fork of the repository and submit a pull request with your changes. I'll review your changes and merge them into the main branch if everything looks good.
 
 --- 
 
