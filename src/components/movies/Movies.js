@@ -27,7 +27,7 @@ export default function Movies() {
   const { movies, setOpenModal, setSelectedMovie } = useContext(FilmContext);
   const [expanded, setExpanded] = useState({});
   const [watchlist, setWatchlist] = useState([]);
-
+  
   const handleExpandClick = (id) =>
     setExpanded((expandTxt) => ({ ...expandTxt, [id]: !expandTxt[id] }));
 
