@@ -14,36 +14,28 @@ export default function SortFilms() {
     setSelectedFromDD,
   } = useContext(FilmContext);
   const [ddmovies, setDDMovies] = useState([]);
-
-  const getGenres = async () => {
-    try {
-      const response = await axios.get(
-        `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_MOVIE_API}&with_genres=${selectGenre}language=en-US`
-      );
-      setGenres(response.data.genres);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getDDMovies = async (genreId) => {
+  
+  const getGenres = async (genreId) => {
     try {
       let url = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_MOVIE_API}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`;
       if (genreId) {
         url += `&with_genres=${genreId}`;
       }
-      let movieResponse = await axios?.get(url);
-      setDDMovies(movieResponse?.data.results);
+      const [genreResponse, movieResponse] = await Promise.all([
+        axios.get(
+          `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_MOVIE_API}&language=en-US`
+        ),
+        axios.get(url),
+      ]);
+      setGenres(genreResponse.data.genres);
+      setDDMovies(movieResponse.data.results);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getGenres();
-    if (selectGenre) {
-      getDDMovies(selectGenre);
-    }
+    getGenres(selectGenre);
   }, [selectGenre]);
 
   return (
@@ -69,7 +61,7 @@ export default function SortFilms() {
             value={selectGenre || ""}
             onChange={(e) => {
               setSelectGenre(e.target.value);
-              getDDMovies(e.target.value);
+              getGenres(e.target.value);
               setSelectedFromDD(true);
             }}
             label="genre"
