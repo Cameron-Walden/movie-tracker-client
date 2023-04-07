@@ -2,6 +2,8 @@
 
 MovieTracker is a feature-rich web application built using JavaScript, React, NodeJS and Express that allows users to search for movies, save them to their "saved films" or "watchlist" lists, and rate and review movies they have watched. Movies are stored in [MongoDB](https://www.mongodb.com/). This app uses the [TMDB API](https://www.themoviedb.org/) and [Axios](https://axios-http.com/) for fetching movie data and [MUI](https://mui.com/) for styling. I wanted to build this app, because for years I have kept track of all movies I've watched in the notes of my phone and I thought this would be a more interactive way for me to do so, on top of it being a fun project to build.
 
+Currently on the landing page, movies shown are the movies that are popular for that week. They are updated weekly. To search for movies, type a movie into the search field. You can then either select the movie icon to add a movie to your saved films list, or select the eye icon to add the movie to oyur watchlist. If you select the movie icon, you will first be prompted to add a review, 5 star rating and the date you watched the film. Depending on what you selected, you can then navigate to your saved films or watchlist from the dropdown menu in the navbar. Users can also browse films by genre by selecting a genre from the dropdown (with functionality for browsing by year, rating and pupularity coming soon).
+
 ---
 
 ## Getting Started
@@ -32,10 +34,6 @@ The app should then be accessible on http://localhost:3000/.
 
 ---
 
-Currently on the landing page, movies shown are the movies that are popular for that week. They are updated weekly. To search for movies,type a movie into the search field. You can then either select the movie icon to add a movie to your saved films list, or select the eye icon to add the movie to oyur watchlist. If you select the movie icon, you will first be prompted to add a review, 5 star rating and the date you watched the film. Depending on what you selected, you can then navigate to your saved films or watchlist from the dropdown menu in the navbar
-
---- 
-
 ## Contributing
 If you're interested in contributing to MovieTracker, we welcome and encourage your contributions! Here are a few ways you can contribute:
 
@@ -48,4 +46,3 @@ If you're interested in contributing to MovieTracker, we welcome and encourage y
 --- 
 
 This is  a project I'm working on in my spare time, so I know there are many bugs to work out, it's just a matter of trying to find the time! Thanks for checking it out!
-
