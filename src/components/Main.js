@@ -1,9 +1,8 @@
 import { useState, useContext } from "react";
 import { FilmContext } from "../context/FilmContext";
 import Movies from "../components/movies/Movies";
-import Popular from "./popular/Popular";
 import Pages from "./Pages";
-
+import SortFilms from "./SortFilms";
 export default function Main() {
   const { search, setMovies, totalResults, hasUserSearched } =
     useContext(FilmContext);
@@ -20,7 +19,7 @@ export default function Main() {
           />
         </>
       ) : (
-        <Popular />
+        <SortFilms />
       )}
     </div>
   );

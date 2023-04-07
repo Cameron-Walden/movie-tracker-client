@@ -17,7 +17,7 @@ import { FilmContext } from "../context/FilmContext";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(null);
-  const { setHasUserSearched } = useContext(FilmContext);
+  const { setHasUserSearched, setSelectedFromDD } = useContext(FilmContext);
 
   const handleOpenMenu = (e) => setIsOpen(e.currentTarget);
 
@@ -26,6 +26,7 @@ export default function Header() {
   const goHome = () => {
     handleCloseMenu();
     setHasUserSearched(false);
+    setSelectedFromDD(false)
   };
 
   const openMenu = Boolean(isOpen);
