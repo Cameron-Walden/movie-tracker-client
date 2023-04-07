@@ -14,6 +14,9 @@ export default function Context(props) {
   const [starRating, setStarRating] = useState(0);
   const [userReview, setUserReview] = useState("");
   const [date, setDate] = useState("");
+  const [genres, setGenres] = useState([]);
+  const [selectGenre, setSelectGenre] = useState(null);
+  const [selectedFromDD, setSelectedFromDD] = useState(false);
 
   const getMovies = async () => {
     try {
@@ -56,6 +59,12 @@ export default function Context(props) {
         setUserReview,
         date,
         setDate,
+        genres,
+        setGenres,
+        selectGenre,
+        setSelectGenre,
+        selectedFromDD,
+        setSelectedFromDD,
       }}
     >
       {props.children}
