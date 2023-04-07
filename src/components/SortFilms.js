@@ -1,8 +1,9 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import axios from "axios";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { FilmContext } from "../context/FilmContext";
 import Popular from "./popular/Popular";
+import FilmsByGenre from "./filmsByGenre/FilmsByGenre";
 
 export default function SortFilms() {
   const {
@@ -12,9 +13,9 @@ export default function SortFilms() {
     setSelectGenre,
     selectedFromDD,
     setSelectedFromDD,
+    setDDMovies
   } = useContext(FilmContext);
-  const [ddmovies, setDDMovies] = useState([]);
-  
+
   const getGenres = async (genreId) => {
     try {
       let url = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_MOVIE_API}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`;
@@ -76,9 +77,7 @@ export default function SortFilms() {
       </div>
       {selectedFromDD ? (
         <>
-          {ddmovies.map((movie) => (
-            <p>{movie.title}</p>
-          ))}
+          <FilmsByGenre />
         </>
       ) : (
         <div style={{ margin: "auto" }}>
