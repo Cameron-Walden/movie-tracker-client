@@ -16,27 +16,16 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Typography,
   Paper,
 } from "@mui/material";
+import RemoveIcon from "@mui/icons-material/Remove";
 import EditIcon from "@mui/icons-material/Edit";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
-import { DatePicker } from "@mui/x-date-pickers";
-import { StyledTableCell, StyledTableRow } from "./styles";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import { StyledTableCell, StyledTableRow, style } from "./styles";
 
 export default function SavedFilm() {
   const {
@@ -53,25 +42,48 @@ export default function SavedFilm() {
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedMovieEdit, setSelectedMovieEdit] = useState(null);
 
+  const formatDate = (date) => {
+    const dateObj = new Date(date);
+
+    if (isNaN(dateObj)) {
+      return "Invalid date";
+    }
+
+    const month = `${dateObj.getMonth() + 1}`.padStart(2, "0");
+    const day = `${dateObj.getDate()}`.padStart(2, "0");
+    const year = dateObj.getFullYear();
+
+    return [year, month, day].join("-");
+  };
+
   const handleOpenEdit = (id) => {
     let findId = savedMovies?.find((savedFilm) => savedFilm._id === id);
+    const formattedDate = formatDate(findId.date_watched);
     setOpenEdit(true);
-    setSelectedMovieEdit(findId);
+    setSelectedMovieEdit({ ...findId, date_watched: formattedDate });
   };
 
   const handleCloseEdit = () => setOpenEdit(false);
 
   const getSavedMovies = async () => {
-    const savedMovie = "http://localhost:3001/reviews";
-    const response = await axios.get(savedMovie);
-    setSavedMovies(response.data);
+    try {
+      const savedMovie = "http://localhost:3001/reviews";
+      const response = await axios.get(savedMovie);
+      setSavedMovies(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const deleteFromSaved = async (id) => {
-    const deleteFilm = `http://localhost:3001/reviews/${id}`;
-    await axios.delete(deleteFilm);
-    getSavedMovies();
-    handleCloseEdit();
+    try {
+      await axios.delete(`http://localhost:3001/reviews/${id}`);
+      const deleteFilm = savedMovies.filter((film) => film._id !== id);
+      setSavedMovies(deleteFilm);
+      getSavedMovies();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const updateSaved = async (e, res) => {
@@ -79,23 +91,28 @@ export default function SavedFilm() {
     const config = {
       headers: { "Content-type": "application/json" },
       data: {
-        title: selectedMovie.title,
-        description: selectedMovie.overview,
-        poster: selectedMovie.poster_path,
+        // title: selectedMovie.title,
+        // description: selectedMovie.overview,
+        // poster: selectedMovie.poster_path,
         user_rating: starRating,
         user_review: userReview,
         date_watched: date,
       },
     };
     try {
-      const url = "http://localhost:3001/reviews";
+      const url = `http://localhost:3001/reviews/${savedMovies._id}`;
       const response = await axios.put(url, config.data);
+      const responseData = savedMovies.map((film) =>
+        film._id === savedMovies._id ? response.data : film
+      );
+      console.log(responseData, 'responseData')
       setDate(date);
       setUserReview(userReview);
       setStarRating(starRating);
+      // setSavedMovies([...savedMovies, response.data]);
       setSavedMovies([...savedMovies, response.data]);
     } catch (error) {
-      res.status(500).send(error);
+      console.log(error)
     }
   };
 
@@ -116,6 +133,7 @@ export default function SavedFilm() {
               <StyledTableCell align="right">Like</StyledTableCell>
               <StyledTableCell align="right">Rewatch</StyledTableCell>
               <StyledTableCell align="right">Review</StyledTableCell>
+              <StyledTableCell align="right">Delete</StyledTableCell>
               <StyledTableCell align="right">Edit</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -161,6 +179,9 @@ export default function SavedFilm() {
                   {film.user_review}
                 </StyledTableCell>
                 <StyledTableCell align="right">
+                  <RemoveIcon onClick={() => deleteFromSaved(film._id)} />
+                </StyledTableCell>
+                <StyledTableCell align="right">
                   <EditIcon onClick={() => handleOpenEdit(film?._id)} />
                 </StyledTableCell>
                 <Modal
@@ -180,15 +201,20 @@ export default function SavedFilm() {
                           {selectedMovieEdit?.title}
                         </Typography>
                         <div>
-                          I watched on {selectedMovieEdit?.date_watched}
-                          <DatePicker
-                            selected={
-                              selectedMovieEdit?.date_watched
-                                ? new Date(selectedMovieEdit?.date_watched)
-                                : null
+                          <TextField
+                            id="date_watched"
+                            label="Date Watched"
+                            type="date"
+                            value={selectedMovieEdit?.date_watched || ""}
+                            onChange={(e) =>
+                              setSelectedMovieEdit({
+                                ...selectedMovieEdit,
+                                date_watched: e.target.value,
+                              })
                             }
-                            value={date}
-                            onChange={(newDay) => setDate(newDay)}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
                           />
                         </div>
                         <form>
@@ -211,14 +237,7 @@ export default function SavedFilm() {
                       </CardContent>
                       <CardActions>
                         <Button
-                          onClick={() => deleteFromSaved(film._id)}
-                          variant="contained"
-                          color="error"
-                        >
-                          Delete
-                        </Button>
-                        <Button
-                          onClick={() => updateSaved(film._id)}
+                          onClick={(e) => updateSaved(e,film?._id)}
                           variant="contained"
                           color="success"
                         >
