@@ -1,8 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import axios from "axios";
-import { FilmContext } from "../context/FilmContext";
 import { useParams } from "react-router-dom";
-import { Container, padding } from "@mui/system";
+import { Container } from "@mui/system";
 import "./Film.css";
 
 export default function Film() {
@@ -10,15 +9,10 @@ export default function Film() {
 
   const { id } = useParams();
 
-  const { search } = useContext(FilmContext);
-
   const getFilm = async () => {
     try {
-      let movieResponse = await axios?.get(
-        // `https://api.themoviedb.org/3/search/movie/${id}?api_key=${process.env.REACT_APP_MOVIE_API}&query=${search}`
-        `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_MOVIE_API}`
-      );
-      console.log(movieResponse.data, "movieRes");
+      let movieResponse = await axios?.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_MOVIE_API}`);
+      console.log(movieResponse, 'movieResponse')
       setFilmId(movieResponse?.data);
     } catch (error) {
       console.log(error);
@@ -35,7 +29,7 @@ export default function Film() {
         <Container>
           <div>
             <img
-              src={`https://image.tmdb.org/t/p/w1280/${filmId.backdrop_path}`}
+              src={`https://image.tmdb.org/t/p/w1280/${filmId?.backdrop_path}`}
               alt={filmId.title}
               className="movie-backdrop"
             />
@@ -43,12 +37,12 @@ export default function Film() {
           <div className="poster-container">
             <div className="poster-details">
               <img
-                src={`https://image.tmdb.org/t/p/w342/${filmId.poster_path}`}
-                alt={filmId.title}
+                src={`https://image.tmdb.org/t/p/w342/${filmId?.poster_path}`}
+                alt={filmId?.title}
               />
               <div>
-                <p className="film-title">{filmId.title}</p>
-                <p className="film-overview">{filmId.overview}</p>
+                <p className="film-title">{filmId?.title}</p>
+                <p className="film-overview">{filmId?.overview}</p>
               </div>
             </div>
           </div>
