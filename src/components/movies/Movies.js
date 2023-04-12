@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
-import axios from "axios";
 import { FilmContext } from "../../context/FilmContext";
+import { Link } from "react-router-dom";
+import axios from "axios";
 import {
   Container,
   Grid,
@@ -27,7 +28,7 @@ export default function Movies() {
   const { movies, setOpenModal, setSelectedMovie } = useContext(FilmContext);
   const [expanded, setExpanded] = useState({});
   const [watchlist, setWatchlist] = useState([]);
-  
+
   const handleExpandClick = (id) =>
     setExpanded((expandTxt) => ({ ...expandTxt, [id]: !expandTxt[id] }));
 
@@ -71,65 +72,76 @@ export default function Movies() {
       >
         {movies?.results?.map((movie, idx) => (
           <Grid key={idx} item xs={4}>
-            <Card sx={{ maxWidth: 345 }}>
-              <CardHeader
-                avatar={
-                  <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                    user
-                  </Avatar>
-                }
-                title={movie?.title}
-                subheader={movie?.release_date}
-              />
-              <CardMedia
-                component="img"
-                height="194"
-                image={
-                  movie?.poster_path
-                    ? `https://image.tmdb.org/t/p/w200${movie?.poster_path}`
-                    : notAvailable
-                }
-                alt={movie?.title}
-                sx={{ padding: "1em 1em 0 1em", objectFit: "contain" }}
-              />
-              <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                  {movie?.vote_average
-                    ? "vote average: " + movie?.vote_average
-                    : ""}
-                  <br />
-                  {movie?.vote_count ? "vote count: " + movie?.vote_count : ""}
-                </Typography>
-              </CardContent>
-              <CardActions disableSpacing>
-                <IconButton
-                  aria-label="add to favorites"
-                  onClick={() => handleOpenModal(movie.id)}
-                >
-                  <MovieIcon />
-                </IconButton>
-                <IconButton
-                  aria-label="add to watchlist"
-                  onClick={() => addToWatchlist(movie)}
-                >
-                  <VisibilityIcon />
-                </IconButton>
-                <MovieModal handleCloseModal={handleCloseModal} movie={movie} />
-                <ExpandMore
-                  expand={expanded}
-                  onClick={() => handleExpandClick(movie.id)}
-                  aria-expanded={expanded}
-                  aria-label="show more"
-                >
-                  <ExpandMoreIcon />
-                </ExpandMore>
-              </CardActions>
-              <Collapse in={expanded[movie.id]} timeout="auto" unmountOnExit>
+            <Link
+              to="/film"
+              className="film"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <Card sx={{ maxWidth: 345 }}>
+                <CardHeader
+                  avatar={
+                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                      user
+                    </Avatar>
+                  }
+                  title={movie?.title}
+                  subheader={movie?.release_date}
+                />
+                <CardMedia
+                  component="img"
+                  height="194"
+                  image={
+                    movie?.poster_path
+                      ? `https://image.tmdb.org/t/p/w200${movie?.poster_path}`
+                      : notAvailable
+                  }
+                  alt={movie?.title}
+                  sx={{ padding: "1em 1em 0 1em", objectFit: "contain" }}
+                />
                 <CardContent>
-                  <Typography paragraph>{movie?.overview}</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {movie?.vote_average
+                      ? "vote average: " + movie?.vote_average
+                      : ""}
+                    <br />
+                    {movie?.vote_count
+                      ? "vote count: " + movie?.vote_count
+                      : ""}
+                  </Typography>
                 </CardContent>
-              </Collapse>
-            </Card>
+                <CardActions disableSpacing>
+                  <IconButton
+                    aria-label="add to favorites"
+                    onClick={() => handleOpenModal(movie.id)}
+                  >
+                    <MovieIcon />
+                  </IconButton>
+                  <IconButton
+                    aria-label="add to watchlist"
+                    onClick={() => addToWatchlist(movie)}
+                  >
+                    <VisibilityIcon />
+                  </IconButton>
+                  <MovieModal
+                    handleCloseModal={handleCloseModal}
+                    movie={movie}
+                  />
+                  <ExpandMore
+                    expand={expanded}
+                    onClick={() => handleExpandClick(movie.id)}
+                    aria-expanded={expanded}
+                    aria-label="show more"
+                  >
+                    <ExpandMoreIcon />
+                  </ExpandMore>
+                </CardActions>
+                <Collapse in={expanded[movie.id]} timeout="auto" unmountOnExit>
+                  <CardContent>
+                    <Typography paragraph>{movie?.overview}</Typography>
+                  </CardContent>
+                </Collapse>
+              </Card>
+            </Link>
           </Grid>
         ))}
       </Grid>

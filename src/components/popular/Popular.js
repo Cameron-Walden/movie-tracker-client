@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Grid } from "@mui/material";
 import { Item } from "./popularStyles";
+import { Link } from "react-router-dom";
 
 export default function Popular() {
   const [popular, setPopular] = useState([]);
@@ -33,12 +34,18 @@ export default function Popular() {
       justifyContent="center"
     >
       {popular.map((film) => (
-        <Item>
-          <img
-            src={`https://image.tmdb.org/t/p/w342/${film.poster_path}`}
-            alt={film.title}
-          />
-        </Item>
+        <Link
+          to="/film"
+          className="film"
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <Item>
+            <img
+              src={`https://image.tmdb.org/t/p/w342/${film.poster_path}`}
+              alt={film.title}
+            />
+          </Item>
+        </Link>
       ))}
     </Grid>
   );
