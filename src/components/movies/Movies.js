@@ -73,8 +73,8 @@ export default function Movies() {
         {movies?.results?.map((movie, idx) => (
           <Grid key={idx} item xs={4}>
             <Link
-              to="/film"
-              className="film"
+              to={`/film/${movie.id}`}
+              className="movie-link"
               style={{ textDecoration: "none", color: "black" }}
             >
               <Card sx={{ maxWidth: 345 }}>

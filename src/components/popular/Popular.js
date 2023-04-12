@@ -35,7 +35,7 @@ export default function Popular() {
     >
       {popular.map((film) => (
         <Link
-          to="/film"
+          to={`/film/${film.title}`}
           className="film"
           style={{ textDecoration: "none", color: "black" }}
         >
