@@ -1,34 +1,35 @@
 .movie-backdrop {
-  border-radius: 400px;
-  /* box-shadow: 0 0 8px 8px white inset; fix when I chnage the background color*/
-  object-fit: cover;
-  width: 100%;
-  height: auto;
-  padding-bottom: 50px;
-  /* background-blend-mode: screen ;  fix when I chnage the background color*/
-}
-
-.poster-container {
-  position: relative;
-}
-
-.poster-details {
-  display: flex;
-  align-items: flex-start;
-}
-
-.film-title {
-  position: absolute;
-  top: 0%;
-  right: 400px;
-  margin: 0%;
-  padding: 5px;
-  font-weight: bold;
-  font-size: x-large;
-}
-
-.film-overview {
-  padding: 30px;
-  margin-left: 16px;
-  flex-grow: 1;
-}
+    border-radius: 400px;
+    /* box-shadow: 0 0 8px 8px white inset; fix when I change the background color*/
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+    padding-bottom: 50px;
+    /* background-blend-mode: screen ;  fix when I change the background color*/
+  }
+  
+  .poster-container {
+    position: relative;
+  }
+  
+  .poster-details {
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .film-title {
+    position: absolute;
+    top: 0%;
+    right: 400px;
+    margin: 0%;
+    padding: 5px;
+    font-weight: bold;
+    font-size: x-large;
+  }
+  
+  .film-overview {
+    padding: 30px;
+    margin-left: 16px;
+    flex-grow: 1;
+  }
+  
