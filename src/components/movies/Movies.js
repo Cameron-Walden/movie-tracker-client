@@ -72,21 +72,17 @@ export default function Movies() {
       >
         {movies?.results?.map((movie, idx) => (
           <Grid key={idx} item xs={4}>
-            <Link
-              to={`/film/${movie.id}`}
-              className="movie-link"
-              style={{ textDecoration: "none", color: "black" }}
-            >
-              <Card sx={{ maxWidth: 345 }}>
-                <CardHeader
-                  avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                      user
-                    </Avatar>
-                  }
-                  title={movie?.title}
-                  subheader={movie?.release_date}
-                />
+            <Card sx={{ maxWidth: 345 }}>
+              <CardHeader
+                avatar={
+                  <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                    user
+                  </Avatar>
+                }
+                title={movie?.title}
+                subheader={movie?.release_date}
+              />
+              <Link to={`/film/${movie.id}`} className="movie-link">
                 <CardMedia
                   component="img"
                   height="194"
@@ -98,50 +94,45 @@ export default function Movies() {
                   alt={movie?.title}
                   sx={{ padding: "1em 1em 0 1em", objectFit: "contain" }}
                 />
+              </Link>
+              <CardContent>
+                <Typography variant="body2" color="text.secondary">
+                  {movie?.vote_average
+                    ? "vote average: " + movie?.vote_average
+                    : ""}
+                  <br />
+                  {movie?.vote_count ? "vote count: " + movie?.vote_count : ""}
+                </Typography>
+              </CardContent>
+              <CardActions disableSpacing>
+                <IconButton
+                  aria-label="add to favorites"
+                  onClick={() => handleOpenModal(movie.id)}
+                >
+                  <MovieIcon />
+                </IconButton>
+                <IconButton
+                  aria-label="add to watchlist"
+                  onClick={() => addToWatchlist(movie)}
+                >
+                  <VisibilityIcon />
+                </IconButton>
+                <MovieModal handleCloseModal={handleCloseModal} movie={movie} />
+                <ExpandMore
+                  expand={expanded}
+                  onClick={() => handleExpandClick(movie.id)}
+                  aria-expanded={expanded}
+                  aria-label="show more"
+                >
+                  <ExpandMoreIcon />
+                </ExpandMore>
+              </CardActions>
+              <Collapse in={expanded[movie.id]} timeout="auto" unmountOnExit>
                 <CardContent>
-                  <Typography variant="body2" color="text.secondary">
-                    {movie?.vote_average
-                      ? "vote average: " + movie?.vote_average
-                      : ""}
-                    <br />
-                    {movie?.vote_count
-                      ? "vote count: " + movie?.vote_count
-                      : ""}
-                  </Typography>
+                  <Typography paragraph>{movie?.overview}</Typography>
                 </CardContent>
-                <CardActions disableSpacing>
-                  <IconButton
-                    aria-label="add to favorites"
-                    onClick={() => handleOpenModal(movie.id)}
-                  >
-                    <MovieIcon />
-                  </IconButton>
-                  <IconButton
-                    aria-label="add to watchlist"
-                    onClick={() => addToWatchlist(movie)}
-                  >
-                    <VisibilityIcon />
-                  </IconButton>
-                  <MovieModal
-                    handleCloseModal={handleCloseModal}
-                    movie={movie}
-                  />
-                  <ExpandMore
-                    expand={expanded}
-                    onClick={() => handleExpandClick(movie.id)}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                  >
-                    <ExpandMoreIcon />
-                  </ExpandMore>
-                </CardActions>
-                <Collapse in={expanded[movie.id]} timeout="auto" unmountOnExit>
-                  <CardContent>
-                    <Typography paragraph>{movie?.overview}</Typography>
-                  </CardContent>
-                </Collapse>
-              </Card>
-            </Link>
+              </Collapse>
+            </Card>
           </Grid>
         ))}
       </Grid>

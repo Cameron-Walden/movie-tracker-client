@@ -34,11 +34,7 @@ export default function Popular() {
       justifyContent="center"
     >
       {popular.map((film) => (
-        <Link
-          to={`/film/${film.id}`}
-          className="movie-link"
-          style={{ textDecoration: "none", color: "black" }}
-        >
+        <Link to={`/film/${film.id}`} className="movie-link">
           <Item>
             <img
               src={`https://image.tmdb.org/t/p/w342/${film.poster_path}`}

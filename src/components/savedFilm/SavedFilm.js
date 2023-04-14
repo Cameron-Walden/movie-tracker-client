@@ -105,14 +105,14 @@ export default function SavedFilm() {
       const responseData = savedMovies.map((film) =>
         film._id === savedMovies._id ? response.data : film
       );
-      console.log(responseData, 'responseData')
+      console.log(responseData, "responseData");
       setDate(date);
       setUserReview(userReview);
       setStarRating(starRating);
       // setSavedMovies([...savedMovies, response.data]);
       setSavedMovies([...savedMovies, response.data]);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -141,11 +141,11 @@ export default function SavedFilm() {
             {savedMovies?.map((film) => (
               <StyledTableRow key={film?._id}>
                 <StyledTableCell>
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500/${film.poster}`}
-                    alt={film.title}
-                    style={{ width: "4em", height: "6em" }}
-                  />
+                    <img
+                      src={`https://image.tmdb.org/t/p/w500/${film.poster}`}
+                      alt={film.title}
+                      style={{ width: "4em", height: "6em" }}
+                    />
                 </StyledTableCell>
                 <StyledTableCell
                   component="th"
@@ -237,7 +237,7 @@ export default function SavedFilm() {
                       </CardContent>
                       <CardActions>
                         <Button
-                          onClick={(e) => updateSaved(e,film?._id)}
+                          onClick={(e) => updateSaved(e, film?._id)}
                           variant="contained"
                           color="success"
                         >

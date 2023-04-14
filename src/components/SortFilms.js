@@ -13,7 +13,7 @@ export default function SortFilms() {
     setSelectGenre,
     selectedFromDD,
     setSelectedFromDD,
-    setDDMovies
+    setDDMovies,
   } = useContext(FilmContext);
 
   const getGenres = async (genreId) => {
@@ -50,13 +50,16 @@ export default function SortFilms() {
           paddingTop: "10px",
         }}
       >
-        <p style={{ padding: "10px" }}>Browse By:</p>
+        <p style={{ padding: "10px", color: "#9ab" }}>Browse By:</p>
         <FormControl
           variant="standard"
-          sx={{ m: 1, minWidth: 120, paddingBottom: 2, color: "black" }}
+          sx={{ m: 1, minWidth: 120, paddingBottom: 2, color: "#9ab" }}
         >
-          <InputLabel id="genre-label">genre</InputLabel>
+          <InputLabel style={{ color: "#9ab" }} id="genre-label">
+            genre
+          </InputLabel>
           <Select
+            sx={{ background: "#9ab" }}
             labelId="genre-select"
             id="genre-select-id"
             value={selectGenre || ""}

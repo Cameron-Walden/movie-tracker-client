@@ -63,7 +63,7 @@ export default function Watchlist() {
 
   return (
     <>
-      <div style={{ paddingLeft: "4em", paddingTop: "3em" }}>
+      <div style={{ paddingLeft: "4em", paddingTop: "3em", color: "#9ab" }}>
         {watchlist.length === 0 ? (
           <p>
             you haven't added any movies to your watchlist. Start adding to

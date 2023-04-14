@@ -11,8 +11,9 @@ export default function Film() {
 
   const getFilm = async () => {
     try {
-      let movieResponse = await axios?.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_MOVIE_API}`);
-      console.log(movieResponse, 'movieResponse')
+      let movieResponse = await axios?.get(
+        `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_MOVIE_API}`
+      );
       setFilmId(movieResponse?.data);
     } catch (error) {
       console.log(error);
