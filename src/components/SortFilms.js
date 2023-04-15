@@ -55,7 +55,7 @@ export default function SortFilms() {
           variant="standard"
           sx={{ m: 1, minWidth: 120, paddingBottom: 2, color: "#9ab" }}
         >
-          <InputLabel style={{ color: "#9ab" }} id="genre-label">
+          <InputLabel style={{ color: "black", zIndex: 1 }} id="genre-label">
             genre
           </InputLabel>
           <Select
