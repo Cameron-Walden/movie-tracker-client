@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { Grid, IconButton, Popover, Typography } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Item } from "./watchlistStyle";
@@ -106,6 +107,7 @@ export default function Watchlist() {
                   <Typography sx={{ p: 1 }}>{film.title}.</Typography>
                 )}
               </Popover>
+              <Link to={`/film/${film.tmdb_id}`} className="movie-link">
               <img
                 src={`https://image.tmdb.org/t/p/w500/${film?.poster}`}
                 alt={film.title}
@@ -115,6 +117,7 @@ export default function Watchlist() {
                   justifyContent: "space-around",
                 }}
               />
+              </Link>
               <IconButton
                 aria-label="remove from watchlist"
                 onClick={() => removeFromWatchlist(film._id)}
