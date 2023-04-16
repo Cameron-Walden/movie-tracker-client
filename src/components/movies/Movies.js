@@ -48,6 +48,7 @@ export default function Movies() {
         description: film.overview,
         poster: film.poster_path,
         watched: false,
+        tmdb_id: film.id
       },
     };
     try {
