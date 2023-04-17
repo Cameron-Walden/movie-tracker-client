@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { Item } from './genreStyles';
 import { Grid } from '@mui/material';
 import { FilmContext } from '../../context/FilmContext';
@@ -11,6 +12,7 @@ export default function FilmsByGenre() {
         {ddMovies.map((film) => (
           <div key={film._id}>
             {console.log(film, "film")}
+            <Link to={`/film/${film.id}`} className="movie-link">
             <Item>
               <img
                 src={`https://image.tmdb.org/t/p/w500/${film?.poster_path}`}
@@ -22,6 +24,7 @@ export default function FilmsByGenre() {
                 }}
               />
             </Item>
+            </Link>
           </div>
         ))}
       </Grid>
