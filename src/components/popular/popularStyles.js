@@ -7,4 +7,11 @@ import { styled } from "@mui/material/styles";
     padding: theme.spacing(1),
     textAlign: "center",
     color: theme.palette.text.secondary,
+    transition: "border-color 0.3s ease-out",
+    border: "1px solid transparent",
+    "&:hover": {
+      // borderColor: "orange",
+      // padding: theme.spacing(0.9),
+      backgroundColor: "orange",
+    }
   }));
