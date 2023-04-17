@@ -1,11 +1,9 @@
 .movie-backdrop {
   border-radius: 400px;
-  /* box-shadow: 0 0 8px 8px white inset; fix when I change the background color*/
   object-fit: cover;
   width: 100%;
   height: auto;
   padding-bottom: 50px;
-  /* background-blend-mode: screen ;  fix when I change the background color*/
 }
 
 .poster-container {
@@ -18,11 +16,11 @@
 }
 
 .film-title {
-  position: absolute;
   top: 0%;
-  right: 445px;
+  right: 0;
   margin: 0%;
   padding: 5px;
+  padding-left: 1.9em;
   font-weight: bold;
   font-size: x-large;
   color: white;
@@ -34,4 +32,15 @@
   flex-grow: 1;
   color: #9ab;
   max-width: 50%;
+}
+
+
+@media (max-width: 767px) {
+  .film-title {
+    right: 0;
+  }
+  .film-overview {
+    margin-left: 0;
+    max-width: 100%;
+  }
 }
