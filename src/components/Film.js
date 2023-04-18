@@ -6,6 +6,9 @@ import "./Film.css";
 
 export default function Film() {
   const [filmId, setFilmId] = useState(null);
+  const [crew, setCrew] = useState([]);
+  const [cast, setCast] = useState([]);
+  const [director, setDirector] = useState(null);
 
   const { id } = useParams();
 
@@ -20,9 +23,33 @@ export default function Film() {
     }
   };
 
+  const getFilmCredits = async () => {
+    try {
+      let response = await axios.get(
+        `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.REACT_APP_MOVIE_API}`
+      );
+      setCrew(response.data.crew);
+      setCast(response.data.cast);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getDirector = () => {
+    const director = crew.find((member) => member.job === "Director");
+    setDirector(director.name);
+  };
+
   useEffect(() => {
+    getFilmCredits();
     getFilm();
   }, [id]);
+
+  useEffect(() => {
+    if (crew.length > 0) {
+      getDirector();
+    }
+  });
 
   return (
     <div>
@@ -43,6 +70,9 @@ export default function Film() {
               />
               <div>
                 <p className="film-title">{filmId?.title}</p>
+                {director && (
+                  <p className="directed-by">Directed by: {director}</p>
+                )}
                 <p className="film-overview">{filmId?.overview}</p>
               </div>
             </div>

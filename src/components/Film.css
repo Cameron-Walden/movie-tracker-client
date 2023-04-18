@@ -26,6 +26,17 @@
   color: white;
 }
 
+.directed-by{
+  top: 0%;
+  right: 0;
+  margin: 0%;
+  padding: 5px;
+  padding-left: 2.7em;
+  font-weight: bold;
+  font-size: large;
+  color: #9ab;
+}
+
 .film-overview {
   padding: 30px;
   margin-left: 16px;
