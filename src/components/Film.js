@@ -36,8 +36,9 @@ export default function Film() {
   };
 
   const getDirector = () => {
-    const director = crew.find((member) => member.job === "Director");
-    setDirector(director.name);
+    const directors = crew.filter((member) => member.job === "Director");
+    const directorNames = directors.map((director) => director.name);
+    setDirector(directorNames.join(", "));
   };
 
   useEffect(() => {
