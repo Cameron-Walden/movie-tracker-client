@@ -44,11 +44,11 @@ export default function SavedFilm() {
 
   const formatDate = (date, format) => {
     const dateObj = new Date(date);
-  
+
     if (isNaN(dateObj)) {
       return "Invalid date";
     }
-  
+
     switch (format) {
       case "day":
         return dateObj.toLocaleDateString(undefined, {
@@ -75,7 +75,7 @@ export default function SavedFilm() {
 
   const handleOpenEdit = (id) => {
     let findId = savedMovies?.find((savedFilm) => savedFilm._id === id);
-    const formattedDate = formatDate(findId.date_watched);
+    const formattedDate = formatDate(findId.date_watched, "default");
     console.log(savedMovies, "sm");
     setOpenEdit(true);
     setSelectedMovieEdit({ ...findId, date_watched: formattedDate });
