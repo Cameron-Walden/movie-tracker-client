@@ -32,6 +32,7 @@ export default function SavedFilm() {
     savedMovies,
     setSavedMovies,
     selectedMovie,
+    setSelectedMovie,
     starRating,
     setStarRating,
     userReview,
@@ -41,6 +42,31 @@ export default function SavedFilm() {
   } = useContext(FilmContext);
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedMovieEdit, setSelectedMovieEdit] = useState(null);
+
+  const formatDay = (date) => {
+    const dateObj = new Date(date);
+
+    if (isNaN(dateObj)) {
+      return "Invalid date";
+    }
+
+    return dateObj.toLocaleDateString(undefined, {
+      day: "numeric",
+    });
+  };
+
+  const formatMonthAndYear = (date) => {
+    const dateObj = new Date(date);
+
+    if (isNaN(dateObj)) {
+      return "Invalid date";
+    }
+
+    return dateObj.toLocaleDateString(undefined, {
+      month: "long",
+      year: "numeric",
+    });
+  };
 
   const formatDate = (date) => {
     const dateObj = new Date(date);
@@ -126,6 +152,8 @@ export default function SavedFilm() {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
+              <StyledTableCell>Month</StyledTableCell>
+              <StyledTableCell>Day</StyledTableCell>
               <StyledTableCell>Film</StyledTableCell>
               <StyledTableCell></StyledTableCell>
               <StyledTableCell align="right">Released</StyledTableCell>
@@ -140,12 +168,18 @@ export default function SavedFilm() {
           <TableBody>
             {savedMovies?.map((film) => (
               <StyledTableRow key={film?._id}>
+                <StyledTableCell align="right">
+                  {formatMonthAndYear(film.date_watched)}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {formatDay(film.date_watched)}
+                </StyledTableCell>
                 <StyledTableCell>
-                    <img
-                      src={`https://image.tmdb.org/t/p/w500/${film.poster}`}
-                      alt={film.title}
-                      style={{ width: "4em", height: "6em" }}
-                    />
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500/${film.poster}`}
+                    alt={film.title}
+                    style={{ width: "4em", height: "6em" }}
+                  />
                 </StyledTableCell>
                 <StyledTableCell
                   component="th"
