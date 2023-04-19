@@ -37,6 +37,7 @@ export default function MovieModal({ handleCloseModal }) {
         title: selectedMovie.title,
         description: selectedMovie.overview,
         poster: selectedMovie.poster_path,
+        release_date: selectedMovie.release_date,
         user_rating: starRating,
         user_review: userReview,
         date_watched: date,

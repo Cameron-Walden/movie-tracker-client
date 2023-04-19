@@ -22,7 +22,6 @@ import {
 } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
 import EditIcon from "@mui/icons-material/Edit";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
 import { StyledTableCell, StyledTableRow, style } from "./styles";
@@ -43,48 +42,41 @@ export default function SavedFilm() {
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedMovieEdit, setSelectedMovieEdit] = useState(null);
 
-  const formatDay = (date) => {
+  const formatDate = (date, format) => {
     const dateObj = new Date(date);
-
+  
     if (isNaN(dateObj)) {
       return "Invalid date";
     }
-
-    return dateObj.toLocaleDateString(undefined, {
-      day: "numeric",
-    });
-  };
-
-  const formatMonthAndYear = (date) => {
-    const dateObj = new Date(date);
-
-    if (isNaN(dateObj)) {
-      return "Invalid date";
+  
+    switch (format) {
+      case "day":
+        return dateObj.toLocaleDateString(undefined, {
+          day: "numeric",
+        });
+      case "year":
+        return dateObj.toLocaleDateString(undefined, {
+          year: "numeric",
+        });
+      case "monthAndYear":
+        return dateObj.toLocaleDateString(undefined, {
+          month: "short",
+          year: "numeric",
+        });
+      case "default":
+        const month = `${dateObj.getMonth() + 1}`.padStart(2, "0");
+        const day = `${dateObj.getDate()}`.padStart(2, "0");
+        const year = dateObj.getFullYear();
+        return [year, month, day].join("-");
+      default:
+        throw new Error(`Invalid date format: ${format}`);
     }
-
-    return dateObj.toLocaleDateString(undefined, {
-      month: "long",
-      year: "numeric",
-    });
-  };
-
-  const formatDate = (date) => {
-    const dateObj = new Date(date);
-
-    if (isNaN(dateObj)) {
-      return "Invalid date";
-    }
-
-    const month = `${dateObj.getMonth() + 1}`.padStart(2, "0");
-    const day = `${dateObj.getDate()}`.padStart(2, "0");
-    const year = dateObj.getFullYear();
-
-    return [year, month, day].join("-");
   };
 
   const handleOpenEdit = (id) => {
     let findId = savedMovies?.find((savedFilm) => savedFilm._id === id);
     const formattedDate = formatDate(findId.date_watched);
+    console.log(savedMovies, "sm");
     setOpenEdit(true);
     setSelectedMovieEdit({ ...findId, date_watched: formattedDate });
   };
@@ -157,7 +149,7 @@ export default function SavedFilm() {
               <StyledTableCell>Film</StyledTableCell>
               <StyledTableCell></StyledTableCell>
               <StyledTableCell align="right">Released</StyledTableCell>
-              <StyledTableCell align="right">Rating</StyledTableCell>
+              <StyledTableCell align="left">Rating</StyledTableCell>
               <StyledTableCell align="right">Like</StyledTableCell>
               <StyledTableCell align="right">Rewatch</StyledTableCell>
               <StyledTableCell align="right">Review</StyledTableCell>
@@ -169,10 +161,10 @@ export default function SavedFilm() {
             {savedMovies?.map((film) => (
               <StyledTableRow key={film?._id}>
                 <StyledTableCell align="right">
-                  {formatMonthAndYear(film.date_watched)}
+                  {formatDate(film.date_watched, "monthAndYear")}
                 </StyledTableCell>
                 <StyledTableCell align="right">
-                  {formatDay(film.date_watched)}
+                  {formatDate(film.date_watched, "day")}
                 </StyledTableCell>
                 <StyledTableCell>
                   <img
@@ -192,7 +184,7 @@ export default function SavedFilm() {
                   {film.title}
                 </StyledTableCell>
                 <StyledTableCell align="right">
-                  <CalendarMonthIcon />
+                  {formatDate(film.release_date, "year")}
                 </StyledTableCell>
                 <StyledTableCell align="right">
                   <Rating
