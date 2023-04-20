@@ -35,7 +35,7 @@ export default function Popular() {
     >
       {popular.map((film) => (
         <Link to={`/film/${film.id}`} className="movie-link">
-          <Item>
+          <Item key={film.id}>
             <img
               src={`https://image.tmdb.org/t/p/w342/${film.poster_path}`}
               alt={film.title}
