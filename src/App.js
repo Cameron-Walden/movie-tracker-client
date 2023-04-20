@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import Main from "./components/Main";
 import SavedFilm from "./components/savedFilm/SavedFilm";
 import Watchlist from "./components/watchlist/Watchlist";
-import Film from "./components/Film";
+import Film from "./components/film/Film";
 import "./App.css";
 
 function App() {
