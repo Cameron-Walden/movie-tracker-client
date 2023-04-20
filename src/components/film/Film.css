@@ -55,3 +55,7 @@
     max-width: 100%;
   }
 }
+
+.user-container{
+  padding: 10px !important;
+}
