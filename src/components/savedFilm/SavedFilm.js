@@ -74,11 +74,14 @@ export default function SavedFilm() {
   };
 
   const handleOpenEdit = (id) => {
-    let findId = savedMovies?.find((savedFilm) => savedFilm._id === id);
+    const findId = savedMovies?.find((savedFilm) => savedFilm._id === id);
     const formattedDate = formatDate(findId.date_watched, "default");
-    console.log(savedMovies, "sm");
+    const selectedMovieCopy = {
+      ...findId,
+      date_watched: formattedDate,
+    };
+    setSelectedMovieEdit(selectedMovieCopy);
     setOpenEdit(true);
-    setSelectedMovieEdit({ ...findId, date_watched: formattedDate });
   };
 
   const handleCloseEdit = () => setOpenEdit(false);
@@ -104,34 +107,36 @@ export default function SavedFilm() {
     }
   };
 
-  const updateSaved = async (e, res) => {
+  const updateSaved = async (e) => {
     e.preventDefault();
     const config = {
       headers: { "Content-type": "application/json" },
       data: {
-        // title: selectedMovie.title,
-        // description: selectedMovie.overview,
-        // poster: selectedMovie.poster_path,
+        title: selectedMovieEdit.title,
+        description: selectedMovieEdit.overview,
+        poster: selectedMovie.poster_path,
+        release_date: selectedMovieEdit.release_date,
         user_rating: starRating,
         user_review: userReview,
         date_watched: date,
       },
     };
     try {
-      const url = `http://localhost:3001/reviews/${savedMovies._id}`;
+      const url = `http://localhost:3001/reviews/${selectedMovieEdit._id}`;
       const response = await axios.put(url, config.data);
-      const responseData = savedMovies.map((film) =>
-        film._id === savedMovies._id ? response.data : film
+      console.log(response, 'response')
+      const updatedMovie = { ...selectedMovie, ...response.data };
+      console.log(updatedMovie, 'updatedM')
+      const updatedSavedMovies = savedMovies.map((movie) =>
+        movie._id === updatedMovie._id ? updatedMovie : movie
       );
-      console.log(responseData, "responseData");
-      setDate(date);
-      setUserReview(userReview);
-      setStarRating(starRating);
-      // setSavedMovies([...savedMovies, response.data]);
-      setSavedMovies([...savedMovies, response.data]);
+      console.log(updatedSavedMovies, 'usm')
+      setSavedMovies(updatedSavedMovies);
+      setSelectedMovie(updatedMovie);
     } catch (error) {
       console.log(error);
     }
+    handleCloseEdit();
   };
 
   useEffect(() => {
