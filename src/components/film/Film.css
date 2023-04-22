@@ -1,3 +1,7 @@
+.film-container{
+  padding-bottom: 100px;
+}
+
 .movie-backdrop {
   border-radius: 400px;
   object-fit: cover;
@@ -58,4 +62,10 @@
 
 .user-container{
   padding: 10px !important;
+}
+
+.crew-tab{
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }

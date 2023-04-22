@@ -4,7 +4,6 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Container } from "@mui/system";
 import { Rating } from "@mui/material";
-import CrewTab from "../crewTab/CrewTab";
 import "./Film.css";
 
 import {
@@ -18,6 +17,7 @@ import {
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MoreTimeIcon from "@mui/icons-material/MoreTime";
+import CrewTab from "../crewTab/CrewTab";
 
 export default function Film() {
   const [filmId, setFilmId] = useState(null);
@@ -71,7 +71,7 @@ export default function Film() {
   return (
     <div>
       {filmId && (
-        <Container>
+        <Container className="film-container">
           <div>
             <img
               src={`https://image.tmdb.org/t/p/w1280/${filmId?.backdrop_path}`}
@@ -85,7 +85,7 @@ export default function Film() {
                 src={`https://image.tmdb.org/t/p/w342/${filmId?.poster_path}`}
                 alt={filmId?.title}
               />
-              <div>
+              <div className="film-info">
                 <p className="film-title">{filmId?.title}</p>
                 {director && (
                   <p className="directed-by">Directed by: {director}</p>
@@ -126,7 +126,7 @@ export default function Film() {
                   </Table>
                 </TableContainer>
               </div>
-              <div className="crew-tab" >
+              <div className="crew-tab">
                 <CrewTab />
               </div>
             </div>
