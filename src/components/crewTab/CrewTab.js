@@ -1,9 +1,10 @@
-import { useState } from "react";
+import * as React from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import "./CrewTab.css";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -38,12 +39,13 @@ function a11yProps(index) {
   };
 }
 
-export default function CrewTab() {
-  const [value, setValue] = useState(0);
+export default function BasicTabs() {
+  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -52,23 +54,55 @@ export default function CrewTab() {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="CAST" {...a11yProps(0)} />
-          <Tab label="CREW" {...a11yProps(1)} />
-          <Tab label="DETAILS" {...a11yProps(2)} />
-          <Tab label="GENRE" {...a11yProps(2)} />
+          <Tab
+            label="CAST"
+            {...a11yProps(0)}
+            className={value === 0 ? "selected" : "unselected"}
+          />
+          <Tab
+            label="CREW"
+            {...a11yProps(1)}
+            className={value === 1 ? "selected" : "unselected"}
+          />
+          <Tab
+            label="DETAILS"
+            {...a11yProps(2)}
+            className={value === 2 ? "selected" : "unselected"}
+          />
+          <Tab
+            label="GENRES"
+            {...a11yProps(3)}
+            className={value === 3 ? "selected" : "unselected"}
+          />
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
+      <TabPanel
+        value={value}
+        index={0}
+        className={value === 0 ? "selected" : "unselected"}
+      >
         cast
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel
+        value={value}
+        index={1}
+        className={value === 1 ? "selected" : "unselected"}
+      >
         crew
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel
+        value={value}
+        index={2}
+        className={value === 2 ? "selected" : "unselected"}
+      >
         details
       </TabPanel>
-      <TabPanel value={value} index={3}>
-        genre
+      <TabPanel
+        value={value}
+        index={3}
+        className={value === 3 ? "selected" : "unselected"}
+      >
+        genres
       </TabPanel>
     </Box>
   );
