@@ -114,7 +114,7 @@ export default function SavedFilm() {
       data: {
         title: selectedMovieEdit.title,
         description: selectedMovieEdit.overview,
-        poster: selectedMovie.poster_path,
+        poster: selectedMovieEdit.poster,
         release_date: selectedMovieEdit.release_date,
         user_rating: starRating,
         user_review: userReview,
@@ -124,19 +124,16 @@ export default function SavedFilm() {
     try {
       const url = `http://localhost:3001/reviews/${selectedMovieEdit._id}`;
       const response = await axios.put(url, config.data);
-      console.log(response, 'response')
-      const updatedMovie = { ...selectedMovie, ...response.data };
-      console.log(updatedMovie, 'updatedM')
+      const updatedMovie = { ...selectedMovieEdit, ...response.data };
       const updatedSavedMovies = savedMovies.map((movie) =>
         movie._id === updatedMovie._id ? updatedMovie : movie
       );
-      console.log(updatedSavedMovies, 'usm')
-      setSavedMovies(updatedSavedMovies);
       setSelectedMovie(updatedMovie);
+      setSavedMovies(updatedSavedMovies);
+      handleCloseEdit();
     } catch (error) {
       console.log(error);
     }
-    handleCloseEdit();
   };
 
   useEffect(() => {
@@ -173,7 +170,7 @@ export default function SavedFilm() {
                 </StyledTableCell>
                 <StyledTableCell>
                   <img
-                    src={`https://image.tmdb.org/t/p/w500/${film.poster}`}
+                    src={ film.poster ? `https://image.tmdb.org/t/p/w500/${film.poster}` : 'no poster'}
                     alt={film.title}
                     style={{ width: "4em", height: "6em" }}
                   />
@@ -243,6 +240,7 @@ export default function SavedFilm() {
                                 date_watched: e.target.value,
                               })
                             }
+                            // onChange={(e) => setDate(e.target.value)}
                             InputLabelProps={{
                               shrink: true,
                             }}
@@ -250,7 +248,8 @@ export default function SavedFilm() {
                         </div>
                         <form>
                           <textarea
-                            value={selectedMovieEdit?.user_review}
+                            placeholder={selectedMovieEdit?.user_review}
+                            // value={selectedMovieEdit?.user_review}
                             onChange={(e) => setUserReview(e.target.value)}
                             rows="4"
                             cols="20"
