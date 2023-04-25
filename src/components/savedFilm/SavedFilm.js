@@ -109,6 +109,7 @@ export default function SavedFilm() {
 
   const updateSaved = async (e) => {
     e.preventDefault();
+
     const config = {
       headers: { "Content-type": "application/json" },
       data: {
@@ -116,9 +117,9 @@ export default function SavedFilm() {
         description: selectedMovieEdit.overview,
         poster: selectedMovieEdit.poster,
         release_date: selectedMovieEdit.release_date,
-        user_rating: starRating,
-        user_review: userReview,
-        date_watched: date,
+        user_rating: starRating || selectedMovieEdit.user_rating,
+        user_review: userReview || selectedMovieEdit.user_review,
+        date_watched: date || selectedMovieEdit.date_watched,
       },
     };
     try {
@@ -130,6 +131,7 @@ export default function SavedFilm() {
       );
       setSelectedMovie(updatedMovie);
       setSavedMovies(updatedSavedMovies);
+      setDate(updatedMovie.date_watched);
       handleCloseEdit();
     } catch (error) {
       console.log(error);
@@ -170,7 +172,11 @@ export default function SavedFilm() {
                 </StyledTableCell>
                 <StyledTableCell>
                   <img
-                    src={ film.poster ? `https://image.tmdb.org/t/p/w500/${film.poster}` : 'no poster'}
+                    src={
+                      film.poster
+                        ? `https://image.tmdb.org/t/p/w500/${film.poster}`
+                        : "no poster"
+                    }
                     alt={film.title}
                     style={{ width: "4em", height: "6em" }}
                   />
@@ -240,7 +246,6 @@ export default function SavedFilm() {
                                 date_watched: e.target.value,
                               })
                             }
-                            // onChange={(e) => setDate(e.target.value)}
                             InputLabelProps={{
                               shrink: true,
                             }}
@@ -249,7 +254,6 @@ export default function SavedFilm() {
                         <form>
                           <textarea
                             placeholder={selectedMovieEdit?.user_review}
-                            // value={selectedMovieEdit?.user_review}
                             onChange={(e) => setUserReview(e.target.value)}
                             rows="4"
                             cols="20"

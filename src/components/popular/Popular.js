@@ -34,7 +34,7 @@ export default function Popular() {
       justifyContent="center"
     >
       {popular.map((film) => (
-        <Link to={`/film/${film.id}`} className="movie-link">
+        <Link to={`/film/${film.id}`} className="movie-link" key={film.id}>
           <Item key={film.id}>
             <img
               src={`https://image.tmdb.org/t/p/w342/${film.poster_path}`}
