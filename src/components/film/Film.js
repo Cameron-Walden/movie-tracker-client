@@ -127,7 +127,13 @@ export default function Film() {
                 </TableContainer>
               </div>
               <div className="crew-tab">
-                <CrewTab />
+                <CrewTab
+                  crew={crew}
+                  setCrew={setCrew}
+                  cast={cast}
+                  setCast={setCast}
+                  getFilmCredits={getFilmCredits}
+                />
               </div>
             </div>
           </div>
