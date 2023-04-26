@@ -1,7 +1,51 @@
+.MuiTabs-root{
+  width: 100%;
+}
+
 .selected {
   color: white !important;
 }
 
 .unselected {
   color: orange !important;
+}
+
+.cast-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  overflow-y: auto;
+}
+
+.cast-tab-panel {
+  height: 100px;
+  width: 500px;
+  overflow: auto;
+  color: white
+}
+
+.cast-member {
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.crew-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  overflow-y: auto;
+}
+
+.crew-tab-panel {
+  height: 200px;
+  width: 500px;
+  overflow: auto;
+  color: white
+}
+
+.crew-member {
+  margin-right: 1rem;
+  margin-bottom: 1rem;
 }

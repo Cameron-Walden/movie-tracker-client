@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -39,8 +39,14 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs() {
-  const [value, setValue] = React.useState(0);
+export default function BasicTabs({
+  crew,
+  setCrew,
+  cast,
+  setCast,
+  getFilmCredits,
+}) {
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -48,7 +54,15 @@ export default function BasicTabs() {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+      {}
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: "divider",
+          position: "sticky",
+          top: 0,
+        }}
+      >
         <Tabs
           value={value}
           onChange={handleChange}
@@ -79,16 +93,28 @@ export default function BasicTabs() {
       <TabPanel
         value={value}
         index={0}
-        className={value === 0 ? "selected" : "unselected"}
+        className={`{value === 0 ? "selected" : "unselected"} cast-tab-panel`}
       >
-        cast
+        <div className="cast-container">
+          {cast.map((member) => (
+            <div key={member.id} className="cast-member">
+              {member.name}
+            </div>
+          ))}
+        </div>
       </TabPanel>
       <TabPanel
         value={value}
         index={1}
-        className={value === 1 ? "selected" : "unselected"}
+        className={`{value === 1 ? "selected" : "unselected"} crew-tab-panel`}
       >
-        crew
+        <div className="crew-container">
+          {crew.map(member => (
+            <ul>
+              <li>{member.name}-{member.department}</li>
+            </ul>
+          ))}
+        </div>
       </TabPanel>
       <TabPanel
         value={value}
