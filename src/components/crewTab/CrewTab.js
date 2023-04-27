@@ -54,14 +54,12 @@ export default function BasicTabs({
 
   return (
     <Box sx={{ width: "100%" }}>
-      {}
       <Box
         sx={{
           borderBottom: 1,
           borderColor: "divider",
-          position: "sticky",
-          top: 0,
         }}
+        className="tab-container"
       >
         <Tabs
           value={value}
@@ -90,46 +88,52 @@ export default function BasicTabs({
           />
         </Tabs>
       </Box>
-      <TabPanel
-        value={value}
-        index={0}
-        className={`{value === 0 ? "selected" : "unselected"} cast-tab-panel`}
-      >
-        <div className="cast-container">
-          {cast.map((member) => (
-            <div key={member.id} className="cast-member">
-              {member.name}
-            </div>
-          ))}
-        </div>
-      </TabPanel>
-      <TabPanel
-        value={value}
-        index={1}
-        className={`{value === 1 ? "selected" : "unselected"} crew-tab-panel`}
-      >
-        <div className="crew-container">
-          {crew.map(member => (
-            <ul>
-              <li>{member.name}-{member.department}</li>
-            </ul>
-          ))}
-        </div>
-      </TabPanel>
-      <TabPanel
-        value={value}
-        index={2}
-        className={value === 2 ? "selected" : "unselected"}
-      >
-        details
-      </TabPanel>
-      <TabPanel
-        value={value}
-        index={3}
-        className={value === 3 ? "selected" : "unselected"}
-      >
-        genres
-      </TabPanel>
+      <Box className="tab-panel">
+        <TabPanel
+          value={value}
+          index={0}
+          className={`{value === 0 ? "selected" : "unselected"} cast-tab-panel`}
+        >
+          <div className="cast-container">
+            {cast.map((member) => (
+              <div key={member.id} className="cast-member">
+                {member.name}
+              </div>
+            ))}
+          </div>
+        </TabPanel>
+        <TabPanel
+          value={value}
+          index={1}
+          className={`{value === 1 ? "selected" : "unselected"} crew-tab-panel`}
+        >
+          <div className="crew-container">
+            {crew.map((member) => (
+              <div key={member.id} className="crew-member">
+                {member.name}...{member.department}
+              </div>
+            ))}
+          </div>
+        </TabPanel>
+        <TabPanel
+          value={value}
+          index={2}
+          className={`{value === 2 ? "selected" : "unselected"} details-tab-panel`}
+        >
+          <div className="details-container">
+            <div className="details">DETAILS</div>
+          </div>
+        </TabPanel>
+        <TabPanel
+          value={value}
+          index={3}
+          className={`{value === 3 ? "selected" : "unselected"} genres-tab-panel`}
+        >
+          <div className="genres-container">
+            <div className="genres">GENRES</div>
+          </div>
+        </TabPanel>
+      </Box>
     </Box>
   );
 }
