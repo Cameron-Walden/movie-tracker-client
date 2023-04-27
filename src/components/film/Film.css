@@ -1,3 +1,7 @@
+.film-container{
+  padding-bottom: 150px;
+}
+
 .movie-backdrop {
   border-radius: 400px;
   object-fit: cover;
@@ -26,7 +30,7 @@
   color: white;
 }
 
-.directed-by{
+.directed-by {
   top: 0%;
   right: 0;
   margin: 0%;
@@ -42,7 +46,7 @@
   margin-left: 16px;
   flex-grow: 1;
   color: #9ab;
-  max-width: 50%;
+  max-width: 100%;
 }
 
 @media (max-width: 767px) {
@@ -55,11 +59,11 @@
   }
 }
 
-.user-container{
+.user-container {
   padding: 10px !important;
 }
 
-.crew-tab{
+.crew-tab {
   position: absolute;
   bottom: 5em;
   right: 0;

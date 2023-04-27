@@ -1,5 +1,9 @@
-.MuiTabs-root{
+.MuiTabs-root {
   width: 100%;
+}
+
+.MuiTabs-indicator {
+  background-color: orange !important;
 }
 
 .selected {
@@ -10,42 +14,108 @@
   color: orange !important;
 }
 
+.tab-container{
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 150px;
+}
+
 .cast-container {
-  width: 100%;
+  width: 87%;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   overflow-y: auto;
+  margin-left: 125px;
 }
 
 .cast-tab-panel {
-  height: 100px;
+  height: 150px;
   width: 500px;
   overflow: auto;
-  color: white
+  color: white;
 }
 
 .cast-member {
   margin-right: 1rem;
   margin-bottom: 1rem;
+  background-color: orange;
+  font-size: 12px;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
 }
 
 .crew-container {
-  width: 100%;
+  width: 87%;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   overflow-y: auto;
+  margin-left: 125px;
 }
 
 .crew-tab-panel {
-  height: 200px;
+  height: 150px;
   width: 500px;
   overflow: auto;
-  color: white
+  color: white;
 }
 
 .crew-member {
   margin-right: 1rem;
   margin-bottom: 1rem;
+  background-color: orange;
+  font-size: 12px;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.details-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  overflow-y: auto;
+  margin-left: 125px;
+}
+
+.details-tab-panel {
+  height: 150px;
+  width: 500px;
+  overflow: auto;
+  color: white;
+}
+
+.details {
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  background-color: orange;
+  font-size: 12px;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.genres-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  overflow-y: auto;
+  margin-left: 125px;
+}
+
+.genres-tab-panel {
+  height: 150px;
+  width: 500px;
+  overflow: auto;
+  color: white;
+}
+
+.genres {
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  background-color: orange;
+  font-size: 12px;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
 }

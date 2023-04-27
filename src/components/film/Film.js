@@ -1,12 +1,11 @@
 import { useState, useContext, useEffect } from "react";
-import { FilmContext } from "../../context/FilmContext";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { FilmContext } from "../../context/FilmContext";
 import { Container } from "@mui/system";
-import { Rating } from "@mui/material";
-import "./Film.css";
-
 import {
+  Button,
+  Rating,
   Table,
   TableBody,
   TableCell,
@@ -18,6 +17,7 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MoreTimeIcon from "@mui/icons-material/MoreTime";
 import CrewTab from "../crewTab/CrewTab";
+import "./Film.css";
 
 export default function Film() {
   const [filmId, setFilmId] = useState(null);
@@ -94,17 +94,13 @@ export default function Film() {
               </div>
               <div className="user-container">
                 <TableContainer component={Paper}>
-                  <Table sx={{ minWidth: 340 }} aria-label="customized table">
+                  <Table sx={{ minWidth: 340, backgroundColor: "#456" }} aria-label="customized table" className="table">
                     <TableBody>
                       <TableRow>
-                        <TableCell align="center">
-                          <RemoveRedEyeIcon />
-                        </TableCell>
-                        <TableCell align="center">
-                          <FavoriteBorderIcon />
-                        </TableCell>
-                        <TableCell align="center">
-                          <MoreTimeIcon />
+                        <TableCell align="center" sx={{ display: "flex", justifyContent: "space-evenly"}}>
+                          <RemoveRedEyeIcon  sx={{ color: "#9ab" }}/>
+                          <FavoriteBorderIcon sx={{ color: "#9ab" }} />
+                          <MoreTimeIcon sx={{ color: "#9ab" }} />
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -116,11 +112,10 @@ export default function Film() {
                             value={starRating}
                             onChange={(e, newVal) => setStarRating(newVal)}
                           />
-                          <TableCell></TableCell>
                         </TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableCell align="center">Remove or log</TableCell>
+                        <TableCell align="center"><Button sx={{ color: "#9ab" }}>Remove or log</Button></TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
