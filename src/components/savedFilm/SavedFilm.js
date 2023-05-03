@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
-import { FilmContext } from "../../context/FilmContext";
+import { Link } from "react-router-dom";
 import axios from "axios";
+import { FilmContext } from "../../context/FilmContext";
 import {
   Box,
   Button,
@@ -30,7 +31,6 @@ export default function SavedFilm() {
   const {
     savedMovies,
     setSavedMovies,
-    selectedMovie,
     setSelectedMovie,
     starRating,
     setStarRating,
@@ -116,10 +116,10 @@ export default function SavedFilm() {
         title: selectedMovieEdit.title,
         description: selectedMovieEdit.overview,
         poster: selectedMovieEdit.poster,
-        release_date: selectedMovieEdit.release_date,
         user_rating: starRating || selectedMovieEdit.user_rating,
         user_review: userReview || selectedMovieEdit.user_review,
         date_watched: date || selectedMovieEdit.date_watched,
+        tmdb_id: selectedMovieEdit.tmdb_id
       },
     };
     try {
@@ -129,6 +129,7 @@ export default function SavedFilm() {
       const updatedSavedMovies = savedMovies.map((movie) =>
         movie._id === updatedMovie._id ? updatedMovie : movie
       );
+
       setSelectedMovie(updatedMovie);
       setSavedMovies(updatedSavedMovies);
       setDate(updatedMovie.date_watched);
@@ -171,6 +172,7 @@ export default function SavedFilm() {
                   {formatDate(film.date_watched, "day")}
                 </StyledTableCell>
                 <StyledTableCell>
+                <Link to={`/film/${film.tmdb_id}`} className="movie-link">
                   <img
                     src={
                       film.poster
@@ -180,6 +182,7 @@ export default function SavedFilm() {
                     alt={film.title}
                     style={{ width: "4em", height: "6em" }}
                   />
+                  </Link>
                 </StyledTableCell>
                 <StyledTableCell
                   component="th"
