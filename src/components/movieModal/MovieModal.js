@@ -41,6 +41,7 @@ export default function MovieModal({ handleCloseModal }) {
         user_rating: starRating,
         user_review: userReview,
         date_watched: date,
+        tmdb_id: selectedMovie.id
       },
     };
     try {
