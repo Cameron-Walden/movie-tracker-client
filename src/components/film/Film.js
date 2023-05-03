@@ -94,11 +94,21 @@ export default function Film() {
               </div>
               <div className="user-container">
                 <TableContainer component={Paper}>
-                  <Table sx={{ minWidth: 340, backgroundColor: "#456" }} aria-label="customized table" className="table">
+                  <Table
+                    sx={{ minWidth: 340, backgroundColor: "#456" }}
+                    aria-label="customized table"
+                    className="table"
+                  >
                     <TableBody>
                       <TableRow>
-                        <TableCell align="center" sx={{ display: "flex", justifyContent: "space-evenly"}}>
-                          <RemoveRedEyeIcon  sx={{ color: "#9ab" }}/>
+                        <TableCell
+                          align="center"
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-evenly",
+                          }}
+                        >
+                          <RemoveRedEyeIcon sx={{ color: "#9ab" }} />
                           <FavoriteBorderIcon sx={{ color: "#9ab" }} />
                           <MoreTimeIcon sx={{ color: "#9ab" }} />
                         </TableCell>
@@ -115,7 +125,9 @@ export default function Film() {
                         </TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableCell align="center"><Button sx={{ color: "#9ab" }}>Remove or log</Button></TableCell>
+                        <TableCell align="center">
+                          <Button sx={{ color: "#9ab" }}>Remove or log</Button>
+                        </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>

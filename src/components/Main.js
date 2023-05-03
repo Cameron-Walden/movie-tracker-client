@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { FilmContext } from "../context/FilmContext";
-import Movies from "../components/movies/Movies";
+import Movies from "./films/Films";
 import Pages from "./Pages";
 import SortFilms from "./SortFilms";
 export default function Main() {
