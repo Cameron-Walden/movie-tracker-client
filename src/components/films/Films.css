@@ -1,0 +1,59 @@
+.container {
+  padding-top: 40px;
+  padding-bottom: 10px;
+}
+
+img {
+  border-radius: 10px;
+}
+
+.not-available {
+  width: 200px;
+  height: 300px;
+}
+
+.poster-container {
+  float: left;
+  margin-right: 16px;
+}
+
+.poster-container img:hover {
+  border: 2px solid orange;
+}
+
+.movie-title {
+  font-size: large;
+  font-weight: bold;
+  color: white;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  text-decoration: none !important;
+  max-width: 200px;
+}
+
+.movie-title:hover {
+  color: orange !important;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.release-date {
+  color: #9ab;
+  font-size: large;
+}
+
+.movie-icon {
+  color: white !important;
+}
+.movie-icon:hover {
+  color: orange !important;
+}
+
+.visibility-icon {
+  color: white !important;
+}
+
+.visibility-icon:hover {
+  color: orange !important;
+}
