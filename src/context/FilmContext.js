@@ -18,6 +18,8 @@ export default function Context(props) {
   const [selectGenre, setSelectGenre] = useState(null);
   const [selectedFromDD, setSelectedFromDD] = useState(false);
   const [ddMovies, setDDMovies] = useState([]);
+  const [watchlist, setWatchlist] = useState([]);
+  const [addedToWatchlist, setAddedToWatchlist] = useState(false);
 
   const getMovies = async () => {
     try {
@@ -28,6 +30,27 @@ export default function Context(props) {
       setTotalResults(movieResponse?.data?.total_results);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const addToWatchlist = async (film, res) => {
+    const config = {
+      headers: { "Content-type": "application/json" },
+      data: {
+        title: film.title,
+        description: film.overview,
+        poster: film.poster_path,
+        watched: false,
+        tmdb_id: film.id,
+      },
+    };
+    try {
+      const url = "http://localhost:3001/watchlist";
+      const response = await axios.post(url, config.data);
+      setWatchlist([...watchlist, response.data]);
+      setAddedToWatchlist(true);
+    } catch (error) {
+      res.status(500).send(error);
     }
   };
 
@@ -67,7 +90,12 @@ export default function Context(props) {
         selectedFromDD,
         setSelectedFromDD,
         ddMovies,
-        setDDMovies
+        setDDMovies,
+        watchlist,
+        setWatchlist,
+        addToWatchlist,
+        addedToWatchlist,
+        setAddedToWatchlist,
       }}
     >
       {props.children}

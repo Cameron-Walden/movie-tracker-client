@@ -20,10 +20,15 @@ import { formatDate } from "../../formatDate";
 import "./Films.css";
 
 export default function Films() {
-  const { movies, setOpenModal, setSelectedMovie, setHasUserSearched } =
-    useContext(FilmContext);
+  const {
+    movies,
+    setOpenModal,
+    setSelectedMovie,
+    setHasUserSearched,
+    addToWatchlist,
+  } = useContext(FilmContext);
 
-  const [watchlist, setWatchlist] = useState([]);
+  // const [watchlist, setWatchlist] = useState([]);
 
   const handleOpenModal = (id) => {
     let findId = movies?.results?.find((movie) => movie.id === id);
@@ -32,26 +37,6 @@ export default function Films() {
   };
 
   const handleCloseModal = () => setOpenModal(false);
-
-  const addToWatchlist = async (film, res) => {
-    const config = {
-      headers: { "Content-type": "application/json" },
-      data: {
-        title: film.title,
-        description: film.overview,
-        poster: film.poster_path,
-        watched: false,
-        tmdb_id: film.id,
-      },
-    };
-    try {
-      const url = "http://localhost:3001/watchlist";
-      const response = await axios.post(url, config.data);
-      setWatchlist([...watchlist, response.data]);
-    } catch (error) {
-      res.status(500).send(error);
-    }
-  };
 
   const resetSearch = () => setHasUserSearched(false);
 
