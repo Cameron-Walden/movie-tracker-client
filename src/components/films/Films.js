@@ -22,6 +22,7 @@ import "./Films.css";
 export default function Films() {
   const { movies, setOpenModal, setSelectedMovie, setHasUserSearched } =
     useContext(FilmContext);
+
   const [watchlist, setWatchlist] = useState([]);
 
   const handleOpenModal = (id) => {
@@ -63,6 +64,7 @@ export default function Films() {
       <TableContainer component={Paper}>
         {movies?.results?.map((movie) => (
           <Table
+            key={movie.id}
             sx={{ minWidth: 340, backgroundColor: "#2c3440", marginLeft: 0 }}
             aria-label="customized table"
             className="table"

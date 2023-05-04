@@ -19,6 +19,7 @@ import MoreTimeIcon from "@mui/icons-material/MoreTime";
 import Header from "../Header";
 import Films from "../films/Films";
 import CrewTab from "../crewTab/CrewTab";
+import MovieModal from "../movieModal/MovieModal";
 import "./Film.css";
 
 export default function Film() {
@@ -26,10 +27,22 @@ export default function Film() {
   const [crew, setCrew] = useState([]);
   const [cast, setCast] = useState([]);
   const [director, setDirector] = useState(null);
-  const { starRating, setStarRating, hasUserSearched } =
-    useContext(FilmContext);
+  const {
+    starRating,
+    setStarRating,
+    hasUserSearched,
+    setOpenModal,
+    setSelectedMovie,
+  } = useContext(FilmContext);
 
   const { id } = useParams();
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+    setSelectedMovie(filmId);
+  };
+
+  const handleCloseModal = () => setOpenModal(false);
 
   const getFilm = async () => {
     try {
@@ -94,10 +107,22 @@ export default function Film() {
                     alt={filmId?.title}
                   />
                   <div className="film-info">
-                    <p className="film-title">{filmId?.title}</p>
+                    <div className="title-run-container">
+                      <span className="film-title">{filmId?.title}</span>
+                      <span className="runtime">{filmId.runtime} min.</span>
+                    </div>
+
                     {director && (
-                      <p className="directed-by">Directed by: {director}</p>
+                      <div className="director-container">
+                      <span className="directed-by">
+                        Directed by:{" "}
+                        <span className="director-name">{director}</span>
+                      </span>
+                      </div>
                     )}
+                    <p className="film-tagline">
+                      {filmId.tagline ? filmId.tagline : ""}
+                    </p>
                     <p className="film-overview">{filmId?.overview}</p>
                   </div>
                   <div className="user-container">
@@ -116,9 +141,18 @@ export default function Film() {
                                 justifyContent: "space-evenly",
                               }}
                             >
-                              <RemoveRedEyeIcon sx={{ color: "#9ab" }} />
-                              <FavoriteBorderIcon sx={{ color: "#9ab" }} />
-                              <MoreTimeIcon sx={{ color: "#9ab" }} />
+                              <RemoveRedEyeIcon
+                                className="icon"
+                                sx={{ color: "#9ab" }}
+                              />
+                              <FavoriteBorderIcon
+                                className="icon"
+                                sx={{ color: "#9ab" }}
+                              />
+                              <MoreTimeIcon
+                                className="icon"
+                                sx={{ color: "#9ab" }}
+                              />
                             </TableCell>
                           </TableRow>
                           <TableRow>
@@ -134,11 +168,15 @@ export default function Film() {
                           </TableRow>
                           <TableRow>
                             <TableCell align="center">
-                              <Button sx={{ color: "#9ab" }}>
-                                Remove or log
+                              <Button
+                                onClick={() => handleOpenModal(filmId.id)}
+                                sx={{ color: "#9ab" }}
+                              >
+                                Log film....
                               </Button>
                             </TableCell>
                           </TableRow>
+                          <MovieModal handleCloseModal={handleCloseModal} />
                         </TableBody>
                       </Table>
                     </TableContainer>
