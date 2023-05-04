@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { Grid } from "@mui/material";
-import { Item } from "./popularStyles";
-import { Link } from "react-router-dom";
+import './Popular.css';
 
 export default function Popular() {
   const [popular, setPopular] = useState([]);
@@ -35,12 +35,10 @@ export default function Popular() {
     >
       {popular.map((film) => (
         <Link to={`/film/${film.id}`} className="movie-link" key={film.id}>
-          <Item key={film.id}>
             <img
               src={`https://image.tmdb.org/t/p/w342/${film.poster_path}`}
               alt={film.title}
             />
-          </Item>
         </Link>
       ))}
     </Grid>
