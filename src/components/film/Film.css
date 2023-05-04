@@ -1,4 +1,4 @@
-.film-container{
+.film-container {
   padding-bottom: 150px;
 }
 
@@ -6,12 +6,28 @@
   border-radius: 400px;
   object-fit: cover;
   width: 100%;
-  height: auto;
+  height: 650px;
   padding-bottom: 50px;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #2c3440 40%,
+    #2c3440 100%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #2c3440 100%,
+    #2c3440 100%,
+    transparent
+  );
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
 }
 
-.movie-backdrop:hover{
-  border: none !important;
+.movie-backdrop:hover {
+  border: 2px solid transparent;
 }
 
 .poster-container {
@@ -21,6 +37,21 @@
 .poster-details {
   display: flex;
   align-items: flex-start;
+}
+
+.film-info {
+  flex-grow: 1;
+  margin-left: 0.5rem;
+}
+
+.title-run-container {
+  display: flex;
+  display: inline-block;
+  vertical-align: center;
+}
+
+.runtime {
+  color: #9ab;
 }
 
 .film-title {
@@ -34,14 +65,29 @@
   color: white;
 }
 
+.director-container {
+  display: inline-block;
+  margin-top: 10px;
+}
+
 .directed-by {
-  top: 0%;
-  right: 0;
-  margin: 0%;
-  padding: 5px;
-  padding-left: 2.7em;
   font-weight: bold;
   font-size: large;
+  color: #9ab;
+  margin-left: 47px;
+  display: inline;
+}
+
+.director-name {
+  display: inline;
+  margin: 0.5rem 0 0;
+  margin-left: 5px;
+}
+
+.film-tagline {
+  padding-top: 20px;
+  padding-left: 11%;
+  font-size: larger;
   color: #9ab;
 }
 
@@ -65,6 +111,10 @@
 
 .user-container {
   padding: 10px !important;
+}
+
+.icon:hover {
+  color: white;
 }
 
 Button:hover {
