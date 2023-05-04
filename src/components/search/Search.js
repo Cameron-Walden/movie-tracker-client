@@ -7,9 +7,11 @@ import { StyledInputBase } from "./searchStyles";
 
 export default function Search() {
   const { search, setSearch, getMovies, setHasUserSearched } = useContext(FilmContext)
+
   const handleSearch = (e) => {
     e.preventDefault();
     setSearch(e.target.value);
+    setHasUserSearched(false)
   };
 
   const handleKeyDown = (e) => {
