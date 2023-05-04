@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -28,6 +27,12 @@ export default function Header() {
     setHasUserSearched(false);
     setSelectedFromDD(false)
   };
+
+  const switchRoute = () => {
+    handleCloseMenu();
+    setHasUserSearched(false)
+    setSelectedFromDD(false)
+  }
 
   const openMenu = Boolean(isOpen);
 
@@ -72,14 +77,14 @@ export default function Header() {
                 className="saved-films"
                 style={{ textDecoration: "none", color: "black" }}
               >
-                <MenuItem onClick={handleCloseMenu}>Saved Films</MenuItem>
+                <MenuItem onClick={switchRoute}>Saved Films</MenuItem>
               </Link>
               <Link
                 to="/watchlist"
                 className="watchlist"
                 style={{ textDecoration: "none", color: "black" }}
               >
-                <MenuItem onClick={handleCloseMenu}>Watchlist</MenuItem>
+                <MenuItem onClick={switchRoute}>Watchlist</MenuItem>
               </Link>
             </Menu>
           </div>

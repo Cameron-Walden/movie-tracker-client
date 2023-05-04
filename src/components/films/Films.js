@@ -19,8 +19,9 @@ import MovieModal from "../movieModal/MovieModal";
 import { formatDate } from "../../formatDate";
 import "./Films.css";
 
-export default function Movies() {
-  const { movies, setOpenModal, setSelectedMovie } = useContext(FilmContext);
+export default function Films() {
+  const { movies, setOpenModal, setSelectedMovie, setHasUserSearched } =
+    useContext(FilmContext);
   const [watchlist, setWatchlist] = useState([]);
 
   const handleOpenModal = (id) => {
@@ -51,6 +52,8 @@ export default function Movies() {
     }
   };
 
+  const resetSearch = () => setHasUserSearched(false);
+
   useEffect(() => {
     handleOpenModal();
   }, []);
@@ -69,7 +72,11 @@ export default function Movies() {
                 <TableCell align="center">
                   <div className="movie-container">
                     <div className="poster-container">
-                      <Link to={`/film/${movie.id}`} className="movie-link">
+                      <Link
+                        to={`/film/${movie.id}`}
+                        className="movie-link"
+                        onClick={resetSearch}
+                      >
                         <img
                           src={
                             movie?.poster_path

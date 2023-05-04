@@ -10,6 +10,10 @@
   padding-bottom: 50px;
 }
 
+.movie-backdrop:hover{
+  border: none !important;
+}
+
 .poster-container {
   position: relative;
 }
@@ -61,6 +65,10 @@
 
 .user-container {
   padding: 10px !important;
+}
+
+Button:hover {
+  color: orange;
 }
 
 .crew-tab {

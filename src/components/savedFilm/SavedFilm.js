@@ -2,6 +2,9 @@ import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { FilmContext } from "../../context/FilmContext";
+import Header from "../Header";
+import Films from "../films/Films.js";
+import { formatDate } from "../../formatDate";
 import {
   Box,
   Button,
@@ -26,10 +29,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
 import { StyledTableCell, StyledTableRow, style } from "./styles";
-import { formatDate } from "../../formatDate";
 
 export default function SavedFilm() {
   const {
+    hasUserSearched,
     savedMovies,
     setSavedMovies,
     setSelectedMovie,
@@ -42,37 +45,6 @@ export default function SavedFilm() {
   } = useContext(FilmContext);
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedMovieEdit, setSelectedMovieEdit] = useState(null);
-
-  // const formatDate = (date, format) => {
-  //   const dateObj = new Date(date);
-
-  //   if (isNaN(dateObj)) {
-  //     return "Invalid date";
-  //   }
-
-  //   switch (format) {
-  //     case "day":
-  //       return dateObj.toLocaleDateString(undefined, {
-  //         day: "numeric",
-  //       });
-  //     case "year":
-  //       return dateObj.toLocaleDateString(undefined, {
-  //         year: "numeric",
-  //       });
-  //     case "monthAndYear":
-  //       return dateObj.toLocaleDateString(undefined, {
-  //         month: "short",
-  //         year: "numeric",
-  //       });
-  //     case "default":
-  //       const month = `${dateObj.getMonth() + 1}`.padStart(2, "0");
-  //       const day = `${dateObj.getDate()}`.padStart(2, "0");
-  //       const year = dateObj.getFullYear();
-  //       return [year, month, day].join("-");
-  //     default:
-  //       throw new Error(`Invalid date format: ${format}`);
-  //   }
-  // };
 
   const handleOpenEdit = (id) => {
     const findId = savedMovies?.find((savedFilm) => savedFilm._id === id);
@@ -120,7 +92,7 @@ export default function SavedFilm() {
         user_rating: starRating || selectedMovieEdit.user_rating,
         user_review: userReview || selectedMovieEdit.user_review,
         date_watched: date || selectedMovieEdit.date_watched,
-        tmdb_id: selectedMovieEdit.tmdb_id
+        tmdb_id: selectedMovieEdit.tmdb_id,
       },
     };
     try {
@@ -145,151 +117,158 @@ export default function SavedFilm() {
   }, []);
 
   return (
-    <Container>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Month</StyledTableCell>
-              <StyledTableCell>Day</StyledTableCell>
-              <StyledTableCell>Film</StyledTableCell>
-              <StyledTableCell></StyledTableCell>
-              <StyledTableCell align="right">Released</StyledTableCell>
-              <StyledTableCell align="left">Rating</StyledTableCell>
-              <StyledTableCell align="right">Like</StyledTableCell>
-              <StyledTableCell align="right">Rewatch</StyledTableCell>
-              <StyledTableCell align="right">Review</StyledTableCell>
-              <StyledTableCell align="right">Delete</StyledTableCell>
-              <StyledTableCell align="right">Edit</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {savedMovies?.map((film) => (
-              <StyledTableRow key={film?._id}>
-                <StyledTableCell align="right">
-                  {formatDate(film.date_watched, "monthAndYear")}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {formatDate(film.date_watched, "day")}
-                </StyledTableCell>
-                <StyledTableCell>
-                <Link to={`/film/${film.tmdb_id}`} className="movie-link">
-                  <img
-                    src={
-                      film.poster
-                        ? `https://image.tmdb.org/t/p/w500/${film.poster}`
-                        : "no poster"
-                    }
-                    alt={film.title}
-                    style={{ width: "4em", height: "6em" }}
-                  />
-                  </Link>
-                </StyledTableCell>
-                <StyledTableCell
-                  component="th"
-                  scope="row"
-                  style={{
-                    maxWidth: "50%",
-                    maxHeight: "50%",
-                  }}
-                >
-                  {film.title}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {formatDate(film.release_date, "year")}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  <Rating
-                    name="user_rating"
-                    defaultValue={null}
-                    precision={0.5}
-                    value={film.user_rating}
-                    onChange={(e, newVal) => setStarRating(newVal)}
-                  />
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  <FavoriteIcon />
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  <LocalMoviesIcon />
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {film.user_review}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  <RemoveIcon onClick={() => deleteFromSaved(film._id)} />
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  <EditIcon onClick={() => handleOpenEdit(film?._id)} />
-                </StyledTableCell>
-                <Modal
-                  open={openEdit}
-                  onClose={handleCloseEdit}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
-                >
-                  <Box sx={style}>
-                    <Card sx={{ minWidth: 275 }}>
-                      <CardContent>
-                        <Typography
-                          sx={{ fontSize: 14 }}
-                          color="text.primary"
-                          gutterBottom
-                        >
-                          {selectedMovieEdit?.title}
-                        </Typography>
-                        <div>
-                          <TextField
-                            id="date_watched"
-                            label="Date Watched"
-                            type="date"
-                            value={selectedMovieEdit?.date_watched || ""}
-                            onChange={(e) =>
-                              setSelectedMovieEdit({
-                                ...selectedMovieEdit,
-                                date_watched: e.target.value,
-                              })
-                            }
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                          />
-                        </div>
-                        <form>
-                          <textarea
-                            placeholder={selectedMovieEdit?.user_review}
-                            onChange={(e) => setUserReview(e.target.value)}
-                            rows="4"
-                            cols="20"
-                          />
-                        </form>
-                        <Stack spacing={1}>
-                          <Rating
-                            name="user_rating"
-                            defaultValue={null}
-                            precision={0.5}
-                            value={selectedMovieEdit?.user_rating}
-                            onChange={(e, newVal) => setStarRating(newVal)}
-                          />
-                        </Stack>
-                      </CardContent>
-                      <CardActions>
-                        <Button
-                          onClick={(e) => updateSaved(e, film?._id)}
-                          variant="contained"
-                          color="success"
-                        >
-                          Edit
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </Box>
-                </Modal>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Container>
+    <>
+      <Header />
+      {hasUserSearched ? (
+        <Films />
+      ) : (
+        <Container>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Month</StyledTableCell>
+                  <StyledTableCell>Day</StyledTableCell>
+                  <StyledTableCell>Film</StyledTableCell>
+                  <StyledTableCell></StyledTableCell>
+                  <StyledTableCell align="right">Released</StyledTableCell>
+                  <StyledTableCell align="left">Rating</StyledTableCell>
+                  <StyledTableCell align="right">Like</StyledTableCell>
+                  <StyledTableCell align="right">Rewatch</StyledTableCell>
+                  <StyledTableCell align="right">Review</StyledTableCell>
+                  <StyledTableCell align="right">Delete</StyledTableCell>
+                  <StyledTableCell align="right">Edit</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {savedMovies?.map((film) => (
+                  <StyledTableRow key={film?._id}>
+                    <StyledTableCell align="right">
+                      {formatDate(film.date_watched, "monthAndYear")}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {formatDate(film.date_watched, "day")}
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <Link to={`/film/${film.tmdb_id}`} className="movie-link">
+                        <img
+                          src={
+                            film.poster
+                              ? `https://image.tmdb.org/t/p/w500/${film.poster}`
+                              : "no poster"
+                          }
+                          alt={film.title}
+                          style={{ width: "4em", height: "6em" }}
+                        />
+                      </Link>
+                    </StyledTableCell>
+                    <StyledTableCell
+                      component="th"
+                      scope="row"
+                      style={{
+                        maxWidth: "50%",
+                        maxHeight: "50%",
+                      }}
+                    >
+                      {film.title}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {formatDate(film.release_date, "year")}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      <Rating
+                        name="user_rating"
+                        defaultValue={null}
+                        precision={0.5}
+                        value={film.user_rating}
+                        onChange={(e, newVal) => setStarRating(newVal)}
+                      />
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      <FavoriteIcon />
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      <LocalMoviesIcon />
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {film.user_review}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      <RemoveIcon onClick={() => deleteFromSaved(film._id)} />
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      <EditIcon onClick={() => handleOpenEdit(film?._id)} />
+                    </StyledTableCell>
+                    <Modal
+                      open={openEdit}
+                      onClose={handleCloseEdit}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Box sx={style}>
+                        <Card sx={{ minWidth: 275 }}>
+                          <CardContent>
+                            <Typography
+                              sx={{ fontSize: 14 }}
+                              color="text.primary"
+                              gutterBottom
+                            >
+                              {selectedMovieEdit?.title}
+                            </Typography>
+                            <div>
+                              <TextField
+                                id="date_watched"
+                                label="Date Watched"
+                                type="date"
+                                value={selectedMovieEdit?.date_watched || ""}
+                                onChange={(e) =>
+                                  setSelectedMovieEdit({
+                                    ...selectedMovieEdit,
+                                    date_watched: e.target.value,
+                                  })
+                                }
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                              />
+                            </div>
+                            <form>
+                              <textarea
+                                placeholder={selectedMovieEdit?.user_review}
+                                onChange={(e) => setUserReview(e.target.value)}
+                                rows="4"
+                                cols="20"
+                              />
+                            </form>
+                            <Stack spacing={1}>
+                              <Rating
+                                name="user_rating"
+                                defaultValue={null}
+                                precision={0.5}
+                                value={selectedMovieEdit?.user_rating}
+                                onChange={(e, newVal) => setStarRating(newVal)}
+                              />
+                            </Stack>
+                          </CardContent>
+                          <CardActions>
+                            <Button
+                              onClick={(e) => updateSaved(e, film?._id)}
+                              variant="contained"
+                              color="success"
+                            >
+                              Edit
+                            </Button>
+                          </CardActions>
+                        </Card>
+                      </Box>
+                    </Modal>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Container>
+      )}
+    </>
   );
 }

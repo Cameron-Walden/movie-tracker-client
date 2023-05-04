@@ -1,6 +1,7 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { FilmContext } from "../context/FilmContext";
-import Movies from "./films/Films";
+import Header from "./Header";
+import Films from "./films/Films";
 import Pages from "./Pages";
 import SortFilms from "./SortFilms";
 export default function Main() {
@@ -9,9 +10,10 @@ export default function Main() {
 
   return (
     <div>
+      <Header />
       {hasUserSearched ? (
         <>
-          <Movies />
+          <Films />
           <Pages
             search={search}
             setMovies={setMovies}
