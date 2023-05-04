@@ -1,0 +1,12 @@
+.pagination .Mui-selected {
+    background-color: orange !important; 
+    color: black !important;
+  }
+  
+  .pagination .MuiPaginationItem-root {
+    color: #9ab; 
+  }
+
+  .pagination .MuiPaginationItem-root:hover {
+    color: orange;
+  }
