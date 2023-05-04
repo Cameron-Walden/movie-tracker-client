@@ -27,12 +27,16 @@ export default function Film() {
   const [crew, setCrew] = useState([]);
   const [cast, setCast] = useState([]);
   const [director, setDirector] = useState(null);
+
+  const { addedToWatchlist, setAddedToWatchlist } = useContext(FilmContext)
+  // const [addedToWatchlist, setAddedToWatchlist] = useState(false);
   const {
     starRating,
     setStarRating,
     hasUserSearched,
     setOpenModal,
     setSelectedMovie,
+    addToWatchlist,
   } = useContext(FilmContext);
 
   const { id } = useParams();
@@ -84,6 +88,12 @@ export default function Film() {
     }
   });
 
+  const handleAddFilmToWL = () => {
+    addToWatchlist(filmId);
+    setAddedToWatchlist(true);
+    alert("film added to watchlist");
+  };
+
   return (
     <div>
       <Header />
@@ -114,10 +124,10 @@ export default function Film() {
 
                     {director && (
                       <div className="director-container">
-                      <span className="directed-by">
-                        Directed by:{" "}
-                        <span className="director-name">{director}</span>
-                      </span>
+                        <span className="directed-by">
+                          Directed by:{" "}
+                          <span className="director-name">{director}</span>
+                        </span>
                       </div>
                     )}
                     <p className="film-tagline">
@@ -151,7 +161,10 @@ export default function Film() {
                               />
                               <MoreTimeIcon
                                 className="icon"
-                                sx={{ color: "#9ab" }}
+                                sx={{
+                                  color: addedToWatchlist ? "orange" : "#9ab",
+                                }}
+                                onClick={handleAddFilmToWL}
                               />
                             </TableCell>
                           </TableRow>
