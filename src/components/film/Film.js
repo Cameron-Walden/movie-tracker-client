@@ -29,8 +29,7 @@ export default function Film() {
   const [cast, setCast] = useState([]);
   const [director, setDirector] = useState(null);
 
-  const { watchlist, setWatchlist, setAddedToWatchlist } =
-    useContext(FilmContext);
+  const { watchlist, setWatchlist } = useContext(FilmContext);
   const {
     starRating,
     setStarRating,
@@ -63,10 +62,21 @@ export default function Film() {
 
   const getFilm = async () => {
     try {
-      let movieResponse = await axios?.get(
+      const movieResponse = await axios?.get(
         `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_MOVIE_API}`
       );
-      setFilmId(movieResponse?.data);
+      const watchlistResponse = await axios?.get(
+        `http://localhost:3001/watchlist`
+      );
+
+      const film = watchlistResponse?.data?.find(
+        (film) => film.tmdb_id === movieResponse?.data?.id
+      );
+
+      setFilmId({
+        ...movieResponse?.data,
+        _id: film?._id,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -92,18 +102,19 @@ export default function Film() {
 
   const handleAddFilmToWL = () => {
     addToWatchlist(filmId);
-    setAddedToWatchlist(true);
+    alert("film added to watchlist");
   };
 
   const removeFromWatchlist = async (id) => {
     try {
       const removeFilm = `http://localhost:3001/watchlist/${id}`;
       await axios.delete(removeFilm);
+      setWatchlist((prevWl) => prevWl.filter((film) => film.tmdb_id !== id));
     } catch (error) {
       console.log(error);
     }
-    // alert("removed from watchlist");
-    setAddedToWatchlist(false);
+    getWatchlist();
+    alert("Film removed from watchlist");
   };
 
   useEffect(() => {
@@ -118,7 +129,9 @@ export default function Film() {
     }
   });
 
-  const isInWatchlist = watchlist.find((movie) => movie.tmdb_id === filmId.id);
+  const isInWatchlist = watchlist.find(
+    (movie) => movie?.tmdb_id === filmId?.id
+  );
 
   return (
     <div>
@@ -190,6 +203,9 @@ export default function Film() {
                                   <HighlightOffIcon
                                     className="remove-icon"
                                     sx={{ color: "orange" }}
+                                    onClick={() =>
+                                      removeFromWatchlist(filmId?._id)
+                                    }
                                   />
                                   <span className="remove-text">Remove</span>
                                 </div>
