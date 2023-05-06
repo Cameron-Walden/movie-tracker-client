@@ -82,6 +82,7 @@
   display: inline;
   margin: 0.5rem 0 0;
   margin-left: 5px;
+  color: white;
 }
 
 .film-tagline {
@@ -125,4 +126,24 @@ Button:hover {
   position: absolute;
   bottom: 5em;
   right: 0;
+}
+
+.add-watchlist{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wl-text{
+  color: #9ab;
+}
+
+.remove-watchlist{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.remove-text{
+  color: #9ab;
 }
