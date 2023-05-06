@@ -19,7 +19,6 @@ export default function Context(props) {
   const [selectedFromDD, setSelectedFromDD] = useState(false);
   const [ddMovies, setDDMovies] = useState([]);
   const [watchlist, setWatchlist] = useState([]);
-  const [addedToWatchlist, setAddedToWatchlist] = useState(false);
 
   const getMovies = async () => {
     try {
@@ -48,7 +47,6 @@ export default function Context(props) {
       const url = "http://localhost:3001/watchlist";
       const response = await axios.post(url, config.data);
       setWatchlist([...watchlist, response.data]);
-      setAddedToWatchlist(true);
     } catch (error) {
       res.status(500).send(error);
     }
@@ -94,8 +92,6 @@ export default function Context(props) {
         watchlist,
         setWatchlist,
         addToWatchlist,
-        addedToWatchlist,
-        setAddedToWatchlist,
       }}
     >
       {props.children}

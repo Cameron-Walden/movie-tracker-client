@@ -16,6 +16,7 @@ import {
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MoreTimeIcon from "@mui/icons-material/MoreTime";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Header from "../Header";
 import Films from "../films/Films";
 import CrewTab from "../crewTab/CrewTab";
@@ -28,8 +29,8 @@ export default function Film() {
   const [cast, setCast] = useState([]);
   const [director, setDirector] = useState(null);
 
-  const { addedToWatchlist, setAddedToWatchlist } = useContext(FilmContext)
-  // const [addedToWatchlist, setAddedToWatchlist] = useState(false);
+  const { watchlist, setWatchlist, setAddedToWatchlist } =
+    useContext(FilmContext);
   const {
     starRating,
     setStarRating,
@@ -38,6 +39,18 @@ export default function Film() {
     setSelectedMovie,
     addToWatchlist,
   } = useContext(FilmContext);
+
+  const getWatchlist = async () => {
+    try {
+      let response = await axios.get("http://localhost:3001/watchlist");
+      const updatedWatchlist = response.data.map((film) => ({
+        ...film,
+      }));
+      setWatchlist(updatedWatchlist);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const { id } = useParams();
 
@@ -77,9 +90,26 @@ export default function Film() {
     setDirector(directorNames.join(", "));
   };
 
+  const handleAddFilmToWL = () => {
+    addToWatchlist(filmId);
+    setAddedToWatchlist(true);
+  };
+
+  const removeFromWatchlist = async (id) => {
+    try {
+      const removeFilm = `http://localhost:3001/watchlist/${id}`;
+      await axios.delete(removeFilm);
+    } catch (error) {
+      console.log(error);
+    }
+    // alert("removed from watchlist");
+    setAddedToWatchlist(false);
+  };
+
   useEffect(() => {
-    getFilmCredits();
     getFilm();
+    getFilmCredits();
+    getWatchlist();
   }, [id]);
 
   useEffect(() => {
@@ -88,11 +118,7 @@ export default function Film() {
     }
   });
 
-  const handleAddFilmToWL = () => {
-    addToWatchlist(filmId);
-    setAddedToWatchlist(true);
-    alert("film added to watchlist");
-  };
+  const isInWatchlist = watchlist.find((movie) => movie.tmdb_id === filmId.id);
 
   return (
     <div>
@@ -133,7 +159,7 @@ export default function Film() {
                     <p className="film-tagline">
                       {filmId.tagline ? filmId.tagline : ""}
                     </p>
-                    <p className="film-overview">{filmId?.overview}</p>
+                    <p className="film-overview">{filmId.overview}</p>
                   </div>
                   <div className="user-container">
                     <TableContainer component={Paper}>
@@ -159,13 +185,26 @@ export default function Film() {
                                 className="icon"
                                 sx={{ color: "#9ab" }}
                               />
-                              <MoreTimeIcon
-                                className="icon"
-                                sx={{
-                                  color: addedToWatchlist ? "orange" : "#9ab",
-                                }}
-                                onClick={handleAddFilmToWL}
-                              />
+                              {isInWatchlist ? (
+                                <div className="remove-watchlist">
+                                  <HighlightOffIcon
+                                    className="remove-icon"
+                                    sx={{ color: "orange" }}
+                                  />
+                                  <span className="remove-text">Remove</span>
+                                </div>
+                              ) : (
+                                <div className="add-watchlist">
+                                  <MoreTimeIcon
+                                    className="add-icon"
+                                    sx={{
+                                      color: "#9ab",
+                                    }}
+                                    onClick={handleAddFilmToWL}
+                                  />
+                                  <span className="wl-text">Watchlist</span>
+                                </div>
+                              )}
                             </TableCell>
                           </TableRow>
                           <TableRow>
