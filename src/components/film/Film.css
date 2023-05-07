@@ -128,22 +128,27 @@ Button:hover {
   right: 0;
 }
 
-.add-watchlist{
+.add-watchlist {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.wl-text{
+.wl-text {
   color: #9ab;
 }
 
-.remove-watchlist{
+.add-watchlist:hover .add-icon,
+.add-watchlist:hover .wl-text {
+  color: white;
+}
+
+.remove-watchlist {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.remove-text{
+.remove-text {
   color: #9ab;
 }
