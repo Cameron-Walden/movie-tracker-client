@@ -29,15 +29,52 @@ export default function Film() {
   const [cast, setCast] = useState([]);
   const [director, setDirector] = useState(null);
 
-  const { watchlist, setWatchlist } = useContext(FilmContext);
+  const { setSavedMovies, watchlist, setWatchlist } = useContext(FilmContext);
   const {
-    starRating,
     setStarRating,
     hasUserSearched,
     setOpenModal,
     setSelectedMovie,
     addToWatchlist,
   } = useContext(FilmContext);
+
+  const { id } = useParams();
+
+  const getFilm = async () => {
+    try {
+      const movieResponse = await axios?.get(
+        `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_MOVIE_API}`
+      );
+
+      const watchlistResponse = await axios?.get(
+        `http://localhost:3001/watchlist`
+      );
+
+      const savedResponse = await axios?.get("http://localhost:3001/reviews");
+
+      const filmInWl = watchlistResponse?.data?.find(
+        (film) => film.tmdb_id === movieResponse?.data?.id
+      );
+      const filmIsSaved = savedResponse.data.find(
+        (film) => film.tmdb_id === movieResponse.data.id
+      );
+
+      if (filmIsSaved) {
+        setFilmId({
+          ...movieResponse?.data,
+          _id: filmInWl?._id,
+          user_rating: filmIsSaved?.user_rating,
+        });
+      } else {
+        setFilmId({
+          ...movieResponse?.data,
+          _id: filmInWl?._id,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getWatchlist = async () => {
     try {
@@ -51,36 +88,12 @@ export default function Film() {
     }
   };
 
-  const { id } = useParams();
-
   const handleOpenModal = () => {
     setOpenModal(true);
     setSelectedMovie(filmId);
   };
 
   const handleCloseModal = () => setOpenModal(false);
-
-  const getFilm = async () => {
-    try {
-      const movieResponse = await axios?.get(
-        `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_MOVIE_API}`
-      );
-      const watchlistResponse = await axios?.get(
-        `http://localhost:3001/watchlist`
-      );
-
-      const film = watchlistResponse?.data?.find(
-        (film) => film.tmdb_id === movieResponse?.data?.id
-      );
-
-      setFilmId({
-        ...movieResponse?.data,
-        _id: film?._id,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const getFilmCredits = async () => {
     try {
@@ -98,6 +111,16 @@ export default function Film() {
     const directors = crew.filter((member) => member.job === "Director");
     const directorNames = directors.map((director) => director.name);
     setDirector(directorNames.join(", "));
+  };
+
+  const getSavedMovies = async () => {
+    try {
+      const savedMovie = "http://localhost:3001/reviews";
+      const response = await axios.get(savedMovie);
+      setSavedMovies(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleAddFilmToWL = () => {
@@ -121,6 +144,7 @@ export default function Film() {
     getFilm();
     getFilmCredits();
     getWatchlist();
+    getSavedMovies();
   }, [id]);
 
   useEffect(() => {
@@ -169,10 +193,10 @@ export default function Film() {
                         </span>
                       </div>
                     )}
-                    <p className="film-tagline">
+                    <div className="film-tagline">
                       {filmId.tagline ? filmId.tagline : ""}
-                    </p>
-                    <p className="film-overview">{filmId.overview}</p>
+                    </div>
+                    <div className="film-overview">{filmId.overview}</div>
                   </div>
                   <div className="user-container">
                     <TableContainer component={Paper}>
@@ -229,7 +253,7 @@ export default function Film() {
                                 name="user_rating"
                                 defaultValue={null}
                                 precision={0.5}
-                                value={starRating}
+                                value={filmId?.user_rating}
                                 onChange={(e, newVal) => setStarRating(newVal)}
                               />
                             </TableCell>
