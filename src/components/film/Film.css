@@ -158,8 +158,9 @@ Button:hover {
   top: 50%;
   left:50%;
   transform: translate(-50%, -50%);
-  width: 400px;
+  width: 600px;
   border: 2px solid black;
   box-shadow: 24px;
   background-color: black;
+  overflow-y: auto;
 }

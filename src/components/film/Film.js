@@ -192,7 +192,7 @@ export default function Film() {
                     <Modal open={openPoster} onClose={closePosterModal}>
                       <img
                         className="poster-modal"
-                        src={`https://image.tmdb.org/t/p/w342/${filmId?.poster_path}`}
+                        src={`https://image.tmdb.org/t/p/w780/${filmId?.poster_path}`}
                         alt={filmId?.title}
                       />
                     </Modal>

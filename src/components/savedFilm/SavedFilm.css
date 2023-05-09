@@ -1,0 +1,21 @@
+.MuiTableCell-root {
+  color: #9ab;
+  background-color: #2c3440;
+}
+
+.table-container {
+  margin-top: 50px;
+}
+
+.thead-cell {
+  background-color: #1d2330;
+  border-bottom: 1.5px solid #9ab;
+}
+
+.table-row {
+  border-bottom: 1.5px solid #9ab;
+}
+
+.delete-icon:hover, .edit-icon:hover{
+    color: orange;
+}

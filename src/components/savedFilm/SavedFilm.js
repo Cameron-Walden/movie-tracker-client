@@ -17,18 +17,21 @@ import {
   Rating,
   Table,
   TableBody,
+  TableCell,
   TableContainer,
   TableHead,
   TableRow,
   TextField,
   Typography,
-  Paper,
 } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import EditIcon from "@mui/icons-material/Edit";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
-import { StyledTableCell, StyledTableRow, style } from "./styles";
+import "./SavedFilm.css";
 
 export default function SavedFilm() {
   const {
@@ -123,33 +126,61 @@ export default function SavedFilm() {
         <Films />
       ) : (
         <Container>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <TableContainer className="table-container">
+            <Table sx={{ minWidth: 700 }}>
               <TableHead>
                 <TableRow>
-                  <StyledTableCell>Month</StyledTableCell>
-                  <StyledTableCell>Day</StyledTableCell>
-                  <StyledTableCell>Film</StyledTableCell>
-                  <StyledTableCell></StyledTableCell>
-                  <StyledTableCell align="right">Released</StyledTableCell>
-                  <StyledTableCell align="left">Rating</StyledTableCell>
-                  <StyledTableCell align="right">Like</StyledTableCell>
-                  <StyledTableCell align="right">Rewatch</StyledTableCell>
-                  <StyledTableCell align="right">Review</StyledTableCell>
-                  <StyledTableCell align="right">Delete</StyledTableCell>
-                  <StyledTableCell align="right">Edit</StyledTableCell>
+                  <TableCell className="thead-cell">Month</TableCell>
+                  <TableCell className="thead-cell">Day</TableCell>
+                  <TableCell className="thead-cell">Film</TableCell>
+                  <TableCell className="thead-cell"></TableCell>
+                  <TableCell className="thead-cell" align="right">
+                    Released
+                  </TableCell>
+                  <TableCell className="thead-cell" align="left">
+                    Rating
+                  </TableCell>
+                  <TableCell className="thead-cell" align="right">
+                    Like
+                  </TableCell>
+                  <TableCell className="thead-cell" align="right">
+                    Rewatch
+                  </TableCell>
+                  <TableCell className="thead-cell" align="right">
+                    Review
+                  </TableCell>
+                  <TableCell className="thead-cell" align="right">
+                    Delete
+                  </TableCell>
+                  <TableCell className="thead-cell" align="right">
+                    Edit
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {savedMovies?.map((film) => (
-                  <StyledTableRow key={film?._id}>
-                    <StyledTableCell align="right">
-                      {formatDate(film.date_watched, "monthAndYear")}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
+                  <TableRow key={film?._id} className="table-row">
+                    <TableCell align="right">
+                      <Box display="flex" alignItems="center">
+                        <Box sx={{ fontSize: "28px" }}>
+                          <CalendarTodayIcon />
+                        </Box>
+                        <Box
+                          display="flex"
+                          flexDirection="column"
+                          alignItems="center"
+                          sx={{ ml: 1 }}
+                        >
+                          <Typography variant="subtitle2">
+                            {formatDate(film.date_watched, "monthAndYear")}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </TableCell>
+                    <TableCell align="right">
                       {formatDate(film.date_watched, "day")}
-                    </StyledTableCell>
-                    <StyledTableCell>
+                    </TableCell>
+                    <TableCell>
                       <Link to={`/film/${film.tmdb_id}`} className="movie-link">
                         <img
                           src={
@@ -161,8 +192,8 @@ export default function SavedFilm() {
                           style={{ width: "4em", height: "6em" }}
                         />
                       </Link>
-                    </StyledTableCell>
-                    <StyledTableCell
+                    </TableCell>
+                    <TableCell
                       component="th"
                       scope="row"
                       style={{
@@ -170,12 +201,12 @@ export default function SavedFilm() {
                         maxHeight: "50%",
                       }}
                     >
-                      {film.title}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
+                      <h3 style={{ color: "white" }}>{film.title}</h3>
+                    </TableCell>
+                    <TableCell align="right">
                       {formatDate(film.release_date, "year")}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
+                    </TableCell>
+                    <TableCell align="right">
                       <Rating
                         name="user_rating"
                         defaultValue={null}
@@ -183,29 +214,33 @@ export default function SavedFilm() {
                         value={film.user_rating}
                         onChange={(e, newVal) => setStarRating(newVal)}
                       />
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
+                    </TableCell>
+                    <TableCell align="right">
                       <FavoriteIcon />
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
+                    </TableCell>
+                    <TableCell align="right">
                       <LocalMoviesIcon />
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {film.user_review}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      <RemoveIcon onClick={() => deleteFromSaved(film._id)} />
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      <EditIcon onClick={() => handleOpenEdit(film?._id)} />
-                    </StyledTableCell>
+                    </TableCell>
+                    <TableCell align="right">{film.user_review}</TableCell>
+                    <TableCell align="right">
+                      <DeleteIcon
+                        className="delete-icon"
+                        onClick={() => deleteFromSaved(film._id)}
+                      />
+                    </TableCell>
+                    <TableCell align="right">
+                      <EditIcon
+                        className="edit-icon"
+                        onClick={() => handleOpenEdit(film?._id)}
+                      />
+                    </TableCell>
                     <Modal
                       open={openEdit}
                       onClose={handleCloseEdit}
                       aria-labelledby="modal-modal-title"
                       aria-describedby="modal-modal-description"
                     >
-                      <Box sx={style}>
+                      <Box>
                         <Card sx={{ minWidth: 275 }}>
                           <CardContent>
                             <Typography
@@ -262,7 +297,7 @@ export default function SavedFilm() {
                         </Card>
                       </Box>
                     </Modal>
-                  </StyledTableRow>
+                  </TableRow>
                 ))}
               </TableBody>
             </Table>
