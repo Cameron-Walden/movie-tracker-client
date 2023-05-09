@@ -5,6 +5,7 @@ import { FilmContext } from "../../context/FilmContext";
 import { Container } from "@mui/system";
 import {
   Button,
+  Modal,
   Rating,
   Table,
   TableBody,
@@ -28,17 +29,24 @@ export default function Film() {
   const [crew, setCrew] = useState([]);
   const [cast, setCast] = useState([]);
   const [director, setDirector] = useState(null);
+  const [openPoster, setOpenPoster] = useState(false);
 
-  const { setSavedMovies, watchlist, setWatchlist } = useContext(FilmContext);
   const {
+    setSavedMovies,
     setStarRating,
     hasUserSearched,
     setOpenModal,
     setSelectedMovie,
+    watchlist,
+    setWatchlist,
     addToWatchlist,
   } = useContext(FilmContext);
 
   const { id } = useParams();
+
+  const openPosterModal = () => setOpenPoster(true);
+
+  const closePosterModal = () => setOpenPoster(false);
 
   const getFilm = async () => {
     try {
@@ -175,10 +183,20 @@ export default function Film() {
               </div>
               <div className="poster-container">
                 <div className="poster-details">
-                  <img
-                    src={`https://image.tmdb.org/t/p/w342/${filmId?.poster_path}`}
-                    alt={filmId?.title}
-                  />
+                  <>
+                    <img
+                      src={`https://image.tmdb.org/t/p/w342/${filmId?.poster_path}`}
+                      alt={filmId?.title}
+                      onClick={openPosterModal}
+                    />
+                    <Modal open={openPoster} onClose={closePosterModal}>
+                      <img
+                        className="poster-modal"
+                        src={`https://image.tmdb.org/t/p/w342/${filmId?.poster_path}`}
+                        alt={filmId?.title}
+                      />
+                    </Modal>
+                  </>
                   <div className="film-info">
                     <div className="title-run-container">
                       <span className="film-title">{filmId?.title}</span>
