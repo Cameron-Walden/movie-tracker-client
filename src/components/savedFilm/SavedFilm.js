@@ -24,9 +24,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import RemoveIcon from "@mui/icons-material/Remove";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import EditIcon from "@mui/icons-material/Edit";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -178,7 +176,7 @@ export default function SavedFilm() {
                       </Box>
                     </TableCell>
                     <TableCell align="right">
-                      {formatDate(film.date_watched, "day")}
+                      <h3> {formatDate(film.date_watched, "day")}</h3>
                     </TableCell>
                     <TableCell>
                       <Link to={`/film/${film.tmdb_id}`} className="movie-link">
