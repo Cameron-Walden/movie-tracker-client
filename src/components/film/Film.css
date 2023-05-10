@@ -34,6 +34,10 @@
   position: relative;
 }
 
+.poster:hover {
+  cursor: pointer;
+}
+
 .poster-details {
   display: flex;
   align-items: flex-start;

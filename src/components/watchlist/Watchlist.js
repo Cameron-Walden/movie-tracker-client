@@ -1,13 +1,18 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Grid, IconButton, Popover, Typography } from "@mui/material";
+import { FilmContext } from "../../context/FilmContext";
+import {
+  Container,
+  Grid,
+  IconButton,
+  Popover,
+  Typography,
+} from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Item } from "./watchlistStyle";
-import "./Watchlist.css";
 import Header from "../Header";
 import Films from "../films/Films";
-import { FilmContext } from "../../context/FilmContext";
+import "./Watchlist.css";
 
 export default function Watchlist() {
   const [watchlist, setWatchlist] = useState([]);
@@ -73,33 +78,30 @@ export default function Watchlist() {
         <Films />
       ) : (
         <>
-          {" "}
-          <div style={{ paddingLeft: "4em", paddingTop: "3em", color: "#9ab" }}>
-            {watchlist.length === 0 ? (
-              <p>
-                you haven't added any movies to your watchlist. Start adding to
-                track
-              </p>
-            ) : watchlist.length === 1 ? (
-              <p>you want to watch 1 movie</p>
-            ) : (
-              <p>you want to watch {watchlist.length} movies</p>
-            )}
-          </div>
-          <Grid
-            className="film-grid"
-            container
-            rowSpacing={3}
-            columnSpacing={2}
-          >
-            {watchlist.map((film) => (
-              <div key={film._id}>
-                <Item
-                  aria-owns={open ? "mouse-over-popover" : undefined}
-                  aria-haspopup="true"
-                  onMouseEnter={(e) => handlePopoverOpen(e, film?._id)}
-                  onMouseLeave={() => handlePopoverClose(film._id)}
-                >
+          <Container sx={{ maxWidth: "300px", paddingLeft: 0 }}>
+            <div
+              className="watchlist-text"
+              style={{ paddingTop: "3em", color: "#9ab" }}
+            >
+              {watchlist.length === 0 ? (
+                <p>
+                  you haven't added any movies to your watchlist. Start adding
+                  to track
+                </p>
+              ) : watchlist.length === 1 ? (
+                <p>you want to watch 1 movie</p>
+              ) : (
+                <p>you want to watch {watchlist.length} movies</p>
+              )}
+            </div>
+            <Grid
+              className="film-grid"
+              container
+              rowSpacing={4}
+              columnSpacing={4}
+            >
+              {watchlist.map((film) => (
+                <div key={film._id}>
                   <Popover
                     id="mouse-over-popover"
                     sx={{
@@ -124,25 +126,46 @@ export default function Watchlist() {
                   </Popover>
                   <Link to={`/film/${film.tmdb_id}`} className="movie-link">
                     <img
-                      src={`https://image.tmdb.org/t/p/w500/${film?.poster}`}
+                      src={`https://image.tmdb.org/t/p/w185/${film?.poster}`}
                       alt={film.title}
-                      style={{
-                        width: "12em",
-                        height: "20em",
-                        justifyContent: "space-around",
-                      }}
+                      aria-owns={open ? "mouse-over-popover" : undefined}
+                      onMouseEnter={(e) => handlePopoverOpen(e, film?._id)}
+                      onMouseLeave={() => handlePopoverClose(film._id)}
                     />
                   </Link>
-                  <IconButton
-                    aria-label="remove from watchlist"
-                    onClick={() => removeFromWatchlist(film._id)}
-                  >
-                    <VisibilityIcon />
-                  </IconButton>
-                </Item>
-              </div>
-            ))}
-          </Grid>
+                  <div className="remove-icon-container">
+                    {/* <Popover
+                      className="remove-popover"
+                      sx={{
+                        pointerEvents: "none",
+                      }}
+                      open={film.popoverOpen}
+                      anchorEl={anchorEl}
+                      anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "center",
+                      }}
+                      transformOrigin={{
+                        vertical: "bottom",
+                        horizontal: "center",
+                      }}
+                      onClose={() => handlePopoverClose(film._id)}
+                      disableRestoreFocus
+                      // onClick={() => removeFromWatchlist(film._id)}
+                    > */}
+                      <IconButton
+                        className="remove-button"
+                        aria-label="remove from watchlist"
+                        onClick={() => removeFromWatchlist(film._id)}
+                      >
+                        <VisibilityIcon className="remove-icon" />
+                      </IconButton>
+                    {/* </Popover> */}
+                  </div>
+                </div>
+              ))}
+            </Grid>
+          </Container>
         </>
       )}
     </>

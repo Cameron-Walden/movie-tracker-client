@@ -28,8 +28,6 @@ export default function Films() {
     addToWatchlist,
   } = useContext(FilmContext);
 
-  // const [watchlist, setWatchlist] = useState([]);
-
   const handleOpenModal = (id) => {
     let findId = movies?.results?.find((movie) => movie.id === id);
     setOpenModal(true);
@@ -67,7 +65,7 @@ export default function Films() {
                         <img
                           src={
                             movie?.poster_path
-                              ? `https://image.tmdb.org/t/p/w200${movie?.poster_path}`
+                              ? `https://image.tmdb.org/t/p/w92${movie?.poster_path}`
                               : notAvailable
                           }
                           alt={movie?.title}
@@ -77,11 +75,18 @@ export default function Films() {
                     </div>
                   </div>
                   <TableCell style={{ borderBottom: "none" }}>
-                    <div className="movie-title">
-                      <p>{movie.title}</p>
-                    </div>
-                    <div className="release-date">
-                      <p>{formatDate(movie.release_date, "year")}</p>
+                    <span className="title-date-container">
+                      <span className="movie-title">
+                        {movie.title}{" "}
+                        <small className="release-date">
+                          {formatDate(movie.release_date, "year")}
+                        </small>
+                      </span>
+                    </span>
+                    <div className="director-container">
+                      <span className="director">
+                        Directed by: director name
+                      </span>
                     </div>
                     <div className="icon-container">
                       <IconButton

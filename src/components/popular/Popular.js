@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Grid } from "@mui/material";
-import './Popular.css';
+import { Container, Grid } from "@mui/material";
+import "./Popular.css";
 
 export default function Popular() {
   const [popular, setPopular] = useState([]);
@@ -24,23 +24,24 @@ export default function Popular() {
   }, []);
 
   return (
-    <Grid
-      style={{ paddingLeft: "4em", paddingTop: "3em" }}
-      container
-      spacing={{ xs: 2, md: 3 }}
-      columns={{ xs: 4, sm: 8, md: 12 }}
-      direction="row"
-      alignItems="center"
-      justifyContent="center"
-    >
-      {popular.map((film) => (
-        <Link to={`/film/${film.id}`} className="movie-link" key={film.id}>
+    <Container>
+      <Grid
+        className="popular-grid"
+        style={{ paddingLeft: "4em", paddingTop: "3em" }}
+        container
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
+      >
+        {popular.map((film) => (
+          <Link to={`/film/${film.id}`} className="movie-link" key={film.id}>
             <img
-              src={`https://image.tmdb.org/t/p/w342/${film.poster_path}`}
+              src={`https://image.tmdb.org/t/p/w185/${film.poster_path}`}
               alt={film.title}
             />
-        </Link>
-      ))}
-    </Grid>
+          </Link>
+        ))}
+      </Grid>
+    </Container>
   );
 }

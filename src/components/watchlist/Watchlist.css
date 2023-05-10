@@ -1,15 +1,39 @@
 .film-grid {
-  direction: "row";
-  align-items: center;
-  justify-content: center;
-  padding-top: 3em;
-}
-
-.film-grid > div {
-  margin-right: 2rem !important;
-  margin-bottom: 2rem !important;
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  justify-items: center !important;
+  row-gap: .5rem !important;
+  padding-top: 3em !important;
+  padding-left: 4.5em !important;
 }
 
 .film-grid > div:last-child {
   margin-right: 1px !important;
+}
+
+.watchlist-text {
+  color: #9ab;
+  width: 100%;
+  text-align: center;
+}
+
+.remove-icon-container{
+  display: flex;
+  justify-content: center;
+}
+
+.remove-icon{
+  color: #9ab;
+}
+
+.remove-icon:hover{
+  color: orange;
+}
+
+.remove-button:hover{
+  color: orange;
+}
+
+.remove-popover:hover{
+  color: orange !important;
 }
