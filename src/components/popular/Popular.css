@@ -1,9 +1,18 @@
-img {
-    margin-right: 10px;
-    margin-bottom: 10px;
-    border: 2px solid transparent;
+.popular-grid {
+  display: grid !important;
+  grid-template-columns: repeat(5, 1fr) !important;
+  justify-items: center !important;
+  row-gap: 0.5rem !important;
+  padding-top: 3em !important;
+  padding-left: 4.5em !important;
 }
 
-img:hover{
-    border: 2px solid orange;
+img {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border: 2px solid transparent;
+}
+
+img:hover {
+  border: 2px solid orange;
 }
