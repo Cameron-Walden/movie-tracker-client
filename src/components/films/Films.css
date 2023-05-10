@@ -8,8 +8,8 @@ img {
 }
 
 .not-available {
-  width: 200px;
-  height: 300px;
+  width: 92px;
+  height: 138px;
 }
 
 .poster-container {
@@ -21,13 +21,21 @@ img {
   border: 2px solid orange;
 }
 
+.title-date-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
 .movie-title {
   font-size: large;
   font-weight: bold;
   color: white;
   font-family: Georgia, "Times New Roman", Times, serif;
   text-decoration: none !important;
-  max-width: 200px;
+  max-width: 480px;
 }
 
 .movie-title:hover {
@@ -56,4 +64,13 @@ a {
 
 .visibility-icon:hover {
   color: orange !important;
+}
+
+.director-container {
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+.director {
+  color: #9ab;
 }
