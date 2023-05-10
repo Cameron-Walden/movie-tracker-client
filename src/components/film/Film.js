@@ -5,8 +5,10 @@ import { FilmContext } from "../../context/FilmContext";
 import { Container } from "@mui/system";
 import {
   Button,
+  IconButton,
   Modal,
   Rating,
+  Snackbar,
   Table,
   TableBody,
   TableCell,
@@ -14,6 +16,7 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MoreTimeIcon from "@mui/icons-material/MoreTime";
@@ -30,6 +33,8 @@ export default function Film() {
   const [cast, setCast] = useState([]);
   const [director, setDirector] = useState(null);
   const [openPoster, setOpenPoster] = useState(false);
+  const [openAddSnack, setOpenAddSnack] = useState(false);
+  const [openRmvSnack, setOpenRmvSnack] = useState(false);
 
   const {
     setSavedMovies,
@@ -48,6 +53,20 @@ export default function Film() {
 
   const closePosterModal = () => setOpenPoster(false);
 
+  const handleOpenAddSnack = () => setOpenAddSnack(true);
+
+  const handleCloseAddSnack = (reason) => {
+    if (reason === "clickaway") return;
+    setOpenAddSnack(false);
+  };
+
+  const handleOpenRmvSnack = () => setOpenRmvSnack(true);
+
+  const handleCloseRmvSnack = (reason) => {
+    if (reason === "clickaway") return;
+    setOpenRmvSnack(false);
+  };
+
   const getFilm = async () => {
     try {
       const movieResponse = await axios?.get(
@@ -63,6 +82,7 @@ export default function Film() {
       const filmInWl = watchlistResponse?.data?.find(
         (film) => film.tmdb_id === movieResponse?.data?.id
       );
+
       const filmIsSaved = savedResponse.data.find(
         (film) => film.tmdb_id === movieResponse.data.id
       );
@@ -133,7 +153,7 @@ export default function Film() {
 
   const handleAddFilmToWL = () => {
     addToWatchlist(filmId);
-    alert("film added to watchlist");
+    handleOpenAddSnack();
   };
 
   const removeFromWatchlist = async (id) => {
@@ -145,7 +165,7 @@ export default function Film() {
       console.log(error);
     }
     getWatchlist();
-    alert("Film removed from watchlist");
+    handleOpenRmvSnack()
   };
 
   useEffect(() => {
@@ -185,6 +205,7 @@ export default function Film() {
                 <div className="poster-details">
                   <>
                     <img
+                      className="poster"
                       src={`https://image.tmdb.org/t/p/w342/${filmId?.poster_path}`}
                       alt={filmId?.title}
                       onClick={openPosterModal}
@@ -263,6 +284,40 @@ export default function Film() {
                                   <span className="wl-text">Watchlist</span>
                                 </div>
                               )}
+                              <Snackbar
+                                open={openAddSnack}
+                                autoHideDuration={6000}
+                                onClose={handleCloseAddSnack}
+                                anchorOrigin={{ vertical: "top", horizontal: "center"}}
+                                message="Film added to watchlist"
+                                action={
+                                  <IconButton
+                                    size="small"
+                                    aria-label="close"
+                                    color="inherit"
+                                    onClick={handleCloseAddSnack}
+                                  >
+                                    <CloseIcon fontSize="small" />
+                                  </IconButton>
+                                }
+                              />
+                              <Snackbar
+                                open={openRmvSnack}
+                                autoHideDuration={6000}
+                                onClose={handleCloseRmvSnack}
+                                anchorOrigin={{ vertical: "top", horizontal: "center"}}
+                                message="Film removed from watchlist"
+                                action={
+                                  <IconButton
+                                    size="small"
+                                    aria-label="close"
+                                    color="inherit"
+                                    onClick={handleCloseRmvSnack}
+                                  >
+                                    <CloseIcon fontSize="small" />
+                                  </IconButton>
+                                }
+                              />
                             </TableCell>
                           </TableRow>
                           <TableRow>
