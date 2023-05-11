@@ -1,0 +1,41 @@
+.welcome-grid{
+    margin-top: 30px !important;
+}
+
+.welcome-text-container{
+    align-items: center !important;
+    color: white;
+    font-family: "Palatino Linotype", serif;
+    margin-bottom: 30px;
+}
+
+.tagline{
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    margin-top: 10px;
+    color: #9ab;
+    font-family: "Palatino Linotype", serif;
+}
+
+.get-started-btn{
+    color: black !important;
+    background-color: orange !important;
+    left: 40%;
+}
+
+.get-started-btn:hover{
+    background-color: rgb(197, 136, 23) !important;
+}
+
+.paper{
+    background-color: #678 !important;
+    /* background-color: rgb(83, 89, 96) !important; */
+    color: #def!important;
+    height: 110px !important;
+    width: 380px;
+}
+
+.paper:hover{
+    background-color: orange !important;
+}
