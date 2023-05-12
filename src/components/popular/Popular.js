@@ -1,39 +1,15 @@
-import { useState, useEffect } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { Container, Grid } from "@mui/material";
+import { FilmContext } from "../../context/FilmContext";
 import HomePanel from "../homePanel/HomePanel";
 import "./Popular.css";
 
 export default function Popular() {
-  const [popular, setPopular] = useState([]);
 
-  const getPopularFilms = async () => {
-    try {
-      const pageResponses = await Promise.all([
-        axios.get(
-          `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_MOVIE_API}&page=1`
-        ),
-        axios.get(
-          `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_MOVIE_API}&page=2`
-        ),
-        axios.get(
-          `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_MOVIE_API}&page=3`
-        ),
-      ]);
-      const results = pageResponses.flatMap((response) => response.data.results);
-      setPopular(results);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { popular } = useContext(FilmContext)
 
   const slicePop = popular.slice(5, 60);
-
-  useEffect(() => {
-    getPopularFilms();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <Container className="home-pop-container">

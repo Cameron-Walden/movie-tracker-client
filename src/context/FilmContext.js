@@ -19,6 +19,7 @@ export default function Context(props) {
   const [selectedFromDD, setSelectedFromDD] = useState(false);
   const [ddMovies, setDDMovies] = useState([]);
   const [watchlist, setWatchlist] = useState([]);
+  const [popular, setPopular] = useState([]);
 
   const getMovies = async () => {
     try {
@@ -52,8 +53,31 @@ export default function Context(props) {
     }
   };
 
+  const getPopularFilms = async () => {
+    try {
+      const pageResponses = await Promise.all([
+        axios.get(
+          `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_MOVIE_API}&page=1`
+        ),
+        axios.get(
+          `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_MOVIE_API}&page=2`
+        ),
+        axios.get(
+          `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_MOVIE_API}&page=3`
+        ),
+      ]);
+      const results = pageResponses.flatMap(
+        (response) => response.data.results
+      );
+      setPopular(results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getMovies();
+    getPopularFilms();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -92,6 +116,9 @@ export default function Context(props) {
         watchlist,
         setWatchlist,
         addToWatchlist,
+        popular,
+        setPopular,
+        getPopularFilms,
       }}
     >
       {props.children}
