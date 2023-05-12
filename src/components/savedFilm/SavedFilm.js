@@ -47,6 +47,8 @@ export default function SavedFilm() {
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedMovieEdit, setSelectedMovieEdit] = useState(null);
 
+  console.log(savedMovies, "sm");
+
   const handleOpenEdit = (id) => {
     const findId = savedMovies?.find((savedFilm) => savedFilm._id === id);
     const formattedDate = formatDate(findId.date_watched, "default");
@@ -113,6 +115,14 @@ export default function SavedFilm() {
     }
   };
 
+  const sortFilms = savedMovies.sort((a, b) => {
+    const dateA = new Date(a.date_watched);
+    console.log(dateA, 'dateA')
+    const dateB = new Date(b.date_watched);
+    console.log(dateB, 'dateB')
+    return dateB - dateA;
+  });
+
   useEffect(() => {
     getSavedMovies();
   }, []);
@@ -156,7 +166,7 @@ export default function SavedFilm() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {savedMovies?.map((film) => (
+                {sortFilms?.map((film) => (
                   <TableRow key={film?._id} className="table-row">
                     <TableCell align="right">
                       <Box display="flex" alignItems="center">
