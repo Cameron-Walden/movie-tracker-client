@@ -1,29 +1,13 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { FilmContext } from "../../context/FilmContext";
 import { Button, Container, Grid, Paper, Typography } from "@mui/material";
 import "./HomePanel.css";
 
 export default function HomePanel() {
+  const { popular } = useContext(FilmContext)
+
   const loginALert = () => alert("login functionality coming soon");
-
-  const [popular, setPopular] = useState([]);
-
-  const getPopularFilms = async () => {
-    try {
-      let response = await axios?.get(
-        `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_MOVIE_API}&page=1`
-      )
-      setPopular(response?.data.results);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getPopularFilms();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const firstFiveMovies = popular.slice(0, 5);
 
@@ -66,11 +50,10 @@ export default function HomePanel() {
             style={{ textDecoration: "none", color: "black" }}
           >
             <Paper className="paper">
-              <Typography variant="h5" align="center">
+              {/* <Typography variant="h5" align="center">
                 Discover New Films
-              </Typography>
-
-              <Typography variant="body1" align="center">
+              </Typography> */}
+              <Typography className="description" variant="body1" align="center">
                 Find and explore new films and add them to your watchlist.
               </Typography>
             </Paper>
@@ -83,10 +66,10 @@ export default function HomePanel() {
             style={{ textDecoration: "none", color: "black" }}
           >
             <Paper className="paper">
-              <Typography variant="h5" align="center">
+              {/* <Typography variant="h5" align="center">
                 Create Lists
-              </Typography>
-              <Typography variant="body1" align="center">
+              </Typography> */}
+              <Typography className="description" variant="body1" align="center">
                 Organize your films by creating lists and sharing them with
                 others.
               </Typography>
@@ -100,10 +83,10 @@ export default function HomePanel() {
             style={{ textDecoration: "none", color: "black" }}
           >
             <Paper className="paper">
-              <Typography variant="h5" align="center">
+              {/* <Typography variant="h5" align="center">
                 Rate and Review
-              </Typography>
-              <Typography variant="body1" align="center">
+              </Typography> */}
+              <Typography className="description" variant="body1" align="center">
                 Share your opinions on films by rating and reviewing them.
               </Typography>
             </Paper>
@@ -116,10 +99,10 @@ export default function HomePanel() {
             style={{ textDecoration: "none", color: "black" }}
           >
             <Paper className="paper">
-              <Typography variant="h5" align="center">
+              {/* <Typography variant="h5" align="center">
                 Connect with Friends
-              </Typography>
-              <Typography variant="body1" align="center">
+              </Typography> */}
+              <Typography className="description" variant="body1" align="center">
                 Follow and connect with friends to see what they're watching.
               </Typography>
             </Paper>
@@ -132,10 +115,10 @@ export default function HomePanel() {
             style={{ textDecoration: "none", color: "black" }}
           >
             <Paper className="paper">
-              <Typography variant="h5" align="center">
+              {/* <Typography variant="h5" align="center">
                 Get Personalized Recommendations
-              </Typography>
-              <Typography variant="body1" align="center">
+              </Typography> */}
+              <Typography className="description" variant="body1" align="center">
                 Get personalized film recommendations based on your viewing
                 history.
               </Typography>
@@ -149,10 +132,10 @@ export default function HomePanel() {
             style={{ textDecoration: "none", color: "black" }}
           >
             <Paper className="paper">
-              <Typography variant="h5" align="center">
+              {/* <Typography variant="h5" align="center">
                 Track Your Watchlist
-              </Typography>
-              <Typography variant="body1" align="center">
+              </Typography> */}
+              <Typography className="description" variant="body1" align="center">
                 Keep track of all the films you want to watch in one place.
               </Typography>
             </Paper>
