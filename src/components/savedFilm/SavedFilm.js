@@ -117,9 +117,9 @@ export default function SavedFilm() {
 
   const sortFilms = savedMovies.sort((a, b) => {
     const dateA = new Date(a.date_watched);
-    console.log(dateA, 'dateA')
+    console.log(dateA, "dateA");
     const dateB = new Date(b.date_watched);
-    console.log(dateB, 'dateB')
+    console.log(dateB, "dateB");
     return dateB - dateA;
   });
 
@@ -201,15 +201,10 @@ export default function SavedFilm() {
                         />
                       </Link>
                     </TableCell>
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      style={{
-                        maxWidth: "50%",
-                        maxHeight: "50%",
-                      }}
-                    >
-                      <h3 style={{ color: "white" }}>{film.title}</h3>
+                    <TableCell component="th" scope="row">
+                      <h3 className="film-title" style={{ color: "white" }}>
+                        {film.title}
+                      </h3>
                     </TableCell>
                     <TableCell align="right">
                       {formatDate(film.release_date, "year")}
@@ -243,10 +238,12 @@ export default function SavedFilm() {
                       />
                     </TableCell>
                     <Modal
+                      className="edit-modal"
                       open={openEdit}
                       onClose={handleCloseEdit}
                       aria-labelledby="modal-modal-title"
                       aria-describedby="modal-modal-description"
+                      BackdropProps={{ sx: { backgroundColor: "transparent" } }}
                     >
                       <Box>
                         <Card sx={{ minWidth: 275 }}>
