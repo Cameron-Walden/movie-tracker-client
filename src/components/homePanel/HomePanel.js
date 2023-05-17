@@ -1,13 +1,13 @@
 import { useContext } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import { FilmContext } from "../../context/FilmContext";
 import { Button, Container, Grid, Paper, Typography } from "@mui/material";
 import "./HomePanel.css";
 
 export default function HomePanel() {
-  const { popular } = useContext(FilmContext)
-
-  const loginALert = () => alert("login functionality coming soon");
+  const { popular } = useContext(FilmContext);
+  const { loginWithRedirect } = useAuth0();
 
   const firstFiveMovies = popular.slice(0, 5);
 
@@ -18,7 +18,7 @@ export default function HomePanel() {
         <h1>Save those you want to watch.</h1>
         <h1>Tell your friends what's worth watching.</h1>
       </div>
-      <Button className="get-started-btn" onClick={loginALert}>
+      <Button className="get-started-btn" onClick={() => loginWithRedirect()}>
         START TRACKING- IT'S FREE!
       </Button>
       <strong className="tagline">
@@ -34,10 +34,10 @@ export default function HomePanel() {
         >
           {firstFiveMovies.map((film) => (
             <Link to={`/film/${film.id}`} className="movie-link" key={film.id}>
-            <img
-              src={`https://image.tmdb.org/t/p/w185/${film.poster_path}`}
-              alt={film.title}
-            />
+              <img
+                src={`https://image.tmdb.org/t/p/w185/${film.poster_path}`}
+                alt={film.title}
+              />
             </Link>
           ))}
         </Grid>
@@ -53,7 +53,11 @@ export default function HomePanel() {
               {/* <Typography variant="h5" align="center">
                 Discover New Films
               </Typography> */}
-              <Typography className="description" variant="body1" align="center">
+              <Typography
+                className="description"
+                variant="body1"
+                align="center"
+              >
                 Find and explore new films and add them to your watchlist.
               </Typography>
             </Paper>
@@ -69,7 +73,11 @@ export default function HomePanel() {
               {/* <Typography variant="h5" align="center">
                 Create Lists
               </Typography> */}
-              <Typography className="description" variant="body1" align="center">
+              <Typography
+                className="description"
+                variant="body1"
+                align="center"
+              >
                 Organize your films by creating lists and sharing them with
                 others.
               </Typography>
@@ -86,7 +94,11 @@ export default function HomePanel() {
               {/* <Typography variant="h5" align="center">
                 Rate and Review
               </Typography> */}
-              <Typography className="description" variant="body1" align="center">
+              <Typography
+                className="description"
+                variant="body1"
+                align="center"
+              >
                 Share your opinions on films by rating and reviewing them.
               </Typography>
             </Paper>
@@ -102,7 +114,11 @@ export default function HomePanel() {
               {/* <Typography variant="h5" align="center">
                 Connect with Friends
               </Typography> */}
-              <Typography className="description" variant="body1" align="center">
+              <Typography
+                className="description"
+                variant="body1"
+                align="center"
+              >
                 Follow and connect with friends to see what they're watching.
               </Typography>
             </Paper>
@@ -118,7 +134,11 @@ export default function HomePanel() {
               {/* <Typography variant="h5" align="center">
                 Get Personalized Recommendations
               </Typography> */}
-              <Typography className="description" variant="body1" align="center">
+              <Typography
+                className="description"
+                variant="body1"
+                align="center"
+              >
                 Get personalized film recommendations based on your viewing
                 history.
               </Typography>
@@ -135,7 +155,11 @@ export default function HomePanel() {
               {/* <Typography variant="h5" align="center">
                 Track Your Watchlist
               </Typography> */}
-              <Typography className="description" variant="body1" align="center">
+              <Typography
+                className="description"
+                variant="body1"
+                align="center"
+              >
                 Keep track of all the films you want to watch in one place.
               </Typography>
             </Paper>
