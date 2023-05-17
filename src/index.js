@@ -5,16 +5,25 @@ import App from "./App";
 import Context from "./context/FilmContext";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Auth0Provider } from "@auth0/auth0-react";
 import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Context>
-        <App />
-      </Context>
-    </LocalizationProvider>
+    <Auth0Provider
+      domain={process.env.REACT_APP_DOMAIN_ID}
+      clientId={process.env.REACT_APP_CLIENT_ID}
+      authorizationParams={{
+        redirect_uri: `${process.env.REACT_APP_REDIRECT_URI}`,
+      }}
+    >
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <Context>
+          <App />
+        </Context>
+      </LocalizationProvider>
+    </Auth0Provider>
   </React.StrictMode>
 );
 
