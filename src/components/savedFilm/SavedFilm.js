@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { FilmContext } from "../../context/FilmContext";
@@ -46,8 +47,7 @@ export default function SavedFilm() {
   } = useContext(FilmContext);
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedMovieEdit, setSelectedMovieEdit] = useState(null);
-
-  console.log(savedMovies, "sm");
+  const { isAuthenticated, getIdTokenClaims } = useAuth0();
 
   const handleOpenEdit = (id) => {
     const findId = savedMovies?.find((savedFilm) => savedFilm._id === id);
@@ -63,68 +63,90 @@ export default function SavedFilm() {
   const handleCloseEdit = () => setOpenEdit(false);
 
   const getSavedMovies = async () => {
-    try {
-      const savedMovie = "http://localhost:3001/reviews";
-      const response = await axios.get(savedMovie);
-      setSavedMovies(response.data);
-    } catch (error) {
-      console.log(error);
+    if (isAuthenticated) {
+      const idTokenClaims = await getIdTokenClaims();
+      const jwtToken = idTokenClaims.__raw;
+      try {
+        const savedMovie = "http://localhost:3001/reviews";
+        const response = await axios.get(savedMovie, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+        setSavedMovies(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
   const deleteFromSaved = async (id) => {
-    try {
-      await axios.delete(`http://localhost:3001/reviews/${id}`);
-      const deleteFilm = savedMovies.filter((film) => film._id !== id);
-      setSavedMovies(deleteFilm);
-      getSavedMovies();
-    } catch (error) {
-      console.log(error);
+    if (isAuthenticated) {
+      const idTokenClaims = await getIdTokenClaims();
+      const jwtToken = idTokenClaims.__raw;
+      try {
+        await axios.delete(`http://localhost:3001/reviews/${id}`, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+        const deleteFilm = savedMovies.filter((film) => film._id !== id);
+        setSavedMovies(deleteFilm);
+        getSavedMovies();
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
   const updateSaved = async (e) => {
     e.preventDefault();
+    if (isAuthenticated) {
+      const idTokenClaims = await getIdTokenClaims();
+      const jwtToken = idTokenClaims.__raw;
+      const config = {
+        data: {
+          title: selectedMovieEdit.title,
+          description: selectedMovieEdit.overview,
+          poster: selectedMovieEdit.poster,
+          user_rating: starRating || selectedMovieEdit.user_rating,
+          user_review: userReview || selectedMovieEdit.user_review,
+          date_watched: date || selectedMovieEdit.date_watched,
+          tmdb_id: selectedMovieEdit.tmdb_id,
+        },
+      };
+      try {
+        const url = `http://localhost:3001/reviews/${selectedMovieEdit._id}`;
+        const response = await axios.put(url, config.data, {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+        const updatedMovie = { ...selectedMovieEdit, ...response.data };
+        const updatedSavedMovies = savedMovies.map((movie) =>
+          movie._id === updatedMovie._id ? updatedMovie : movie
+        );
 
-    const config = {
-      headers: { "Content-type": "application/json" },
-      data: {
-        title: selectedMovieEdit.title,
-        description: selectedMovieEdit.overview,
-        poster: selectedMovieEdit.poster,
-        user_rating: starRating || selectedMovieEdit.user_rating,
-        user_review: userReview || selectedMovieEdit.user_review,
-        date_watched: date || selectedMovieEdit.date_watched,
-        tmdb_id: selectedMovieEdit.tmdb_id,
-      },
-    };
-    try {
-      const url = `http://localhost:3001/reviews/${selectedMovieEdit._id}`;
-      const response = await axios.put(url, config.data);
-      const updatedMovie = { ...selectedMovieEdit, ...response.data };
-      const updatedSavedMovies = savedMovies.map((movie) =>
-        movie._id === updatedMovie._id ? updatedMovie : movie
-      );
-
-      setSelectedMovie(updatedMovie);
-      setSavedMovies(updatedSavedMovies);
-      setDate(updatedMovie.date_watched);
-      handleCloseEdit();
-    } catch (error) {
-      console.log(error);
+        setSelectedMovie(updatedMovie);
+        setSavedMovies(updatedSavedMovies);
+        setDate(updatedMovie.date_watched);
+        handleCloseEdit();
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
   const sortFilms = savedMovies.sort((a, b) => {
     const dateA = new Date(a.date_watched);
-    console.log(dateA, "dateA");
     const dateB = new Date(b.date_watched);
-    console.log(dateB, "dateB");
     return dateB - dateA;
   });
 
   useEffect(() => {
     getSavedMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

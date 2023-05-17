@@ -1,4 +1,5 @@
 import { useContext, useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { FilmContext } from "../../context/FilmContext";
 import axios from "axios";
 import {
@@ -28,29 +29,38 @@ export default function MovieModal({ handleCloseModal }) {
     date,
     setDate,
   } = useContext(FilmContext);
+  const { isAuthenticated, getIdTokenClaims } = useAuth0();
 
-  const addUserReview = async (e, res) => {
+  const addUserReview = async (e) => {
     e.preventDefault();
-    const config = {
-      headers: { "Content-type": "application/json" },
-      data: {
-        title: selectedMovie.title,
-        description: selectedMovie.overview,
-        poster: selectedMovie.poster_path,
-        release_date: selectedMovie.release_date,
-        user_rating: starRating,
-        user_review: userReview,
-        date_watched: date,
-        tmdb_id: selectedMovie.id
-      },
-    };
-    try {
-      const url = "http://localhost:3001/reviews";
-      const response = await axios.post(url, config.data);
-      setSavedMovies([...savedMovies, response.data]);
-      handleCloseModal();
-    } catch (error) {
-      res.status(500).send(error);
+    if (isAuthenticated) {
+      const idTokenClaims = await getIdTokenClaims();
+      const jwtToken = idTokenClaims.__raw;
+      const config = {
+        data: {
+          title: selectedMovie.title,
+          description: selectedMovie.overview,
+          poster: selectedMovie.poster_path,
+          release_date: selectedMovie.release_date,
+          user_rating: starRating,
+          user_review: userReview,
+          date_watched: date,
+          tmdb_id: selectedMovie.id,
+        },
+      };
+      try {
+        const url = "http://localhost:3001/reviews";
+        const response = await axios.post(url, config.data, {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${jwtToken}`
+          }
+        });
+        setSavedMovies([...savedMovies, response.data]);
+        handleCloseModal();
+      } catch (error) {
+        console.log(error)
+      }
     }
   };
 
@@ -58,6 +68,7 @@ export default function MovieModal({ handleCloseModal }) {
     setStarRating(0);
     setUserReview("");
     setDate("");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMovie]);
 
   return (
