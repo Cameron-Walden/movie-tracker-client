@@ -1,7 +1,6 @@
 import { createContext, useState, useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
-
+import { useAuth0 } from "@auth0/auth0-react";
 export const FilmContext = createContext();
 
 export default function Context(props) {
@@ -21,6 +20,7 @@ export default function Context(props) {
   const [ddMovies, setDDMovies] = useState([]);
   const [watchlist, setWatchlist] = useState([]);
   const [popular, setPopular] = useState([]);
+  const { isAuthenticated, getIdTokenClaims } = useAuth0();
 
   const getMovies = async () => {
     try {
@@ -35,22 +35,30 @@ export default function Context(props) {
   };
 
   const addToWatchlist = async (film, res) => {
-    const config = {
-      headers: { "Content-type": "application/json" },
-      data: {
-        title: film.title,
-        description: film.overview,
-        poster: film.poster_path,
-        watched: false,
-        tmdb_id: film.id,
-      },
-    };
-    try {
-      const url = "http://localhost:3001/watchlist";
-      const response = await axios.post(url, config.data);
-      setWatchlist([...watchlist, response.data]);
-    } catch (error) {
-      res.status(500).send(error);
+    if (isAuthenticated) {
+      const idTokenClaims = await getIdTokenClaims();
+      const jwtToken = idTokenClaims.__raw;
+      const config = {
+        headers: { "Content-type": "application/json" },
+        data: {
+          title: film.title,
+          description: film.overview,
+          poster: film.poster_path,
+          watched: false,
+          tmdb_id: film.id,
+        },
+      };
+      try {
+        const url = "http://localhost:3001/watchlist";
+        const response = await axios.post(url, config.data, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+        setWatchlist([...watchlist, response.data]);
+      } catch (error) {
+        res.status(500).send(error);
+      }
     }
   };
 

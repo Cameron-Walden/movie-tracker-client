@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { FilmContext } from "../../context/FilmContext";
@@ -35,6 +36,7 @@ export default function Film() {
   const [openPoster, setOpenPoster] = useState(false);
   const [openAddSnack, setOpenAddSnack] = useState(false);
   const [openRmvSnack, setOpenRmvSnack] = useState(false);
+  const { isAuthenticated, getIdTokenClaims } = useAuth0();
 
   const {
     setSavedMovies,
@@ -68,51 +70,82 @@ export default function Film() {
   };
 
   const getFilm = async () => {
-    try {
-      const movieResponse = await axios?.get(
-        `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_MOVIE_API}`
-      );
+    if (isAuthenticated) {
+      const idTokenClaims = await getIdTokenClaims();
+      console.log(idTokenClaims, "idTokenClaims wl in film");
+      const jwtToken = idTokenClaims.__raw;
+      console.log(jwtToken, "jwt wl in film");
+      try {
+        const movieResponse = await axios?.get(
+          `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_MOVIE_API}`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          }
+        );
 
-      const watchlistResponse = await axios?.get(
-        `http://localhost:3001/watchlist`
-      );
+        const watchlistResponse = await axios?.get(
+          `http://localhost:3001/watchlist`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          }
+        );
 
-      const savedResponse = await axios?.get("http://localhost:3001/reviews");
+        const savedResponse = await axios?.get(
+          "http://localhost:3001/reviews",
+          {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          }
+        );
 
-      const filmInWl = watchlistResponse?.data?.find(
-        (film) => film.tmdb_id === movieResponse?.data?.id
-      );
+        const filmInWl = watchlistResponse?.data?.find(
+          (film) => film.tmdb_id === movieResponse?.data?.id
+        );
 
-      const filmIsSaved = savedResponse.data.find(
-        (film) => film.tmdb_id === movieResponse.data.id
-      );
+        const filmIsSaved = savedResponse.data.find(
+          (film) => film.tmdb_id === movieResponse.data.id
+        );
 
-      if (filmIsSaved) {
-        setFilmId({
-          ...movieResponse?.data,
-          _id: filmInWl?._id,
-          user_rating: filmIsSaved?.user_rating,
-        });
-      } else {
-        setFilmId({
-          ...movieResponse?.data,
-          _id: filmInWl?._id,
-        });
+        if (filmIsSaved) {
+          setFilmId({
+            ...movieResponse?.data,
+            _id: filmInWl?._id,
+            user_rating: filmIsSaved?.user_rating,
+          });
+        } else {
+          setFilmId({
+            ...movieResponse?.data,
+            _id: filmInWl?._id,
+          });
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
   const getWatchlist = async () => {
-    try {
-      let response = await axios.get("http://localhost:3001/watchlist");
-      const updatedWatchlist = response.data.map((film) => ({
-        ...film,
-      }));
-      setWatchlist(updatedWatchlist);
-    } catch (error) {
-      console.log(error);
+    if (isAuthenticated) {
+      const idTokenClaims = await getIdTokenClaims();
+      const jwtToken = idTokenClaims.__raw;
+      try {
+        let response = await axios.get("http://localhost:3001/watchlist", {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+        const updatedWatchlist = response.data.map((film) => ({
+          ...film,
+        }));
+        setWatchlist(updatedWatchlist);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -142,12 +175,20 @@ export default function Film() {
   };
 
   const getSavedMovies = async () => {
-    try {
-      const savedMovie = "http://localhost:3001/reviews";
-      const response = await axios.get(savedMovie);
-      setSavedMovies(response.data);
-    } catch (error) {
-      console.log(error);
+    if (isAuthenticated) {
+      const idTokenClaims = await getIdTokenClaims();
+      const jwtToken = idTokenClaims.__raw;
+      try {
+        const savedMovie = "http://localhost:3001/reviews";
+        const response = await axios.get(savedMovie, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+        setSavedMovies(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -165,7 +206,7 @@ export default function Film() {
       console.log(error);
     }
     getWatchlist();
-    handleOpenRmvSnack()
+    handleOpenRmvSnack();
   };
 
   useEffect(() => {
@@ -173,6 +214,7 @@ export default function Film() {
     getFilmCredits();
     getWatchlist();
     getSavedMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   useEffect(() => {
@@ -288,7 +330,10 @@ export default function Film() {
                                 open={openAddSnack}
                                 autoHideDuration={6000}
                                 onClose={handleCloseAddSnack}
-                                anchorOrigin={{ vertical: "top", horizontal: "center"}}
+                                anchorOrigin={{
+                                  vertical: "top",
+                                  horizontal: "center",
+                                }}
                                 message="Film added to watchlist"
                                 action={
                                   <IconButton
@@ -305,7 +350,10 @@ export default function Film() {
                                 open={openRmvSnack}
                                 autoHideDuration={6000}
                                 onClose={handleCloseRmvSnack}
-                                anchorOrigin={{ vertical: "top", horizontal: "center"}}
+                                anchorOrigin={{
+                                  vertical: "top",
+                                  horizontal: "center",
+                                }}
                                 message="Film removed from watchlist"
                                 action={
                                   <IconButton

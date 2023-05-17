@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { FilmContext } from "../../context/FilmContext";
@@ -18,6 +19,7 @@ export default function Watchlist() {
   const [watchlist, setWatchlist] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const { hasUserSearched } = useContext(FilmContext);
+  const { isAuthenticated, getIdTokenClaims } = useAuth0();
 
   const handlePopoverOpen = (e, id) => {
     setAnchorEl(e.currentTarget);
@@ -44,31 +46,48 @@ export default function Watchlist() {
   const open = Boolean(anchorEl);
 
   const getWatchlist = async () => {
-    try {
-      let response = await axios.get("http://localhost:3001/watchlist");
-      const updatedWatchlist = response.data.map((film) => ({
-        ...film,
-        popoverOpen: false,
-        anchorEl: null,
-      }));
-      setWatchlist(updatedWatchlist);
-    } catch (error) {
-      console.log(error);
+    if (isAuthenticated) {
+      const idTokenClaims = await getIdTokenClaims();
+      const jwtToken = idTokenClaims.__raw;
+      try {
+        let response = await axios.get("http://localhost:3001/watchlist", {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+        const updatedWatchlist = response.data.map((film) => ({
+          ...film,
+          popoverOpen: false,
+          anchorEl: null,
+        }));
+        setWatchlist(updatedWatchlist);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
   const removeFromWatchlist = async (id) => {
-    try {
-      const removeFilm = `http://localhost:3001/watchlist/${id}`;
-      await axios.delete(removeFilm);
-    } catch (error) {
-      console.log(error);
+    if (isAuthenticated) {
+      const idTokenClaims = await getIdTokenClaims();
+      const jwtToken = idTokenClaims.__raw;
+      try {
+        const removeFilm = `http://localhost:3001/watchlist/${id}`;
+        await axios.delete(removeFilm, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+        getWatchlist();
+      } catch (error) {
+        console.log(error);
+      }
     }
-    getWatchlist();
   };
 
   useEffect(() => {
     getWatchlist();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -153,13 +172,13 @@ export default function Watchlist() {
                       disableRestoreFocus
                       // onClick={() => removeFromWatchlist(film._id)}
                     > */}
-                      <IconButton
-                        className="remove-button"
-                        aria-label="remove from watchlist"
-                        onClick={() => removeFromWatchlist(film._id)}
-                      >
-                        <VisibilityIcon className="remove-icon" />
-                      </IconButton>
+                    <IconButton
+                      className="remove-button"
+                      aria-label="remove from watchlist"
+                      onClick={() => removeFromWatchlist(film._id)}
+                    >
+                      <VisibilityIcon className="remove-icon" />
+                    </IconButton>
                     {/* </Popover> */}
                   </div>
                 </div>
