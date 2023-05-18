@@ -30,13 +30,13 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import EditIcon from "@mui/icons-material/Edit";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
-import "./SavedFilm.css";
+import "./TrackedFilm.css";
 
-export default function SavedFilm() {
+export default function TrackedFilm() {
   const {
     hasUserSearched,
-    savedMovies,
-    setSavedMovies,
+    trackedMovies,
+    setTrackedMovies,
     setSelectedMovie,
     starRating,
     setStarRating,
@@ -50,7 +50,7 @@ export default function SavedFilm() {
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
 
   const handleOpenEdit = (id) => {
-    const findId = savedMovies?.find((savedFilm) => savedFilm._id === id);
+    const findId = trackedMovies?.find((trackedFilm) => trackedFilm._id === id);
     const formattedDate = formatDate(findId.date_watched, "default");
     const selectedMovieCopy = {
       ...findId,
@@ -62,44 +62,44 @@ export default function SavedFilm() {
 
   const handleCloseEdit = () => setOpenEdit(false);
 
-  const getSavedMovies = async () => {
+  const getTrackedMovies = async () => {
     if (isAuthenticated) {
       const idTokenClaims = await getIdTokenClaims();
       const jwtToken = idTokenClaims.__raw;
       try {
-        const savedMovie = "http://localhost:3001/reviews";
-        const response = await axios.get(savedMovie, {
+        const trackedMovie = "http://localhost:3001/tracked";
+        const response = await axios.get(trackedMovie, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
         });
-        setSavedMovies(response.data);
+        setTrackedMovies(response.data);
       } catch (error) {
         console.log(error);
       }
     }
   };
 
-  const deleteFromSaved = async (id) => {
+  const deleteFromTracked = async (id) => {
     if (isAuthenticated) {
       const idTokenClaims = await getIdTokenClaims();
       const jwtToken = idTokenClaims.__raw;
       try {
-        await axios.delete(`http://localhost:3001/reviews/${id}`, {
+        await axios.delete(`http://localhost:3001/tracked/${id}`, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
         });
-        const deleteFilm = savedMovies.filter((film) => film._id !== id);
-        setSavedMovies(deleteFilm);
-        getSavedMovies();
+        const deleteFilm = trackedMovies.filter((film) => film._id !== id);
+        setTrackedMovies(deleteFilm);
+        getTrackedMovies();
       } catch (error) {
         console.log(error);
       }
     }
   };
 
-  const updateSaved = async (e) => {
+  const updateTracked = async (e) => {
     e.preventDefault();
     if (isAuthenticated) {
       const idTokenClaims = await getIdTokenClaims();
@@ -116,7 +116,7 @@ export default function SavedFilm() {
         },
       };
       try {
-        const url = `http://localhost:3001/reviews/${selectedMovieEdit._id}`;
+        const url = `http://localhost:3001/tracked/${selectedMovieEdit._id}`;
         const response = await axios.put(url, config.data, {
           headers: {
             "Content-type": "application/json",
@@ -124,12 +124,12 @@ export default function SavedFilm() {
           },
         });
         const updatedMovie = { ...selectedMovieEdit, ...response.data };
-        const updatedSavedMovies = savedMovies.map((movie) =>
+        const updatedTrackedMovies = trackedMovies.map((movie) =>
           movie._id === updatedMovie._id ? updatedMovie : movie
         );
 
         setSelectedMovie(updatedMovie);
-        setSavedMovies(updatedSavedMovies);
+        setTrackedMovies(updatedTrackedMovies);
         setDate(updatedMovie.date_watched);
         handleCloseEdit();
       } catch (error) {
@@ -138,14 +138,14 @@ export default function SavedFilm() {
     }
   };
 
-  const sortFilms = savedMovies.sort((a, b) => {
+  const sortFilms = trackedMovies.sort((a, b) => {
     const dateA = new Date(a.date_watched);
     const dateB = new Date(b.date_watched);
     return dateB - dateA;
   });
 
   useEffect(() => {
-    getSavedMovies();
+    getTrackedMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -250,7 +250,7 @@ export default function SavedFilm() {
                     <TableCell align="right">
                       <DeleteIcon
                         className="delete-icon"
-                        onClick={() => deleteFromSaved(film._id)}
+                        onClick={() => deleteFromTracked(film._id)}
                       />
                     </TableCell>
                     <TableCell align="right">
@@ -314,7 +314,7 @@ export default function SavedFilm() {
                           </CardContent>
                           <CardActions>
                             <Button
-                              onClick={(e) => updateSaved(e, film?._id)}
+                              onClick={(e) => updateTracked(e, film?._id)}
                               variant="contained"
                               color="success"
                             >

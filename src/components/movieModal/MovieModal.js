@@ -18,8 +18,8 @@ import { DatePicker } from "@mui/x-date-pickers";
 
 export default function MovieModal({ handleCloseModal }) {
   const {
-    savedMovies,
-    setSavedMovies,
+    trackedMovies,
+    setTrackedMovies,
     selectedMovie,
     openModal,
     starRating,
@@ -49,14 +49,14 @@ export default function MovieModal({ handleCloseModal }) {
         },
       };
       try {
-        const url = "http://localhost:3001/reviews";
+        const url = "http://localhost:3001/tracked";
         const response = await axios.post(url, config.data, {
           headers: {
             "Content-type": "application/json",
             Authorization: `Bearer ${jwtToken}`
           }
         });
-        setSavedMovies([...savedMovies, response.data]);
+        setTrackedMovies([...trackedMovies, response.data]);
         handleCloseModal();
       } catch (error) {
         console.log(error)

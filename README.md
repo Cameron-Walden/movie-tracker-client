@@ -1,8 +1,8 @@
 # MovieTracker
 
-MovieTracker is a feature-rich web application built using JavaScript, React, NodeJS, Express and MongoDB and auth0 that allows users to search films regardless if they have an account or not, create an account if they don't already have one, or if they do, allows users to save films their "saved films" or "watchlist" lists, and rate and review movies they have watched. Movies are stored in [MongoDB](https://www.mongodb.com/). This app uses the [TMDB API](https://www.themoviedb.org/) and [Axios](https://axios-http.com/) for fetching movie data as well as some [MUI](https://mui.com/) components for styling. I wanted to build this app, because for years I have kept track of all movies I've watched in the notes of my phone and I thought this would be a more interactive way for me to do so, on top of it being a fun project to build.
+MovieTracker is a feature-rich web application built using JavaScript, React, NodeJS, Express and MongoDB and auth0 that allows users to search films regardless if they have an account or not, create an account if they don't already have one, or if they do, allows users to save (or track) films to their "tracked" or "watchlist" lists, and rate and review movies they have watched. Movies are stored in [MongoDB](https://www.mongodb.com/). This app uses the [TMDB API](https://www.themoviedb.org/) and [Axios](https://axios-http.com/) for fetching movie data as well as some [MUI](https://mui.com/) components for styling. I wanted to build this app, because for years I have kept track of all movies I've watched in the notes of my phone and I thought this would be a more interactive way for me to do so, on top of it being a fun project to build.
 
-Currently on the landing page, movies shown are the movies that are popular for that week. They are updated weekly. To search for movies, type a movie into the search field. You can then either select the movie icon to add a movie to your saved films list, or select the eye icon to add the movie to oyur watchlist. If you select the movie icon, you will first be prompted to add a review, 5 star rating and the date you watched the film. Depending on what you selected, you can then navigate to your saved films or watchlist from the dropdown menu in the navbar. Users can also browse films by genre by selecting a genre from the dropdown (with functionality for browsing by year, rating and popularity coming soon).
+Currently on the landing page, movies shown are the movies that are popular for that week. They are updated weekly. To search for movies, type a movie into the search field. You can then either select the movie icon to add a movie to your tracked films, or select the eye icon to add the movie to your watchlist. If you select the movie icon, you will first be prompted to add a review, 5 star rating and the date you watched the film. Depending on what you selected, you can then navigate to your tracked films or watchlist from the dropdown menu in the navbar. Users can also browse films by genre by selecting a genre from the dropdown (with functionality for browsing by year, rating and popularity coming soon).
 
 This is  a project I'm working on in my spare time, so I know there are many bugs to work out, it's just a matter of trying to find the time! Thanks for checking it out!
 
@@ -39,7 +39,7 @@ Once you have your API key, create your .env file at the root of your project (m
 You'll then want to sign up for an auth0 account  in order to allow users to sign in to the app. You can do so by following these steps:
 
 - Sign up for Auth0:
-   - a. Visit the Auth0 [website](auth0.com).
+   - Visit the Auth0 [website](auth0.com).
    - Click on the "Sign Up" button to create a new account.
    - Follow the registration process, providing the required information.
 

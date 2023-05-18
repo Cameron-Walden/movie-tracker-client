@@ -82,11 +82,11 @@ export default function LoggedInNav() {
                 <MenuItem onClick={goHome}>Profile</MenuItem>
               </Link>
               <Link
-                to="/saved-films"
-                className="saved-films"
+                to="/tracked"
+                className="tracked"
                 style={{ textDecoration: "none", color: "black" }}
               >
-                <MenuItem onClick={switchRoute}>Saved Films</MenuItem>
+                <MenuItem onClick={switchRoute}>Tracked</MenuItem>
               </Link>
               <Link
                 to="/watchlist"

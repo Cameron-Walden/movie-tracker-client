@@ -39,7 +39,7 @@ export default function Film() {
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
 
   const {
-    setSavedMovies,
+    setTrackedMovies,
     setStarRating,
     hasUserSearched,
     setOpenModal,
@@ -94,8 +94,8 @@ export default function Film() {
           }
         );
 
-        const savedResponse = await axios?.get(
-          "http://localhost:3001/reviews",
+        const trackedResponse = await axios?.get(
+          "http://localhost:3001/tracked",
           {
             headers: {
               Authorization: `Bearer ${jwtToken}`,
@@ -107,15 +107,15 @@ export default function Film() {
           (film) => film.tmdb_id === movieResponse?.data?.id
         );
 
-        const filmIsSaved = savedResponse.data.find(
+        const filmIsTracked = trackedResponse.data.find(
           (film) => film.tmdb_id === movieResponse.data.id
         );
 
-        if (filmIsSaved) {
+        if (filmIsTracked) {
           setFilmId({
             ...movieResponse?.data,
             _id: filmInWl?._id,
-            user_rating: filmIsSaved?.user_rating,
+            user_rating: filmIsTracked?.user_rating,
           });
         } else {
           setFilmId({
@@ -174,18 +174,18 @@ export default function Film() {
     setDirector(directorNames.join(", "));
   };
 
-  const getSavedMovies = async () => {
+  const getTrackedMovies = async () => {
     if (isAuthenticated) {
       const idTokenClaims = await getIdTokenClaims();
       const jwtToken = idTokenClaims.__raw;
       try {
-        const savedMovie = "http://localhost:3001/reviews";
-        const response = await axios.get(savedMovie, {
+        const trackedMovie = "http://localhost:3001/tracked";
+        const response = await axios.get(trackedMovie, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
         });
-        setSavedMovies(response.data);
+        setTrackedMovies(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -213,7 +213,7 @@ export default function Film() {
     getFilm();
     getFilmCredits();
     getWatchlist();
-    getSavedMovies();
+    getTrackedMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
