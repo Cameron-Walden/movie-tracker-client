@@ -64,20 +64,21 @@ export default function Context(props) {
 
   const getPopularFilms = async () => {
     try {
-      const pageResponses = await Promise.all([
-        axios.get(
-          `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_MOVIE_API}&page=1`
-        ),
-        axios.get(
-          `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_MOVIE_API}&page=2`
-        ),
-        axios.get(
-          `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_MOVIE_API}&page=3`
-        ),
-      ]);
-      const results = pageResponses.flatMap(
-        (response) => response.data.results
+      const p1Res = await axios.get(
+        `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_MOVIE_API}&page=1`
       );
+      const p2Res = await axios.get(
+        `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_MOVIE_API}&page=2`
+      );
+      const p3Res = await axios.get(
+        `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_MOVIE_API}&page=3`
+      );
+      console.log(p1Res, "p1res");
+      const results = [
+        ...p1Res.data.results,
+        ...p2Res.data.results,
+        ...p3Res.data.results,
+      ];
       setPopular(results);
     } catch (error) {
       console.log(error);
