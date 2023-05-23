@@ -49,7 +49,6 @@ export default function Watchlist() {
     if (isAuthenticated) {
       const idTokenClaims = await getIdTokenClaims();
       const jwtToken = idTokenClaims.__raw;
-      console.log(jwtToken)
       try {
         let response = await axios.get("http://localhost:3001/watchlist", {
           headers: {

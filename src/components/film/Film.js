@@ -72,9 +72,7 @@ export default function Film() {
   const getFilm = async () => {
     if (isAuthenticated) {
       const idTokenClaims = await getIdTokenClaims();
-      console.log(idTokenClaims, "idTokenClaims wl in film");
       const jwtToken = idTokenClaims.__raw;
-      console.log(jwtToken, "jwt wl in film");
       try {
         const movieResponse = await axios?.get(
           `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_MOVIE_API}`,
