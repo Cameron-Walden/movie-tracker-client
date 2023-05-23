@@ -22,12 +22,10 @@ export default function SortFilms() {
       if (genreId) {
         url += `&with_genres=${genreId}`;
       }
-      const [genreResponse, movieResponse] = await Promise.all([
-        axios.get(
-          `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_MOVIE_API}&language=en-US`
-        ),
-        axios.get(url),
-      ]);
+      const genreResponse = await axios.get(
+        `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_MOVIE_API}&language=en-US`
+      );
+      const movieResponse = await axios.get(url);
       setGenres(genreResponse.data.genres);
       setDDMovies(movieResponse.data.results);
     } catch (error) {

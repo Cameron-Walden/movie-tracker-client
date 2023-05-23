@@ -73,7 +73,6 @@ export default function Context(props) {
       const p3Res = await axios.get(
         `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_MOVIE_API}&page=3`
       );
-      console.log(p1Res, "p1res");
       const results = [
         ...p1Res.data.results,
         ...p2Res.data.results,

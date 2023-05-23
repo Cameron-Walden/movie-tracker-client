@@ -11,7 +11,6 @@ export default function FilmsByGenre() {
       <Grid className="film-grid" container >
         {ddMovies.map((film) => (
           <div key={film._id} className="img-container">
-            {console.log(film, "film")}
             <Link to={`/film/${film.id}`} className="movie-link">
               <img
                 src={`https://image.tmdb.org/t/p/w500/${film?.poster_path}`}
