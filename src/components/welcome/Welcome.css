@@ -1,0 +1,162 @@
+.welcome-wrapper {
+  font-family: "Palatino Linotype", serif;
+}
+
+h3 {
+  color: #def;
+}
+
+p {
+  color: #9ab;
+  font-size: 19px;
+  max-width: 550px !important;
+}
+
+.welcome-container {
+  text-align: center;
+}
+
+.welcome-container p {
+  max-width: 690px;
+  text-align: center;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 50px;
+}
+
+.intro-container {
+  text-align: center;
+  padding-bottom: 50px;
+}
+
+.seen-container {
+  max-width: 690px;
+  padding-bottom: 50px;
+  margin-left: 50px;
+}
+
+.seen-content-wrapper {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  height: auto;
+  max-width: 530px !important;
+  max-height: 280px !important;
+}
+
+.placeholder-img {
+  width: 100%;
+  height: auto;
+  max-width: 530px !important;
+  max-height: 280px !important;
+}
+
+.placeholder-img:hover {
+  border: 2px solid transparent;
+}
+
+.browse-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  padding-bottom: 50px;
+  margin-right: 50px;
+}
+
+.browse-container h3 {
+  margin-bottom: 10px;
+  text-align: right;
+}
+
+.browse-container p {
+  max-width: 690px;
+  text-align: right;
+}
+
+.save-container {
+  max-width: 690px;
+  padding-bottom: 50px;
+  margin-left: 50px;
+}
+
+.account-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  padding-bottom: 50px;
+  margin-right: 50px;
+}
+
+.account-container h3 {
+  margin-bottom: 10px;
+  text-align: right;
+}
+
+.account-container p {
+  max-width: 690px;
+  text-align: right;
+}
+
+.track-container {
+  max-width: 690px;
+  padding-bottom: 50px;
+  margin-left: 50px;
+}
+
+.follow-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  padding-bottom: 50px;
+  margin-right: 50px;
+}
+
+.follow-container h3 {
+  margin-bottom: 10px;
+  text-align: right;
+}
+
+.follow-container p {
+  max-width: 690px;
+  text-align: right;
+}
+
+.list-container {
+  max-width: 690px;
+  padding-bottom: 50px;
+}
+
+.discover-container {
+  padding-bottom: 50px;
+  margin: 0 auto;
+  /* background-color: #202830; */
+  background-color: #3f434a;
+}
+
+.discover-container h2 {
+  text-align: center;
+  padding-top: 20px;
+}
+
+.column-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.column {
+  text-align: center;
+}
+
+.column h3 {
+  margin-bottom: 10px;
+}
+
+.column p {
+  margin: 0;
+}
