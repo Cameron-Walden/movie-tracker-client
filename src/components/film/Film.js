@@ -70,60 +70,51 @@ export default function Film() {
   };
 
   const getFilm = async () => {
-    if (isAuthenticated) {
-      const idTokenClaims = await getIdTokenClaims();
-      const jwtToken = idTokenClaims.__raw;
-      try {
-        const movieResponse = await axios?.get(
-          `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_MOVIE_API}`,
-          {
+    const idTokenClaims = isAuthenticated ? await getIdTokenClaims() : null;
+    const jwtToken = isAuthenticated ? idTokenClaims.__raw : null;
+    try {
+      const movieResponse = await axios?.get(
+        `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_MOVIE_API}`
+      );
+
+      const watchlistResponse = isAuthenticated
+        ? await axios?.get("http://localhost:3001/watchlist", {
             headers: {
               Authorization: `Bearer ${jwtToken}`,
             },
-          }
-        );
+          })
+        : { data: [] };
 
-        const watchlistResponse = await axios?.get(
-          `http://localhost:3001/watchlist`,
-          {
+      const trackedResponse = isAuthenticated
+        ? await axios?.get("http://localhost:3001/tracked", {
             headers: {
               Authorization: `Bearer ${jwtToken}`,
             },
-          }
-        );
+          })
+        : { data: [] };
 
-        const trackedResponse = await axios?.get(
-          "http://localhost:3001/tracked",
-          {
-            headers: {
-              Authorization: `Bearer ${jwtToken}`,
-            },
-          }
-        );
+      const filmInWl = watchlistResponse?.data?.find(
+        (film) => film.tmdb_id === movieResponse?.data?.id
+      );
 
-        const filmInWl = watchlistResponse?.data?.find(
-          (film) => film.tmdb_id === movieResponse?.data?.id
-        );
+      const filmIsTracked = trackedResponse.data.find(
+        (film) => film.tmdb_id === movieResponse.data.id
+      );
 
-        const filmIsTracked = trackedResponse.data.find(
-          (film) => film.tmdb_id === movieResponse.data.id
-        );
-
-        if (filmIsTracked) {
-          setFilmId({
-            ...movieResponse?.data,
-            _id: filmInWl?._id,
-            user_rating: filmIsTracked?.user_rating,
-          });
-        } else {
-          setFilmId({
-            ...movieResponse?.data,
-            _id: filmInWl?._id,
-          });
-        }
-      } catch (error) {
-        console.log(error);
+      if (filmIsTracked) {
+        setFilmId({
+          ...movieResponse?.data,
+          _id: filmInWl?._id,
+          user_rating: filmIsTracked?.user_rating,
+        });
+      } else {
+        setFilmId({
+          ...movieResponse?.data,
+          _id: filmInWl?._id,
+        });
       }
+    } catch (error) {
+      console.log(error);
     }
   };
 
