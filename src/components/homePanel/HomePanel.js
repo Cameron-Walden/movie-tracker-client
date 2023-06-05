@@ -7,7 +7,7 @@ import "./HomePanel.css";
 
 export default function HomePanel() {
   const { popular } = useContext(FilmContext);
-  const { loginWithRedirect } = useAuth0();
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
 
   const firstFiveMovies = popular.slice(0, 5);
 
@@ -18,9 +18,11 @@ export default function HomePanel() {
         <h1>Save those you want to watch.</h1>
         <h1>Tell your friends what's worth watching.</h1>
       </div>
-      <Button className="get-started-btn" onClick={() => loginWithRedirect()}>
-        START TRACKING- IT'S FREE!
-      </Button>
+      {isAuthenticated ? null : (
+        <Button className="get-started-btn" onClick={() => loginWithRedirect()}>
+          START TRACKING- IT'S FREE!
+        </Button>
+      )}
       <strong className="tagline">
         The movie tracking social network for film enthusiasts.
       </strong>
