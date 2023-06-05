@@ -93,6 +93,13 @@ export default function LoggedInNav() {
               >
                 <MenuItem onClick={switchRoute}>Watchlist</MenuItem>
               </Link>
+              <Link
+                to="/settings"
+                className="settings"
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                <MenuItem onClick={switchRoute}>Settings</MenuItem>
+              </Link>
             </Menu>
           </div>
           <Typography

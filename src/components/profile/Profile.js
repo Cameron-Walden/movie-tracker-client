@@ -1,10 +1,9 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
 import { FilmContext } from "../../context/FilmContext";
+import { Container } from "@mui/material";
 import Header from "../Header";
 import Films from "../films/Films";
-import { Container } from "@mui/material";
 
 export default function Profile() {
   const { hasUserSearched } = useContext(FilmContext);
