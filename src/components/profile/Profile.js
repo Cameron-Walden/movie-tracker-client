@@ -1,5 +1,6 @@
-import { useState, useEffect, useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 import { FilmContext } from "../../context/FilmContext";
 import Header from "../Header";
 import Films from "../films/Films";
@@ -9,10 +10,7 @@ export default function Profile() {
   const { hasUserSearched } = useContext(FilmContext);
   const { user, isAuthenticated, isLoading } = useAuth0();
 
-  if (isLoading) {
-    return <div>Loading ...</div>;
-  }
-
+  if (isLoading) return <div>Loading ...</div>;
   return (
     <>
       <Header />

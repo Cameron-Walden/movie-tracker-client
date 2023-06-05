@@ -3,22 +3,24 @@ import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
   AppBar,
+  Avatar,
   Box,
   Toolbar,
-  IconButton,
   Typography,
   Menu,
   MenuItem,
   Fade,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import LogoutButton from "../logoutButton/LogoutButton";
 import Search from "../search/Search";
 import { FilmContext } from "../../context/FilmContext";
+import "./LoggedInNav.css";
 
 export default function LoggedInNav() {
   const [isOpen, setIsOpen] = useState(null);
   const { setHasUserSearched, setSelectedFromDD } = useContext(FilmContext);
+
+  const { user } = useAuth0();
 
   const handleOpenMenu = (e) => setIsOpen(e.currentTarget);
 
@@ -43,20 +45,16 @@ export default function LoggedInNav() {
       <AppBar position="static">
         <Toolbar sx={{ color: "orange", background: "#2c3440" }}>
           <div>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
+            <Avatar
+              className="user-avatar"
+              alt="User Avatar"
+              src={user.picture}
               sx={{ mr: 2 }}
-              id="fade-button"
               aria-controls={openMenu ? "fade-menu" : undefined}
               aria-haspopup="true"
               aria-expanded={openMenu ? "true" : undefined}
               onClick={handleOpenMenu}
-            >
-              <MenuIcon />
-            </IconButton>
+            />
             <Menu
               id="fade-menu"
               MenuListProps={{
@@ -112,5 +110,3 @@ export default function LoggedInNav() {
     </Box>
   );
 }
-
-// {isAuthenticated ? <LogoutButton /> : <LoginButton />}
