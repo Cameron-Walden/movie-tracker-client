@@ -6,6 +6,7 @@ import Context from "./context/FilmContext";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Auth0Provider } from "@auth0/auth0-react";
+import "dropzone/dist/dropzone.css";
 import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

@@ -1,0 +1,20 @@
+.settings-title {
+  color: white;
+  font-family: "Palatino Linotype", serif;
+}
+
+.avatar-title {
+  text-align: center;
+  color: orange;
+  font-family: "Palatino Linotype", serif;
+}
+
+.dropzone {
+  justify-content: center;
+  margin: 0 auto;
+  /* border: 2px solid orange !important; */
+  border: none !important;
+  color: white;
+  background-color: #9ab;
+  max-width: 50%;
+}
