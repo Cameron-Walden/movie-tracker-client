@@ -1,5 +1,6 @@
-import { useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { FilmContext } from "../../context/FilmContext";
 import { Button, Container, Grid, Paper, Typography } from "@mui/material";
@@ -7,9 +8,41 @@ import "./HomePanel.css";
 
 export default function HomePanel() {
   const { popular } = useContext(FilmContext);
-  const { loginWithRedirect, isAuthenticated } = useAuth0();
+  const [recommendations, setRecommendations] = useState([]);
+  const { loginWithRedirect, isAuthenticated, getIdTokenClaims } = useAuth0();
 
   const firstFiveMovies = popular.slice(0, 5);
+
+  const movieRecs = async () => {
+    if (isAuthenticated) {
+      const idTokenClaims = await getIdTokenClaims();
+      const jwtToken = idTokenClaims.__raw;
+      try {
+        let watchlist = await axios.get("http://localhost:3001/watchlist", {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+        const tmdbId = watchlist.data.map((film) => film.tmdb_id);
+        for (const id of tmdbId) {
+          const idRes = await axios.get(
+            `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${process.env.REACT_APP_MOVIE_API}`
+          );
+          if(idRes.data.results.length > 0){
+            const randomIdx = Math.floor(Math.random() * idRes.data.results.length);
+            const randomRec = idRes.data.results[randomIdx]
+            setRecommendations(prevRecs => [...prevRecs, randomRec]);
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    movieRecs();
+  }, []);
 
   return (
     <div className="home-panel-container">
@@ -18,7 +51,31 @@ export default function HomePanel() {
         <h1>Save those you want to watch.</h1>
         <h1>Tell your friends what's worth watching.</h1>
       </div>
-      {isAuthenticated ? null : (
+      {isAuthenticated ? (
+        <Container>
+          <strong className="film-recs-tagline">Today you might be interested in...</strong>
+          <Grid
+            className="rec-grid"
+            container
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+          >
+            {recommendations?.map((film) => (
+              <Link
+                to={`/film/${film.id}`}
+                className="movie-link"
+                key={film.id}
+              >
+                <img
+                  src={`https://image.tmdb.org/t/p/w185/${film.poster_path}`}
+                  alt={film.title}
+                />
+              </Link>
+            ))}
+          </Grid>
+        </Container>
+      ) : (
         <Button className="get-started-btn" onClick={() => loginWithRedirect()}>
           START TRACKING- IT'S FREE!
         </Button>

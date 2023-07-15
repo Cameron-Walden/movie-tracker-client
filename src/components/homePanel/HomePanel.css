@@ -9,6 +9,15 @@
     margin-bottom: 30px;
 }
 
+.film-recs-tagline{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+    margin-top: 10px;
+    color: #9ab;
+    font-family: "Palatino Linotype", serif;
+}
+
 .tagline{
     display: flex;
     justify-content: center;
