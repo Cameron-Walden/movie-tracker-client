@@ -1,4 +1,6 @@
-import { useContext, useEffect, useRef } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 import { FilmContext } from "../../context/FilmContext";
 import Dropzone from "dropzone";
 import Header from "../Header";
@@ -7,8 +9,13 @@ import Pages from "../pages/Pages";
 import "./Settings.css";
 
 export default function Settings() {
+  const [newUser, setNewUser] = useState({});
   const { search, setMovies, totalResults, hasUserSearched } =
     useContext(FilmContext);
+
+  const { user } = useAuth0();
+
+  console.log(user, "user in settings");
 
   const dropzoneRef = useRef(false);
 
@@ -30,6 +37,27 @@ export default function Settings() {
       myDropzone.destroy();
     };
   }, []);
+
+  const handleUpdateProfilePic = async () => {
+    try {
+      const { name, email, picture } = user; // Extract necessary user data
+
+      console.log(user, "user in settings");
+
+      dropzoneRef.current.click();
+
+      let userResponse = await axios.post("http://localhost:3001/user", {
+        name,
+        email,
+        picture,
+      });
+
+      console.log(userResponse, "userResponse");
+      setNewUser(userResponse);
+    } catch (error) {
+      console.error("Error updating profile picture:", error);
+    }
+  };
 
   return (
     <div>
@@ -55,6 +83,9 @@ export default function Settings() {
               Drag and drop an image file here, or click to select a file
             </div>
           </div>
+          <button onClick={handleUpdateProfilePic}>
+            Update Profile Picture
+          </button>
         </>
       )}
     </div>
