@@ -6,12 +6,24 @@ import { FilmContext } from "../../context/FilmContext";
 import { Button, Container, Grid, Paper, Typography } from "@mui/material";
 import "./HomePanel.css";
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+
 export default function HomePanel() {
   const { popular } = useContext(FilmContext);
   const [recommendations, setRecommendations] = useState([]);
   const { loginWithRedirect, isAuthenticated, getIdTokenClaims } = useAuth0();
 
   const firstFiveMovies = popular.slice(0, 5);
+
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+  };
 
   const movieRecs = async () => {
     if (isAuthenticated) {
@@ -28,10 +40,12 @@ export default function HomePanel() {
           const idRes = await axios.get(
             `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${process.env.REACT_APP_MOVIE_API}`
           );
-          if(idRes.data.results.length > 0){
-            const randomIdx = Math.floor(Math.random() * idRes.data.results.length);
-            const randomRec = idRes.data.results[randomIdx]
-            setRecommendations(prevRecs => [...prevRecs, randomRec]);
+          if (idRes.data.results.length > 0) {
+            const randomIdx = Math.floor(
+              Math.random() * idRes.data.results.length
+            );
+            const randomRec = idRes.data.results[randomIdx];
+            setRecommendations((prevRecs) => [...prevRecs, randomRec]);
           }
         }
       } catch (error) {
@@ -53,27 +67,23 @@ export default function HomePanel() {
       </div>
       {isAuthenticated ? (
         <Container>
-          <strong className="film-recs-tagline">Today you might be interested in...</strong>
-          <Grid
-            className="rec-grid"
-            container
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-          >
-            {recommendations?.map((film) => (
-              <Link
-                to={`/film/${film.id}`}
-                className="movie-link"
-                key={film.id}
-              >
-                <img
-                  src={`https://image.tmdb.org/t/p/w185/${film.poster_path}`}
-                  alt={film.title}
-                />
-              </Link>
-            ))}
-          </Grid>
+          <strong className="film-recs-tagline">
+            Today you might be interested in...
+          </strong>
+            <Slider {...settings}>
+              {recommendations?.map((film) => (
+                <Link
+                  to={`/film/${film.id}`}
+                  className="movie-link"
+                  key={film.id}
+                >
+                  <img
+                    src={`https://image.tmdb.org/t/p/w185/${film.poster_path}`}
+                    alt={film.title}
+                  />
+                </Link>
+              ))}
+            </Slider>
         </Container>
       ) : (
         <Button className="get-started-btn" onClick={() => loginWithRedirect()}>
