@@ -1,60 +1,65 @@
-.welcome-grid{
-    margin-top: 30px !important;
+.welcome-grid {
+  margin-top: 30px !important;
 }
 
-.welcome-text-container{
-    align-items: center !important;
-    color: white;
-    font-family: "Palatino Linotype", serif;
-    margin-bottom: 30px;
+.welcome-text-container {
+  align-items: center !important;
+  color: white;
+  font-family: "Palatino Linotype", serif;
+  margin-bottom: 30px;
 }
 
-.film-recs-tagline{
-    display: flex;
-    justify-content: center;
-    padding-bottom: 10px;
-    margin-top: 10px;
-    color: #9ab;
-    font-family: "Palatino Linotype", serif;
+.film-recs-tagline {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 30px;
+  margin-top: 10px;
+  color: #9ab;
+  font-family: "Palatino Linotype", serif;
 }
 
-.tagline{
-    display: flex;
-    justify-content: center;
-    padding-top: 10px;
-    margin-top: 10px;
-    color: #9ab;
-    font-family: "Palatino Linotype", serif;
+.movie-rec-poster {
+  width: 185px;
+  height: 278px;
 }
 
-.get-started-btn{
-    color: black !important;
-    background-color: orange !important;
-    left: 40%;
+.tagline {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+  margin-top: 10px;
+  color: #9ab;
+  font-family: "Palatino Linotype", serif;
 }
 
-.get-started-btn:hover{
-    background-color: rgb(197, 136, 23) !important;
+.get-started-btn {
+  color: black !important;
+  background-color: orange !important;
+  left: 40%;
 }
 
-.paper{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #678 !important;
-    /* background-color: rgb(83, 89, 96) !important; */
-    color: #def!important;
-    height: 40px !important;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    max-height: 100px !important;
+.get-started-btn:hover {
+  background-color: rgb(197, 136, 23) !important;
 }
 
-.paper:hover{
-    background-color: orange !important;
+.paper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #678 !important;
+  /* background-color: rgb(83, 89, 96) !important; */
+  color: #def !important;
+  height: 40px !important;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  max-height: 100px !important;
 }
 
-.description{
-    width: 210px;
+.paper:hover {
+  background-color: orange !important;
+}
+
+.description {
+  width: 210px;
 }
