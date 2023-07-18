@@ -4,11 +4,11 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { FilmContext } from "../../context/FilmContext";
 import { Button, Container, Grid, Paper, Typography } from "@mui/material";
+import Slider from "react-slick";
+import notAvailable from "../../img/no_image.jpeg";
 import "./HomePanel.css";
-
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
 
 export default function HomePanel() {
   const { popular } = useContext(FilmContext);
@@ -70,20 +70,25 @@ export default function HomePanel() {
           <strong className="film-recs-tagline">
             Today you might be interested in...
           </strong>
-            <Slider {...settings}>
-              {recommendations?.map((film) => (
-                <Link
-                  to={`/film/${film.id}`}
-                  className="movie-link"
-                  key={film.id}
-                >
-                  <img
-                    src={`https://image.tmdb.org/t/p/w185/${film.poster_path}`}
-                    alt={film.title}
-                  />
-                </Link>
-              ))}
-            </Slider>
+          <Slider {...settings}>
+            {recommendations?.map((film) => (
+              <Link
+                to={`/film/${film.id}`}
+                className="movie-link"
+                key={film.id}
+              >
+                <img
+                  className="movie-rec-poster"
+                  src={
+                    film.poster_path
+                      ? `https://image.tmdb.org/t/p/w185/${film.poster_path}`
+                      : notAvailable
+                  }
+                  alt={film.title}
+                />
+              </Link>
+            ))}
+          </Slider>
         </Container>
       ) : (
         <Button className="get-started-btn" onClick={() => loginWithRedirect()}>
