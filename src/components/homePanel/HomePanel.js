@@ -13,6 +13,7 @@ import "slick-carousel/slick/slick-theme.css";
 export default function HomePanel() {
   const { popular } = useContext(FilmContext);
   const [recommendations, setRecommendations] = useState([]);
+  const [fetchRecs, setFetchRecs] = useState(false);
   const { loginWithRedirect, isAuthenticated, getIdTokenClaims } = useAuth0();
 
   const firstFiveMovies = popular.slice(0, 5);
@@ -55,8 +56,18 @@ export default function HomePanel() {
   };
 
   useEffect(() => {
-    movieRecs();
-  }, []);
+    if (isAuthenticated) {
+      setFetchRecs(true);
+    }
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (fetchRecs) {
+      movieRecs();
+      setFetchRecs(false);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchRecs]);
 
   return (
     <div className="home-panel-container">
