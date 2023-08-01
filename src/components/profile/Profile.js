@@ -2,17 +2,18 @@ import { useState, useContext } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FilmContext } from "../../context/FilmContext";
-import { Container } from "@mui/material";
 import Header from "../Header";
 import Films from "../films/Films";
 import {
+  Autocomplete,
+  Box,
+  Container,
   Modal,
   Paper,
-  Box,
-  Typography,
-  Autocomplete,
   TextField,
+  Typography,
 } from "@mui/material";
+import "./Profile.css";
 
 export default function Profile() {
   const [openPosterModal, setOpenPosterModal] = useState(false);
@@ -28,6 +29,8 @@ export default function Profile() {
   } = useContext(FilmContext);
   const { user, isAuthenticated, isLoading } = useAuth0();
 
+  if (isLoading) return <div>Loading ...</div>;
+
   const getMovies = async () => {
     try {
       let movieResponse = await axios.get(
@@ -36,7 +39,6 @@ export default function Profile() {
       const titles = movieResponse.data.results.map((film) => ({
         label: film.title,
       }));
-      console.log(titles, "title");
       setMovieTitles(titles || []);
       setMovies(movieResponse?.data);
       setTotalResults(movieResponse?.data?.total_results);
@@ -57,35 +59,15 @@ export default function Profile() {
     getMovies();
   };
 
-  if (isLoading) return <div>Loading ...</div>;
-
   const handleOpenSearch = () => setOpenPosterModal(true);
 
   const handleCloseSearch = () => setOpenPosterModal(false);
-
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
 
   const emptyTopFive = Array.from({ length: 5 }, (_, idx) => (
     <Paper
       onClick={handleOpenSearch}
       key={idx}
-      sx={{
-        width: 150,
-        height: 225,
-        margin: 2,
-        backgroundColor: "#678",
-        cursor: "pointer",
-      }}
+      className="empty-top-five"
     ></Paper>
   ));
   return (
@@ -94,10 +76,10 @@ export default function Profile() {
       {isAuthenticated ? (
         <Container className="user-container">
           <h2>Welcome back, {user.name}</h2>
-          <Box display="flex">{emptyTopFive}</Box>
+          <Box className="top-five-box">{emptyTopFive}</Box>
           <Modal open={openPosterModal} onClose={handleCloseSearch}>
-            <Box sx={style}>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
+            <Box className="search-modal">
+              <Typography variant="h6" component="h2">
                 Pick a Favorite Film
               </Typography>
               <Autocomplete
@@ -115,9 +97,6 @@ export default function Profile() {
               />
             </Box>
           </Modal>
-          {/* <img src={user.picture} alt={user.name} />
-          <h2>{user.name}</h2>
-          <p>{user.email}</p> */}
         </Container>
       ) : null}
       {hasUserSearched ? <Films /> : null}
