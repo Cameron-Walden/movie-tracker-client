@@ -6,19 +6,24 @@ import Header from "../Header";
 import Films from "../films/Films";
 import {
   Autocomplete,
+  Button,
   Box,
+  CircularProgress,
   Container,
   Modal,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import "./Profile.css";
 
 export default function Profile() {
   const [openPosterModal, setOpenPosterModal] = useState(false);
   const [movieTitles, setMovieTitles] = useState([]);
   const [filteredTitles, setFilteredTitles] = useState([]);
+  const [selectedTopFive, setSelectedTopFive] = useState(null);
+
   const {
     search,
     setSearch,
@@ -29,7 +34,13 @@ export default function Profile() {
   } = useContext(FilmContext);
   const { user, isAuthenticated, isLoading } = useAuth0();
 
-  if (isLoading) return <div>Loading ...</div>;
+  if (isLoading)
+    return (
+      <Box sx={{ display: "flex" }}>
+        <CircularProgress />
+        <h3>Loading...</h3>
+      </Box>
+    );
 
   const getMovies = async () => {
     try {
@@ -38,6 +49,7 @@ export default function Profile() {
       );
       const titles = movieResponse.data.results.map((film) => ({
         label: film.title,
+        poster_path: film.poster_path,
       }));
       setMovieTitles(titles || []);
       setMovies(movieResponse?.data);
@@ -63,20 +75,38 @@ export default function Profile() {
 
   const handleCloseSearch = () => setOpenPosterModal(false);
 
-  const emptyTopFive = Array.from({ length: 5 }, (_, idx) => (
-    <Paper
-      onClick={handleOpenSearch}
-      key={idx}
-      className="empty-top-five"
-    ></Paper>
+  const handleSelectTopFive = (film) => {
+    setSelectedTopFive(film);
+    handleCloseSearch();
+  };
+
+  const topFive = Array.from({ length: 5 }, (_, idx) => (
+    <Paper onClick={handleOpenSearch} key={idx} className="empty-top-five">
+      {selectedTopFive && selectedTopFive.label ? (
+        <>
+          <img
+            src={`https://image.tmdb.org/t/p/w500${selectedTopFive.poster_path}`}
+            alt={selectedTopFive.label}
+            className="top-five-poster"
+          />
+        </>
+      ) : (
+        <AddIcon className="addIcon"/>
+      )}
+    </Paper>
   ));
+
   return (
     <>
       <Header />
       {isAuthenticated ? (
         <Container className="user-container">
-          <h2>Welcome back, {user.name}</h2>
-          <Box className="top-five-box">{emptyTopFive}</Box>
+          <h2 className="welcome-tag">Welcome back, {user.name}</h2>
+          <h3 className="fave-films-tag">favorite films</h3>
+          <Box className="top-five-box">{topFive}</Box>
+          {selectedTopFive && selectedTopFive.label ? (
+            <Button className="save-top-five-btn">Save Changes</Button>
+          ) : null}
           <Modal open={openPosterModal} onClose={handleCloseSearch}>
             <Box className="search-modal">
               <Typography variant="h6" component="h2">
@@ -86,7 +116,8 @@ export default function Profile() {
                 disablePortal
                 options={filteredTitles}
                 getOptionLabel={(option) => option.label}
-                sx={{ width: 300 }}
+                value={selectedTopFive}
+                onChange={(e, newVal) => handleSelectTopFive(newVal)}
                 renderInput={(params) => (
                   <TextField
                     {...params}
