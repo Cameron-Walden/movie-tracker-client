@@ -22,7 +22,9 @@ export default function Profile() {
   const [openPosterModal, setOpenPosterModal] = useState(false);
   const [movieTitles, setMovieTitles] = useState([]);
   const [filteredTitles, setFilteredTitles] = useState([]);
-  const [selectedTopFive, setSelectedTopFive] = useState(null);
+  const [selectedTopFive, setSelectedTopFive] = useState(
+    new Array(5).fill(null)
+  );
 
   const {
     search,
@@ -76,22 +78,40 @@ export default function Profile() {
   const handleCloseSearch = () => setOpenPosterModal(false);
 
   const handleSelectTopFive = (film) => {
-    setSelectedTopFive(film);
+    const emptySlotIndex = selectedTopFive.findIndex((item) => item === null);
+
+    if (emptySlotIndex !== -1) {
+      const updatedTopFive = [...selectedTopFive];
+      updatedTopFive[emptySlotIndex] = film;
+      setSelectedTopFive(updatedTopFive);
+    } else {
+      const slotToReplace = prompt(
+        "You've already selected 5 movies. Please click on the slot you want to replace (1, 2, 3, 4, 5):"
+      );
+      const slotIndex = parseInt(slotToReplace) - 1;
+      if (slotIndex >= 0 && slotIndex < 5) {
+        const updatedTopFive = [...selectedTopFive];
+        updatedTopFive[slotIndex] = film;
+        setSelectedTopFive(updatedTopFive);
+      } else {
+        alert("Invalid choice. Please choose a slot number (1, 2, 3, 4, 5).");
+      }
+    }
     handleCloseSearch();
   };
 
-  const topFive = Array.from({ length: 5 }, (_, idx) => (
+  const topFive = selectedTopFive.map((film, idx) => (
     <Paper onClick={handleOpenSearch} key={idx} className="empty-top-five">
-      {selectedTopFive && selectedTopFive.label ? (
+      {film && film.label ? (
         <>
           <img
-            src={`https://image.tmdb.org/t/p/w500${selectedTopFive.poster_path}`}
-            alt={selectedTopFive.label}
+            src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
+            alt={film.label}
             className="top-five-poster"
           />
         </>
       ) : (
-        <AddIcon className="addIcon"/>
+        <AddIcon className="addIcon" />
       )}
     </Paper>
   ));
@@ -119,11 +139,7 @@ export default function Profile() {
                 value={selectedTopFive}
                 onChange={(e, newVal) => handleSelectTopFive(newVal)}
                 renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Movie"
-                    onChange={handleSearch}
-                  />
+                  <TextField {...params} label="Film" onChange={handleSearch} />
                 )}
               />
             </Box>
