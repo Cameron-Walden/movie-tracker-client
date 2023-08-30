@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FilmContext } from "../../context/FilmContext";
@@ -35,14 +35,6 @@ export default function Profile() {
     setTotalResults,
   } = useContext(FilmContext);
   const { user, isLoading, isAuthenticated, getIdTokenClaims } = useAuth0();
-
-  if (isLoading)
-    return (
-      <Box sx={{ display: "flex" }}>
-        <CircularProgress />
-        <h3>Loading...</h3>
-      </Box>
-    );
 
   const getMovies = async () => {
     try {
@@ -101,27 +93,34 @@ export default function Profile() {
     handleCloseSearch();
   };
 
-  const topFive = selectedTopFive.map((film, idx) => (
-    <>
+  const topFive = selectedTopFive.map((selectedFilm, idx) => {
+    const userFaveFilm = userTopFive[idx];
+
+    return (
       <Paper
         onClick={handleOpenSearch}
-        key={film?.id}
+        key={idx} 
         className="empty-top-five"
       >
-        {film && film.label ? (
-          <>
-            <img
-              src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
-              alt={film.label}
-              className="top-five-poster"
-            />
-          </>
+        {userFaveFilm ? ( 
+          <img
+            src={`https://image.tmdb.org/t/p/w500${userFaveFilm.poster_path}`}
+            alt={userFaveFilm.label}
+            className="top-five-poster"
+          />
+        ) : selectedFilm ? (
+          <img
+            src={`https://image.tmdb.org/t/p/w500${selectedFilm.poster_path}`}
+            alt={selectedFilm.label}
+            className="top-five-poster"
+          />
         ) : (
           <AddIcon className="addIcon" />
         )}
       </Paper>
-    </>
-  ));
+    );
+  });
+  
 
   const saveTopFive = async () => {
     if (isAuthenticated) {
@@ -147,6 +146,35 @@ export default function Profile() {
       }
     }
   };
+
+  const getTopFive = async () => {
+    if (isAuthenticated) {
+      const idTokenClaims = await getIdTokenClaims();
+      const jwtToken = idTokenClaims.__raw;
+      try {
+        const response = await axios.get(`http://localhost:3001/topFive`, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+        setUserTopFive(response.data)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getTopFive();
+  }, []);
+
+  if (isLoading)
+    return (
+      <Box sx={{ display: "flex" }}>
+        <CircularProgress />
+        <h3>Loading...</h3>
+      </Box>
+    );
 
   return (
     <>
