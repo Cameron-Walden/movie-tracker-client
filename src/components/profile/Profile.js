@@ -77,7 +77,6 @@ export default function Profile() {
       const updatedTopFive = [...selectedTopFive];
       updatedTopFive[emptySlotIndex] = film;
       setSelectedTopFive(updatedTopFive);
-      setUserTopFive(updatedTopFive);
     } else {
       const slotToReplace = prompt(
         "You've already selected 5 movies. Please select the slot you want to replace (1, 2, 3, 4, 5) and then click save:"
@@ -87,7 +86,6 @@ export default function Profile() {
         const updatedTopFive = [...selectedTopFive];
         updatedTopFive[slotIndex] = film;
         setSelectedTopFive(updatedTopFive);
-        setUserTopFive(updatedTopFive);
       } else {
         alert("Invalid choice. Please choose a slot number (1, 2, 3, 4, 5).");
       }
