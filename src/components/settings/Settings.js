@@ -14,9 +14,7 @@ export default function Settings() {
     useContext(FilmContext);
 
   const { user } = useAuth0();
-
-  console.log(user, "user in settings");
-
+  
   const dropzoneRef = useRef(false);
 
   useEffect(() => {
@@ -40,9 +38,7 @@ export default function Settings() {
 
   const handleUpdateProfilePic = async () => {
     try {
-      const { name, email, picture } = user; // Extract necessary user data
-
-      console.log(user, "user in settings");
+      const { name, email, picture } = user;
 
       dropzoneRef.current.click();
 
@@ -52,7 +48,6 @@ export default function Settings() {
         picture,
       });
 
-      console.log(userResponse, "userResponse");
       setNewUser(userResponse);
     } catch (error) {
       console.error("Error updating profile picture:", error);

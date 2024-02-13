@@ -21,8 +21,6 @@ export default function Watchlist() {
   const { hasUserSearched } = useContext(FilmContext);
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
 
-  console.log(watchlist)
-
   const handlePopoverOpen = (e, id) => {
     setAnchorEl(e.currentTarget);
     const updatedWatchlist = watchlist.map((film) => {
