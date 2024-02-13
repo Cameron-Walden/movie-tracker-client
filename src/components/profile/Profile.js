@@ -77,15 +77,17 @@ export default function Profile() {
       const updatedTopFive = [...selectedTopFive];
       updatedTopFive[emptySlotIndex] = film;
       setSelectedTopFive(updatedTopFive);
+      setUserTopFive(updatedTopFive);
     } else {
       const slotToReplace = prompt(
-        "You've already selected 5 movies. Please click on the slot you want to replace (1, 2, 3, 4, 5):"
+        "You've already selected 5 movies. Please select the slot you want to replace (1, 2, 3, 4, 5) and then click save:"
       );
       const slotIndex = parseInt(slotToReplace) - 1;
       if (slotIndex >= 0 && slotIndex < 5) {
         const updatedTopFive = [...selectedTopFive];
         updatedTopFive[slotIndex] = film;
         setSelectedTopFive(updatedTopFive);
+        setUserTopFive(updatedTopFive);
       } else {
         alert("Invalid choice. Please choose a slot number (1, 2, 3, 4, 5).");
       }
@@ -97,12 +99,8 @@ export default function Profile() {
     const userFaveFilm = userTopFive[idx];
 
     return (
-      <Paper
-        onClick={handleOpenSearch}
-        key={idx} 
-        className="empty-top-five"
-      >
-        {userFaveFilm ? ( 
+      <Paper onClick={handleOpenSearch} key={idx} className="empty-top-five">
+        {userFaveFilm ? (
           <img
             src={`https://image.tmdb.org/t/p/w500${userFaveFilm.poster_path}`}
             alt={userFaveFilm.label}
@@ -120,7 +118,6 @@ export default function Profile() {
       </Paper>
     );
   });
-  
 
   const saveTopFive = async () => {
     if (isAuthenticated) {
@@ -132,14 +129,24 @@ export default function Profile() {
       try {
         const url = "http://localhost:3001/topFive";
         const payload = { favoriteFilms: updatedTopFive };
-        const response = await axios.post(url, payload, {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        });
-
+        let response;
+  
+        if (userTopFive.length > 0) {
+          response = await axios.put(url, payload, {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          });
+        } else {
+          response = await axios.post(url, payload, {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          });
+        }
+  
         const responseData = JSON.parse(response.config.data);
-
+  
         setUserTopFive(responseData.favoriteFilms);
       } catch (error) {
         console.log(error);
@@ -157,7 +164,7 @@ export default function Profile() {
             Authorization: `Bearer ${jwtToken}`,
           },
         });
-        setUserTopFive(response.data)
+        setUserTopFive(response.data);
       } catch (error) {
         console.log(error);
       }
