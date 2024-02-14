@@ -18,30 +18,9 @@ import "./Watchlist.css";
 export default function Watchlist() {
   const [watchlist, setWatchlist] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [hoveredFilmId, setHoveredFilmId] = useState(null);
   const { hasUserSearched } = useContext(FilmContext);
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
-
-  const handlePopoverOpen = (e, id) => {
-    setAnchorEl(e.currentTarget);
-    const updatedWatchlist = watchlist.map((film) => {
-      if (film._id === id) {
-        return { ...film, anchorEl: e.currentTarget, popoverOpen: true };
-      }
-      return film;
-    });
-    setWatchlist(updatedWatchlist);
-  };
-
-  const handlePopoverClose = (id) => {
-    const updatedWatchlist = watchlist.map((film) => {
-      if (film._id === id) {
-        return { ...film, anchorEl: null, popoverOpen: false };
-      }
-      return film;
-    });
-    setWatchlist(updatedWatchlist);
-    setAnchorEl(null);
-  };
 
   const open = Boolean(anchorEl);
 
@@ -119,14 +98,24 @@ export default function Watchlist() {
               rowSpacing={4}
               columnSpacing={4}
             >
-              {watchlist.map((film) => (
-                <div key={film._id}>
+              {watchlist.map((film, e) => (
+                <div
+                  key={film._id}
+                  onMouseOver={() => {
+                    setAnchorEl(e.currentTarget);
+                    setHoveredFilmId(film._id);
+                  }}
+                  onMouseOut={() => {
+                    setAnchorEl(null);
+                    setHoveredFilmId(null);
+                  }}
+                >
                   <Popover
                     id="mouse-over-popover"
                     sx={{
                       pointerEvents: "none",
                     }}
-                    open={film.popoverOpen}
+                    open={hoveredFilmId === film._id}
                     anchorEl={anchorEl}
                     anchorOrigin={{
                       vertical: "top",
@@ -136,7 +125,6 @@ export default function Watchlist() {
                       vertical: "top",
                       horizontal: "center",
                     }}
-                    onClose={() => handlePopoverClose(film._id)}
                     disableRestoreFocus
                   >
                     {film.title && film._id && (
@@ -148,30 +136,9 @@ export default function Watchlist() {
                       src={`https://image.tmdb.org/t/p/w185/${film?.poster}`}
                       alt={film.title}
                       aria-owns={open ? "mouse-over-popover" : undefined}
-                      onMouseEnter={(e) => handlePopoverOpen(e, film?._id)}
-                      onMouseLeave={() => handlePopoverClose(film._id)}
                     />
                   </Link>
                   <div className="remove-icon-container">
-                    {/* <Popover
-                      className="remove-popover"
-                      sx={{
-                        pointerEvents: "none",
-                      }}
-                      open={film.popoverOpen}
-                      anchorEl={anchorEl}
-                      anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "center",
-                      }}
-                      transformOrigin={{
-                        vertical: "bottom",
-                        horizontal: "center",
-                      }}
-                      onClose={() => handlePopoverClose(film._id)}
-                      disableRestoreFocus
-                      // onClick={() => removeFromWatchlist(film._id)}
-                    > */}
                     <IconButton
                       className="remove-button"
                       aria-label="remove from watchlist"
@@ -179,7 +146,6 @@ export default function Watchlist() {
                     >
                       <VisibilityIcon className="remove-icon" />
                     </IconButton>
-                    {/* </Popover> */}
                   </div>
                 </div>
               ))}
