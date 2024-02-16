@@ -87,6 +87,13 @@ export default function LoggedInNav() {
                 <MenuItem onClick={switchRoute}>Tracked</MenuItem>
               </Link>
               <Link
+                to="/lists"
+                className="lists"
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                <MenuItem onClick={switchRoute}>Lists</MenuItem>
+              </Link>
+              <Link
                 to="/watchlist"
                 className="watchlist"
                 style={{ textDecoration: "none", color: "black" }}
