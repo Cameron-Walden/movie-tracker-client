@@ -6,6 +6,7 @@ import Watchlist from "./components/watchlist/Watchlist";
 import Settings from "./components/settings/Settings";
 import Film from "./components/film/Film";
 import Welcome from "./components/welcome/Welcome";
+import Lists from "./components/lists/Lists";
 import "./App.css";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route exact path="/settings" element={<Settings/>}></Route>
         <Route exact path="/film/:id" element={<Film />}></Route>
         <Route exact path="/welcome" element={<Welcome />}></Route>
+        <Route exact path="/lists" element={<Lists/>}></Route>
       </Routes>
     </Router>
   );

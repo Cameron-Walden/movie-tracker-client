@@ -1,0 +1,60 @@
+.MuiTabs-root {
+  width: 100%;
+}
+
+.MuiTabs-indicator {
+  background-color: orange;
+}
+
+.MuiTab-root.selected {
+  color: white !important;
+}
+
+.MuiTab-root.unselected {
+  color: orange !important;
+}
+
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.box-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  max-width: 50%;
+  margin: 0 auto;
+}
+
+.inner-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.tab-container {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: -1px !important;
+}
+
+.tab-container > * {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #9ab !important;
+  border-radius: 15px;
+}
