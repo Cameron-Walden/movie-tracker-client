@@ -7,6 +7,7 @@ import Settings from "./components/settings/Settings";
 import Film from "./components/film/Film";
 import Welcome from "./components/welcome/Welcome";
 import Lists from "./components/lists/Lists";
+import NewList from "./components/newList/NewList";
 import "./App.css";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route exact path="/film/:id" element={<Film />}></Route>
         <Route exact path="/welcome" element={<Welcome />}></Route>
         <Route exact path="/lists" element={<Lists/>}></Route>
+        <Route exact path="/lists/new" element={<NewList/>}></Route>
       </Routes>
     </Router>
   );
