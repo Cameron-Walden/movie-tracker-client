@@ -1,8 +1,8 @@
-.film-container {
+.film-Container{
   padding-bottom: 150px;
 }
 
-.movie-backdrop {
+.movieBackdrop {
   border-radius: 400px;
   object-fit: cover;
   width: 100%;
@@ -26,11 +26,11 @@
   mask-size: 100% 100%;
 }
 
-.movie-backdrop:hover {
+.movieBackdrop:hover {
   border: 2px solid transparent;
 }
 
-.poster-container {
+.posterContainer {
   position: relative;
 }
 
@@ -38,17 +38,17 @@
   cursor: pointer;
 }
 
-.poster-details {
+.posterDetails {
   display: flex;
   align-items: flex-start;
 }
 
-.film-info {
+.filmInfo {
   flex-grow: 1;
   margin-left: 0.5rem;
 }
 
-.title-run-container {
+.titleRunContainer {
   display: flex;
   display: inline-block;
   vertical-align: center;
@@ -58,7 +58,7 @@
   color: #9ab;
 }
 
-.film-title {
+.filmTitle {
   top: 0%;
   right: 0;
   margin: 0%;
@@ -69,12 +69,12 @@
   color: white;
 }
 
-.director-container {
+.directorContainer {
   display: inline-block;
   margin-top: 10px;
 }
 
-.directed-by {
+.directedBy {
   font-weight: bold;
   font-size: large;
   color: #9ab;
@@ -82,21 +82,21 @@
   display: inline;
 }
 
-.director-name {
+.directorName {
   display: inline;
   margin: 0.5rem 0 0;
   margin-left: 5px;
   color: white;
 }
 
-.film-tagline {
+.filmTagline {
   padding-top: 20px;
   padding-left: 11%;
   font-size: larger;
   color: #9ab;
 }
 
-.film-overview {
+.filmOverview {
   padding: 30px;
   margin-left: 16px;
   flex-grow: 1;
@@ -114,7 +114,7 @@
   }
 }
 
-.user-container {
+.userContainer {
   padding: 10px !important;
 }
 
@@ -126,38 +126,38 @@ Button:hover {
   color: orange;
 }
 
-.crew-tab {
+.crewTab {
   position: absolute;
   bottom: 5em;
   right: 0;
 }
 
-.add-watchlist {
+.addWatchlist {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.wl-text {
+.wlText {
   color: #9ab;
 }
 
-.add-watchlist:hover .add-icon,
-.add-watchlist:hover .wl-text {
+.addWatchlist:hover .addIcon,
+.addWatchlist:hover .wlText {
   color: white;
 }
 
-.remove-watchlist {
+.removeWatchlist {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.remove-text {
+.removeText {
   color: #9ab;
 }
 
-.poster-modal{
+.posterModal{
   position: absolute;
   top: 50%;
   left:50%;

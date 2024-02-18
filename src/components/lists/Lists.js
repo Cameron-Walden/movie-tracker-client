@@ -10,7 +10,7 @@ import Pages from "../pages/Pages";
 import CustomTabPanel from "./customTabPanel";
 import a11yProps from "./a11yProps";
 import { Box, Button, Tab, Tabs } from "@mui/material";
-import "./Lists.css";
+import styles from "./Lists.module.css";
 
 export default function Lists() {
   const [value, setValue] = useState(0);
@@ -59,9 +59,9 @@ export default function Lists() {
           />
         </>
       ) : (
-        <div className="box-container">
-          <Box sx={{ width: "100%" }} classame="box">
-            <div className="inner-box">
+        <div className={styles.boxContainer}>
+          <Box sx={{ width: "100%" }} classame={styles.box}>
+            <div className={styles.innerBox}>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <Tabs
                   value={value}
@@ -70,22 +70,28 @@ export default function Lists() {
                   <Tab
                     label="Your Lists"
                     {...a11yProps(0)}
-                    className={value === 0 ? "selected" : "unselected"}
+                    className={
+                      value === 0 ? styles.selected : styles.unselected
+                    }
                   />
                   <Tab
                     label="Shared with you"
                     {...a11yProps(1)}
-                    className={value === 1 ? "selected" : "unselected"}
+                    className={
+                      value === 1 ? styles.selected : styles.unselected
+                    }
                   />
                 </Tabs>
               </Box>
             </div>
-            <div className="tab-container">
+            <div className={styles.tabContainer}>
               {value === 0 && (
                 <CustomTabPanel
                   value={value}
                   index={0}
-                  className={`{value === 0 ? "selected" : "unselected"}`}
+                  className={`${
+                    value === 0 ? styles.selected : styles.unselected
+                  }`}
                 >
                   {userHasLists ? (
                     {
@@ -102,14 +108,16 @@ export default function Lists() {
                   ))} */
                     }
                   ) : (
-                    <div className="no-lists">
+                    <div className={styles.noLists}>
                       <>No lists yet...</>
                       <Link
                         to="/lists/new"
-                        className="new-list"
+                        className={styles.newList}
                         style={{ textDecoration: "none", color: "black" }}
                       >
-                        <Button variant="text" className="create-list-btn">Create one?</Button>
+                        <Button variant="text" className={styles.createListBtn}>
+                          Create one?
+                        </Button>
                       </Link>
                     </div>
                   )}
@@ -119,7 +127,9 @@ export default function Lists() {
                 <CustomTabPanel
                   value={value}
                   index={1}
-                  className={`{value === 1 ? "selected" : "unselected"}`}
+                  className={`${
+                    value === 1 ? styles.selected : styles.unselected
+                  }`}
                 >
                   No lists have been shared with you...
                 </CustomTabPanel>

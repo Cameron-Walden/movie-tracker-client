@@ -26,7 +26,8 @@ import Header from "../Header";
 import Films from "../films/Films";
 import CrewTab from "../crewTab/CrewTab";
 import MovieModal from "../movieModal/MovieModal";
-import "./Film.css";
+import styles from "./Film.module.css";
+import { style } from "../movieModal/style";
 
 export default function Film() {
   const [filmId, setFilmId] = useState(null);
@@ -224,56 +225,56 @@ export default function Film() {
       ) : (
         <>
           {filmId && (
-            <Container className="film-container">
+            <Container className={styles.filmContainer}>
               <div>
                 <img
                   src={`https://image.tmdb.org/t/p/w1280/${filmId?.backdrop_path}`}
                   alt={filmId.title}
-                  className="movie-backdrop"
+                  className={styles.movieBackdrop}
                 />
               </div>
-              <div className="poster-container">
-                <div className="poster-details">
+              <div className={styles.posterContainer}>
+                <div className={styles.posterDetails}>
                   <>
                     <img
-                      className="poster"
+                      className={styles.poster}
                       src={`https://image.tmdb.org/t/p/w342/${filmId?.poster_path}`}
                       alt={filmId?.title}
                       onClick={openPosterModal}
                     />
                     <Modal open={openPoster} onClose={closePosterModal}>
                       <img
-                        className="poster-modal"
+                        className={styles.posterModal}
                         src={`https://image.tmdb.org/t/p/w780/${filmId?.poster_path}`}
                         alt={filmId?.title}
                       />
                     </Modal>
                   </>
-                  <div className="film-info">
-                    <div className="title-run-container">
-                      <span className="film-title">{filmId?.title}</span>
-                      <span className="runtime">{filmId.runtime} min.</span>
+                  <div className={styles.filmInfo}>
+                    <div className={styles.titleRunContainer}>
+                      <span className={styles.filmTitle}>{filmId?.title}</span>
+                      <span className={styles.runtime}>{filmId.runtime} min.</span>
                     </div>
 
                     {director && (
-                      <div className="director-container">
-                        <span className="directed-by">
+                      <div className={styles.directorContainer}>
+                        <span className={styles.directedBy}>
                           Directed by:{" "}
-                          <span className="director-name">{director}</span>
+                          <span className={styles.directorName}>{director}</span>
                         </span>
                       </div>
                     )}
-                    <div className="film-tagline">
+                    <div className={styles.filmTagline}>
                       {filmId.tagline ? filmId.tagline : ""}
                     </div>
-                    <div className="film-overview">{filmId.overview}</div>
+                    <div className={styles.filmOverview}>{filmId.overview}</div>
                   </div>
-                  <div className="user-container">
+                  <div className={styles.userContainer}>
                     <TableContainer component={Paper}>
                       <Table
                         sx={{ minWidth: 340, backgroundColor: "#456" }}
                         aria-label="customized table"
-                        className="table"
+                        className={styles.table}
                       >
                         <TableBody>
                           <TableRow>
@@ -285,34 +286,34 @@ export default function Film() {
                               }}
                             >
                               <RemoveRedEyeIcon
-                                className="icon"
+                                className={styles.icon}
                                 sx={{ color: "#9ab" }}
                               />
                               <FavoriteBorderIcon
-                                className="icon"
+                                className={styles.icon}
                                 sx={{ color: "#9ab" }}
                               />
                               {isInWatchlist ? (
-                                <div className="remove-watchlist">
+                                <div className={styles.removeWatchlist}>
                                   <HighlightOffIcon
-                                    className="remove-icon"
+                                    className={styles.removeIcon}
                                     sx={{ color: "orange" }}
                                     onClick={() =>
                                       removeFromWatchlist(filmId?._id)
                                     }
                                   />
-                                  <span className="remove-text">Remove</span>
+                                  <span className={styles.removeText}>Remove</span>
                                 </div>
                               ) : (
-                                <div className="add-watchlist">
+                                <div className={styles.addWatchlist}>
                                   <MoreTimeIcon
-                                    className="add-icon"
+                                    className={styles.addIcon}
                                     sx={{
                                       color: "#9ab",
                                     }}
                                     onClick={handleAddFilmToWL}
                                   />
-                                  <span className="wl-text">Watchlist</span>
+                                  <span className={styles.wlText}>Watchlist</span>
                                 </div>
                               )}
                               <Snackbar
@@ -383,7 +384,7 @@ export default function Film() {
                       </Table>
                     </TableContainer>
                   </div>
-                  <div className="crew-tab">
+                  <div className={styles.crewTab}>
                     <CrewTab
                       crew={crew}
                       setCrew={setCrew}

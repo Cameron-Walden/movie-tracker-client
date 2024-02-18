@@ -14,15 +14,7 @@
   color: orange !important;
 }
 
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-}
-
-.box-container {
+.boxContainer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,15 +23,14 @@
   margin: 0 auto;
 }
 
-.inner-box {
+.innerBox {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
 }
 
-/* need to change this, bc it's affecting filmtab */
-/* .tab-container {
+.tabContainer {
   width: 100%;
   height: 200px;
   display: flex;
@@ -47,22 +38,9 @@
   justify-content: center;
   align-items: center;
   margin-left: -1px !important; 
-} */
+}
 
-/* need to change this, bc it's affecting filmtab */
-
-/* .tab-container > * {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #9ab !important;
-  border-radius: 15px;
-} */
-
-.Lists-tab-container > .selected,
-.Lists-tab-container > .unselected {
+.tabContainer > * {
   width: 100%;
   height: 100%;
   display: flex;
