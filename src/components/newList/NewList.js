@@ -1,15 +1,35 @@
 import { useState, useContext } from "react";
 import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
 import { FilmContext } from "../../context/FilmContext";
 import Header from "../Header";
 import Films from "../films/Films";
 import Pages from "../pages/Pages";
-import { Autocomplete, Box, TextField } from "@mui/material";
-import "./NewList.css";
+import {
+  Autocomplete,
+  Box,
+  Button,
+  MenuItem,
+  Select,
+  TextField,
+  TableBody,
+  TableCell,
+  TableRow,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import styles from "./NewList.module.css";
 
 export default function NewList() {
   const [movieTitles, setMovieTitles] = useState([]);
   const [filteredTitles, setFilteredTitles] = useState([]);
+  const [selectedFilm, setSelectedFilm] = useState(null);
+  const [filmList, setFilmList] = useState([]);
+  const [listName, setListName] = useState("");
+  // TODO
+  // const [tags, setTags] = useState("");
+  // const [view, setView] = useState();
+  const [description, setDescription] = useState("");
   const {
     search,
     setSearch,
@@ -19,6 +39,7 @@ export default function NewList() {
     hasUserSearched,
     setHasUserSearched,
   } = useContext(FilmContext);
+  const { isAuthenticated, getIdTokenClaims } = useAuth0();
 
   const getMovies = async () => {
     try {
@@ -50,6 +71,45 @@ export default function NewList() {
     getMovies();
   };
 
+  const handleAddFilm = () => {
+    if (selectedFilm) {
+      setFilmList([...filmList, selectedFilm]);
+      setSelectedFilm(null);
+    }
+  };
+
+  const handleSaveList = async (e) => {
+    e.preventDefault();
+
+    if (isAuthenticated) {
+      const idTokenClaims = await getIdTokenClaims();
+      const jwtToken = idTokenClaims.__raw;
+
+      const listData = {
+        title: listName,
+        description: description,
+        movies: filmList,
+        user: idTokenClaims.sub,
+      };
+
+      try {
+        await axios.post("http://localhost:3001/lists", listData, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+        setListName("");
+        // TODO
+        // setTags("");
+        // setView();
+        setDescription("");
+        setFilmList([]);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -72,44 +132,114 @@ export default function NewList() {
             noValidate
             autoComplete="off"
           >
-            <div className="input-container">
-              <div className="textfield-container">
-                <h1 className="new-list-title">New List</h1>
+            <div className={styles.inputContainer}>
+              <div className={styles.textfieldContainer}>
+                <h1 className={styles.newListTitle}>New List</h1>
                 <TextField
-                  className="list-name-input"
+                  className={styles.listNameInput}
                   label="List name"
                   variant="outlined"
+                  value={listName}
+                  onChange={(e) => setListName(e.target.value)}
                 />
                 <TextField
-                  className="tag-input"
+                  className={styles.tagsInput}
                   label="Tags"
                   variant="outlined"
+                  // TODO:
+                  // value={listName}
+                  // onChange={(e) => setTags(e.target.value)}
                 />
-                <TextField
-                  className="view-input"
+                {/* <TextField
+                  className={styles.viewInput}
                   label="Who can view"
                   variant="outlined"
-                />
-                <Autocomplete
-                  disablePortal
-                  options={filteredTitles}
-                  getOptionLabel={(option) => option.label}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Film"
-                      onChange={handleSearch}
-                    />
-                  )}
-                />
+                /> */}
+                <Select
+                  className={styles.viewInput}
+                  label="who can view"
+                  //TODO:
+                  // value={view}
+                  // onChange={(e) => setView(e.target.value)}
+                >
+                  <MenuItem value={10}>Public</MenuItem>
+                  <MenuItem value={20}>Private</MenuItem>
+                </Select>
+                <div className={styles.buttonSearchContainer}>
+                  <Button onClick={handleAddFilm}>Add a film</Button>
+                  <Autocomplete
+                    disablePortal
+                    options={filteredTitles}
+                    getOptionLabel={(option) => option.label}
+                    onChange={(event, newValue) => {
+                      setSelectedFilm(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Film"
+                        onChange={handleSearch}
+                        style={{ width: "200px" }}
+                      />
+                    )}
+                  />
+                </div>
+                <div className={styles.listItemsContainer}>
+                  <TableBody>
+                    {filmList.map((film) => (
+                      <TableRow key={film?._id} className="table-row">
+                        <TableCell align="right">
+                          <Box display="flex" alignItems="center">
+                            <Box
+                              display="flex"
+                              flexDirection="column"
+                              alignItems="center"
+                              sx={{ ml: 1 }}
+                            ></Box>
+                          </Box>
+                        </TableCell>
+                        <TableCell>
+                          <img
+                            src={
+                              film.poster_path
+                                ? `https://image.tmdb.org/t/p/w500/${film.poster_path}`
+                                : "no poster"
+                            }
+                            alt={film.title}
+                            style={{ width: "4em", height: "6em" }}
+                          />
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                          <h3 className="film-title" style={{ color: "white" }}>
+                            {film.label}
+                          </h3>
+                        </TableCell>
+                        <TableCell align="right" style={{ width: "100%" }}>
+                          <DeleteIcon />
+                        </TableCell>
+                        <TableCell align="right" style={{ width: "100% " }}>
+                          <EditIcon />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </div>
               </div>
               <div style={{ flex: 0.1 }}></div>
-              <textarea
-                className="description-input"
-                name="list-description-field"
-                rows="5"
-                cols="55"
-              ></textarea>
+              <div className={styles.descriptionContainer}>
+                <textarea
+                  className={styles.descriptionInput}
+                  name="list-description-field"
+                  rows="5"
+                  cols="55"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                ></textarea>
+                <div className={styles.saveListContainer}>
+                  <Button>CANCEL</Button>
+                  <Button onClick={handleSaveList}>SAVE</Button>
+                </div>
+              </div>
             </div>
           </Box>
         </>
