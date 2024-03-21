@@ -17,7 +17,6 @@ import notAvailable from "../../img/no_image.jpeg";
 import MovieModal from "../movieModal/MovieModal";
 import { formatDate } from "../../formatDate";
 import styles from "./Films.module.css";
-import { style } from "../movieModal/style";
 
 export default function Films() {
   const {
