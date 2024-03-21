@@ -4,7 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import "./CrewTab.css";
+import styles from "./CrewTab.module.css";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -59,7 +59,7 @@ export default function BasicTabs({
           borderBottom: 1,
           borderColor: "divider",
         }}
-        className="tab-container"
+        className={styles.tabsContainer}
       >
         <Tabs
           value={value}
@@ -69,22 +69,22 @@ export default function BasicTabs({
           <Tab
             label="CAST"
             {...a11yProps(0)}
-            className={value === 0 ? "selected" : "unselected"}
+            className={value === 0 ? styles.selected : styles.unselected}
           />
           <Tab
             label="CREW"
             {...a11yProps(1)}
-            className={value === 1 ? "selected" : "unselected"}
+            className={value === 1 ? styles.selected : styles.unselected}
           />
           <Tab
             label="DETAILS"
             {...a11yProps(2)}
-            className={value === 2 ? "selected" : "unselected"}
+            className={value === 2 ? styles.selected : styles.unselected}
           />
           <Tab
             label="GENRES"
             {...a11yProps(3)}
-            className={value === 3 ? "selected" : "unselected"}
+            className={value === 3 ? styles.selected : styles.unselected}
           />
         </Tabs>
       </Box>
@@ -92,11 +92,11 @@ export default function BasicTabs({
         <TabPanel
           value={value}
           index={0}
-          className={`{value === 0 ? "selected" : "unselected"} cast-tab-panel`}
+          className={`${value === 0 ? styles.selected : styles.unselected} ${styles.castTabPanel}`}
         >
-          <div className="cast-container">
+          <div className={styles.castContainer}>
             {cast.map((member) => (
-              <div key={member.id} className="cast-member">
+              <div key={member.id} className={styles.castMember}>
                 {member.name}
               </div>
             ))}
@@ -105,11 +105,11 @@ export default function BasicTabs({
         <TabPanel
           value={value}
           index={1}
-          className={`{value === 1 ? "selected" : "unselected"} crew-tab-panel`}
+          className={`${value === 1 ? styles.selected : styles.unselected} ${styles.crewTabPanel}`}
         >
-          <div className="crew-container">
+          <div className={styles.crewContainer}>
             {crew.map((member) => (
-              <div key={member.id} className="crew-member">
+              <div key={member.id} className={styles.crewMember}>
                 {member.name}...{member.department}
               </div>
             ))}
@@ -118,19 +118,19 @@ export default function BasicTabs({
         <TabPanel
           value={value}
           index={2}
-          className={`{value === 2 ? "selected" : "unselected"} details-tab-panel`}
+          className={`${value === 2 ? styles.selected : styles.unselected} ${styles.detailsTabPanel}`}
         >
-          <div className="details-container">
-            <div className="details">DETAILS</div>
+          <div className={styles.detailsContainer}>
+            <div className={styles.details}>DETAILS</div>
           </div>
         </TabPanel>
         <TabPanel
           value={value}
           index={3}
-          className={`{value === 3 ? "selected" : "unselected"} genres-tab-panel`}
+          className={`${value === 3 ? styles.selected : styles.unselected} ${styles.genresTabPanel}`}
         >
-          <div className="genres-container">
-            <div className="genres">GENRES</div>
+          <div className={styles.genresContainer}>
+            <div className={styles.genres}>GENRES</div>
           </div>
         </TabPanel>
       </Box>

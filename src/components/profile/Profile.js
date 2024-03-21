@@ -16,7 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import "./Profile.css";
+import styles from './Profile.module.css';
 
 export default function Profile() {
   const [openPosterModal, setOpenPosterModal] = useState(false);
@@ -97,21 +97,21 @@ export default function Profile() {
     const userFaveFilm = userTopFive[idx];
 
     return (
-      <Paper onClick={handleOpenSearch} key={idx} className="empty-top-five">
+      <Paper onClick={handleOpenSearch} key={idx} className={styles.emptyTopFive}>
         {userFaveFilm ? (
           <img
             src={`https://image.tmdb.org/t/p/w500${userFaveFilm.poster_path}`}
             alt={userFaveFilm.label}
-            className="top-five-poster"
+            className={styles.topFivePoster}
           />
         ) : selectedFilm ? (
           <img
             src={`https://image.tmdb.org/t/p/w500${selectedFilm.poster_path}`}
             alt={selectedFilm.label}
-            className="top-five-poster"
+            className={styles.topFivePoster}
           />
         ) : (
-          <AddIcon className="addIcon" />
+          <AddIcon className={styles.addIcon} />
         )}
       </Paper>
     );
@@ -185,18 +185,18 @@ export default function Profile() {
     <>
       <Header />
       {isAuthenticated ? (
-        <Container className="user-container">
-          <h2 className="welcome-tag">Welcome back, {user.name}</h2>
-          <h3 className="fave-films-tag">favorite films</h3>
-          <Box className="top-five-box">{topFive}</Box>
+        <Container className={styles.userContainer}>
+          <h2 className={styles.welcomeTag}>Welcome back, {user.name}</h2>
+          <h3 className={styles.faveFilmsTag}>favorite films</h3>
+          <Box className={styles.topFiveBox}>{topFive}</Box>
           {selectedTopFive.filter((film) => film !== null && film.label)
             .length > 0 ? (
-            <Button className="save-top-five-btn" onClick={saveTopFive}>
+            <Button className={styles.saveTopFiveBtn} onClick={saveTopFive}>
               Save Changes
             </Button>
           ) : null}
           <Modal open={openPosterModal} onClose={handleCloseSearch}>
-            <Box className="search-modal">
+            <Box className={styles.searchModal}>
               <Typography variant="h6" component="h2">
                 Pick a Favorite Film
               </Typography>

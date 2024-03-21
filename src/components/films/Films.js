@@ -16,7 +16,7 @@ import MovieIcon from "@mui/icons-material/Movie";
 import notAvailable from "../../img/no_image.jpeg";
 import MovieModal from "../movieModal/MovieModal";
 import { formatDate } from "../../formatDate";
-import "./Films.css";
+import styles from "./Films.module.css";
 
 export default function Films() {
   const {
@@ -42,23 +42,23 @@ export default function Films() {
   }, []);
 
   return (
-    <Container className="container">
+    <Container className={styles.container}>
       <TableContainer component={Paper}>
         {movies?.results?.map((movie) => (
           <Table
             key={movie.id}
             sx={{ minWidth: 340, backgroundColor: "#2c3440", marginLeft: 0 }}
             aria-label="customized table"
-            className="table"
+            className={styles.table}
           >
             <TableBody>
-              <TableRow className="table-row">
+              <TableRow className={styles.tableRow}>
                 <TableCell align="center">
-                  <div className="movie-container">
-                    <div className="poster-container">
+                  <div className={styles.movieContainer}>
+                    <div className={styles.posterContainer}>
                       <Link
                         to={`/film/${movie.id}`}
-                        className="movie-link"
+                        className={styles.movieLink}
                         onClick={resetSearch}
                       >
                         <img
@@ -68,35 +68,35 @@ export default function Films() {
                               : notAvailable
                           }
                           alt={movie?.title}
-                          className={movie?.poster_path ? "" : "not-available"}
+                          className={movie?.poster_path ? "" : styles.notAvailable}
                         />
                       </Link>
                     </div>
                   </div>
                   <TableCell style={{ borderBottom: "none" }}>
-                    <span className="title-date-container">
-                      <span className="movie-title">
+                    <span className={styles.titleDateContainer}>
+                      <span className={styles.movieTitle}>
                         {movie.title}{" "}
-                        <small className="release-date">
+                        <small className={styles.releaseDate}>
                           {formatDate(movie.release_date, "year")}
                         </small>
                       </span>
                     </span>
-                    <div className="director-container">
-                      <span className="director">
+                    <div className={styles.directorContainer}>
+                      <span className={styles.director}>
                         Directed by: director name
                       </span>
                     </div>
-                    <div className="icon-container">
+                    <div className={styles.iconContainer}>
                       <IconButton
-                        className="movie-icon"
+                        className={styles.movieIcon}
                         aria-label="add to favorites"
                         onClick={() => handleOpenModal(movie.id)}
                       >
                         <MovieIcon />
                       </IconButton>
                       <IconButton
-                        className="visibility-icon"
+                        className={styles.visibilityIcon}
                         aria-label="add to watchlist"
                         onClick={() => addToWatchlist(movie)}
                       >
