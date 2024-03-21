@@ -5,7 +5,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import Header from "../Header";
 import Films from "../films/Films";
-// import NewList from "../newList/NewList";
 import Pages from "../pages/Pages";
 import CustomTabPanel from "./customTabPanel";
 import a11yProps from "./a11yProps";
@@ -15,7 +14,6 @@ import styles from "./Lists.module.css";
 export default function Lists() {
   const [value, setValue] = useState(0);
   const [userLists, setUserLists] = useState([]);
-  const [userHasLists, setUserHasLists] = useState(false);
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
   const { search, setMovies, totalResults, hasUserSearched } =
     useContext(FilmContext);
@@ -34,6 +32,7 @@ export default function Lists() {
         });
         const userListData = response.data.map((list) => ({
           ...list,
+          movies: list.movies,
         }));
         setUserLists(userListData);
       } catch (error) {
@@ -60,7 +59,7 @@ export default function Lists() {
         </>
       ) : (
         <div className={styles.boxContainer}>
-          <Box sx={{ width: "100%" }} classame={styles.box}>
+          <Box sx={{ width: "100%" }} className={styles.box}>
             <div className={styles.innerBox}>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <Tabs
@@ -89,24 +88,27 @@ export default function Lists() {
                 <CustomTabPanel
                   value={value}
                   index={0}
-                  className={`${
-                    value === 0 ? styles.selected : styles.unselected
-                  }`}
+                  className={value === 0 ? styles.selected : styles.unselected}
                 >
-                  {userHasLists ? (
-                    {
-                      /* {userLists.map((list) => (
-                    <div key={list._id} className="list">
-                      <h3>{list.title}</h3>
-                      <h2>{list.description}</h2>
-                      {list.movies.map((movie) => (
-                        <div key={movie.id} className="movie">
-                          <h4>{movie.title}</h4>
+                  {userLists.length > 0 ? (
+                    <div className={styles.listContainer}>
+                      {userLists.map((list) => (
+                        <div key={list._id} className={styles.list}>
+                          {list.movies.map((movie) => (
+                            <div key={movie.id} className={styles.movie}>
+                              <img
+                                src={`https://image.tmdb.org/t/p/w500/${movie.poster}`}
+                                alt={list.description}
+                              />
+                            </div>
+                          ))}
+                          <div className={styles.listText}>
+                            <h2>{list.title}</h2>
+                            <p>{list.description}</p>
+                          </div>
                         </div>
                       ))}
                     </div>
-                  ))} */
-                    }
                   ) : (
                     <div className={styles.noLists}>
                       <>No lists yet...</>
@@ -127,9 +129,7 @@ export default function Lists() {
                 <CustomTabPanel
                   value={value}
                   index={1}
-                  className={`${
-                    value === 1 ? styles.selected : styles.unselected
-                  }`}
+                  className={value === 1 ? styles.selected : styles.unselected}
                 >
                   No lists have been shared with you...
                 </CustomTabPanel>

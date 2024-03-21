@@ -48,8 +48,8 @@ export default function NewList() {
       );
       const films = movieResponse.data.results.map((film) => ({
         label: film.title,
-        poster_path: film.poster_path,
         id: film.id,
+        poster_path: film.poster_path,
       }));
       setMovieTitles(films || []);
       setMovies(movieResponse?.data);
@@ -73,6 +73,7 @@ export default function NewList() {
 
   const handleAddFilm = () => {
     if (selectedFilm) {
+
       setFilmList([...filmList, selectedFilm]);
       setSelectedFilm(null);
     }
@@ -88,7 +89,12 @@ export default function NewList() {
       const listData = {
         title: listName,
         description: description,
-        movies: filmList,
+        // movies: filmList,
+        movies: filmList.map((film) => ({
+          id: film.id,
+          title: film.label,
+          poster: film.poster_path,
+        })),
         user: idTokenClaims.sub,
       };
 
