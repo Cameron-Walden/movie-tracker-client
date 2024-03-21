@@ -7,21 +7,21 @@ img {
   border-radius: 10px;
 }
 
-.not-available {
+.notAvailable {
   width: 92px;
   height: 138px;
 }
 
-.poster-container {
+.posterContainer {
   float: left;
   margin-right: 16px;
 }
 
-.poster-container img:hover {
+.posterContainer img:hover {
   border: 2px solid orange;
 }
 
-.title-date-container {
+.titleDateContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -29,7 +29,7 @@ img {
   margin-bottom: 10px;
 }
 
-.movie-title {
+.movieTitle {
   font-size: large;
   font-weight: bold;
   color: white;
@@ -38,7 +38,7 @@ img {
   max-width: 480px;
 }
 
-.movie-title:hover {
+.movieTitle:hover {
   color: orange !important;
 }
 
@@ -46,27 +46,27 @@ a {
   text-decoration: none !important;
 }
 
-.release-date {
+.releaseDate {
   color: #9ab;
   font-size: large;
 }
 
-.movie-icon {
+.movieIcon {
   color: white !important;
 }
-.movie-icon:hover {
+.movieIcon:hover {
   color: orange !important;
 }
 
-.visibility-icon {
+.visibilityIcon {
   color: white !important;
 }
 
-.visibility-icon:hover {
+.visibilityIcon:hover {
   color: orange !important;
 }
 
-.director-container {
+.directorContainer {
   margin-top: -10px;
   margin-bottom: 10px;
 }
