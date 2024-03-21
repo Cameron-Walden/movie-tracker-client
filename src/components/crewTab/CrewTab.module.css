@@ -14,13 +14,13 @@
   color: orange !important;
 }
 
-.tab-container{
+.tabsContainer{
   display: flex;
   justify-content: flex-end;
   margin-left: 150px;
 }
 
-.cast-container {
+.castContainer {
   width: 87%;
   display: flex;
   flex-wrap: wrap;
@@ -29,14 +29,14 @@
   margin-left: 125px;
 }
 
-.cast-tab-panel {
+.castTabPanel {
   height: 150px;
   width: 500px;
   overflow: auto;
   color: white;
 }
 
-.cast-member {
+.castMember {
   margin-right: 1rem;
   margin-bottom: 1rem;
   background-color: orange;
@@ -45,7 +45,7 @@
   border-radius: 0.25rem;
 }
 
-.crew-container {
+.crewContainer {
   width: 87%;
   display: flex;
   flex-wrap: wrap;
@@ -54,14 +54,14 @@
   margin-left: 125px;
 }
 
-.crew-tab-panel {
+.crewTabPanel {
   height: 150px;
   width: 500px;
   overflow: auto;
   color: white;
 }
 
-.crew-member {
+.crewMember {
   margin-right: 1rem;
   margin-bottom: 1rem;
   background-color: orange;
@@ -70,7 +70,7 @@
   border-radius: 0.25rem;
 }
 
-.details-container {
+.detailsContainer {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -79,7 +79,7 @@
   margin-left: 125px;
 }
 
-.details-tab-panel {
+.detailsTabPanel {
   height: 150px;
   width: 500px;
   overflow: auto;
@@ -95,7 +95,7 @@
   border-radius: 0.25rem;
 }
 
-.genres-container {
+.genresContainer {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -104,7 +104,7 @@
   margin-left: 125px;
 }
 
-.genres-tab-panel {
+.genresTabPanel {
   height: 150px;
   width: 500px;
   overflow: auto;
