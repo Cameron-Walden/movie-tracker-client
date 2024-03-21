@@ -6,7 +6,7 @@ import { FilmContext } from "../../context/FilmContext";
 import { Button, Container, Grid, Paper, Typography } from "@mui/material";
 import Slider from "react-slick";
 import notAvailable from "../../img/no_image.jpeg";
-import "./HomePanel.css";
+import styles from "./HomePanel.module.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -70,26 +70,26 @@ export default function HomePanel() {
   }, [fetchRecs]);
 
   return (
-    <div className="home-panel-container">
-      <div className="welcome-text-container" style={{ textAlign: "center" }}>
+    <div className={styles.homePanelContainer}>
+      <div className={styles.welcomeTextContainer} style={{ textAlign: "center" }}>
         <h1>Track films you’ve watched.</h1>
         <h1>Save those you want to watch.</h1>
         <h1>Tell your friends what's worth watching.</h1>
       </div>
       {isAuthenticated ? (
         <Container>
-          <strong className="film-recs-tagline">
+          <strong className={styles.filmRecsTagline}>
             Today you might be interested in...
           </strong>
           <Slider {...settings}>
             {recommendations?.map((film) => (
               <Link
                 to={`/film/${film.id}`}
-                className="movie-link"
+                className={styles.movieLink}
                 key={film.id}
               >
                 <img
-                  className="movie-rec-poster"
+                  className={styles.movieRecPoster}
                   src={
                     film.poster_path
                       ? `https://image.tmdb.org/t/p/w185/${film.poster_path}`
@@ -102,23 +102,23 @@ export default function HomePanel() {
           </Slider>
         </Container>
       ) : (
-        <Button className="get-started-btn" onClick={() => loginWithRedirect()}>
+        <Button className={styles.getStartedBtn} onClick={() => loginWithRedirect()}>
           START TRACKING- IT'S FREE!
         </Button>
       )}
-      <strong className="tagline">
+      <strong className={styles.tagline}>
         The movie tracking social network for film enthusiasts.
       </strong>
       <Container>
         <Grid
-          className="popular-grid"
+          className={styles.poopularGrid}
           container
           direction="row"
           alignItems="center"
           justifyContent="center"
         >
           {firstFiveMovies.map((film) => (
-            <Link to={`/film/${film.id}`} className="movie-link" key={film.id}>
+            <Link to={`/film/${film.id}`} className={styles.movieLink} key={film.id}>
               <img
                 src={`https://image.tmdb.org/t/p/w185/${film.poster_path}`}
                 alt={film.title}
@@ -127,19 +127,16 @@ export default function HomePanel() {
           ))}
         </Grid>
       </Container>
-      <Grid className="welcome-grid" container spacing={2}>
-        <Grid className="grid-panels" item xs={12} sm={6} md={4}>
+      <Grid className={styles.welcomeGrid}container spacing={2}>
+        <Grid className={styles.gridPanels} item xs={12} sm={6} md={4}>
           <Link
             to="/welcome"
-            className="welcome-route"
+            className={styles.welcomeRoute}
             style={{ textDecoration: "none", color: "black" }}
           >
-            <Paper className="paper">
-              {/* <Typography variant="h5" align="center">
-                Discover New Films
-              </Typography> */}
+            <Paper className={styles.paper}>
               <Typography
-                className="description"
+                className={styles.description}
                 variant="body1"
                 align="center"
               >
@@ -151,15 +148,12 @@ export default function HomePanel() {
         <Grid item xs={12} sm={6} md={4}>
           <Link
             to="/welcome"
-            className="welcome-route"
+            className={styles.welcomeRoute}
             style={{ textDecoration: "none", color: "black" }}
           >
-            <Paper className="paper">
-              {/* <Typography variant="h5" align="center">
-                Create Lists
-              </Typography> */}
+            <Paper className={styles.paper}>
               <Typography
-                className="description"
+                className={styles.description}
                 variant="body1"
                 align="center"
               >
@@ -172,15 +166,12 @@ export default function HomePanel() {
         <Grid item xs={12} sm={6} md={4}>
           <Link
             to="/welcome"
-            className="welcome-route"
+            className={styles.welcomeRoute}
             style={{ textDecoration: "none", color: "black" }}
           >
-            <Paper className="paper">
-              {/* <Typography variant="h5" align="center">
-                Rate and Review
-              </Typography> */}
+            <Paper className={styles.paper}>
               <Typography
-                className="description"
+                className={styles.description}
                 variant="body1"
                 align="center"
               >
@@ -192,15 +183,12 @@ export default function HomePanel() {
         <Grid item xs={12} sm={6} md={4}>
           <Link
             to="/welcome"
-            className="welcome-route"
+            className={styles.welcomeRoute}
             style={{ textDecoration: "none", color: "black" }}
           >
-            <Paper className="paper">
-              {/* <Typography variant="h5" align="center">
-                Connect with Friends
-              </Typography> */}
+            <Paper className={styles.paper}>
               <Typography
-                className="description"
+                className={styles.descrioption}
                 variant="body1"
                 align="center"
               >
@@ -212,13 +200,10 @@ export default function HomePanel() {
         <Grid item xs={12} sm={6} md={4}>
           <Link
             to="/welcome"
-            className="welcome-route"
+            className={styles.welcomeRoute}
             style={{ textDecoration: "none", color: "black" }}
           >
-            <Paper className="paper">
-              {/* <Typography variant="h5" align="center">
-                Get Personalized Recommendations
-              </Typography> */}
+            <Paper className={styles.paper}>
               <Typography
                 className="description"
                 variant="body1"
@@ -233,15 +218,12 @@ export default function HomePanel() {
         <Grid item xs={12} sm={6} md={4}>
           <Link
             to="/welcome"
-            className="welcome-route"
+            className={styles.welcomeRoute}
             style={{ textDecoration: "none", color: "black" }}
           >
-            <Paper className="paper">
-              {/* <Typography variant="h5" align="center">
-                Track Your Watchlist
-              </Typography> */}
+            <Paper className={styles.paper}>
               <Typography
-                className="description"
+                className={styles.description}
                 variant="body1"
                 align="center"
               >

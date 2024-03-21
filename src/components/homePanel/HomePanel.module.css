@@ -1,15 +1,15 @@
-.welcome-grid {
-  margin-top: 30px !important;
+.welcomeGrid {
+  margin-top: 30px;
 }
 
-.welcome-text-container {
-  align-items: center !important;
+.welcomeTextContainer {
+  align-items: center;
   color: white;
   font-family: "Palatino Linotype", serif;
   margin-bottom: 30px;
 }
 
-.film-recs-tagline {
+.filmRecsTagline {
   display: flex;
   justify-content: center;
   padding-bottom: 30px;
@@ -18,7 +18,7 @@
   font-family: "Palatino Linotype", serif;
 }
 
-.movie-rec-poster {
+.movierecPoster {
   width: 185px;
   height: 278px;
 }
@@ -32,13 +32,13 @@
   font-family: "Palatino Linotype", serif;
 }
 
-.get-started-btn {
+.getStartedBtn {
   color: black !important;
   background-color: orange !important;
   left: 40%;
 }
 
-.get-started-btn:hover {
+.getStartedBtn:hover {
   background-color: rgb(197, 136, 23) !important;
 }
 
@@ -47,7 +47,6 @@
   flex-direction: column;
   align-items: center;
   background-color: #678 !important;
-  /* background-color: rgb(83, 89, 96) !important; */
   color: #def !important;
   height: 40px !important;
   display: flex;
