@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import axios from "axios";
-import { FilmContext } from "../../context/FilmContext";
+import { SearchContext } from "../../context/SearchContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import Header from "../Header";
@@ -16,7 +16,7 @@ export default function Lists() {
   const [userLists, setUserLists] = useState([]);
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
   const { search, setMovies, totalResults, hasUserSearched } =
-    useContext(FilmContext);
+    useContext(SearchContext);
 
   const handleChange = (newValue) => setValue(newValue);
 

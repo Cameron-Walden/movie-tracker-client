@@ -3,13 +3,9 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 export const FilmContext = createContext();
 
-export default function Context(props) {
-  const [search, setSearch] = useState("");
-  const [movies, setMovies] = useState([]);
-  const [totalResults, setTotalResults] = useState(0);
+export default function FilmProvider(props) {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [trackedMovies, setTrackedMovies] = useState([]);
-  const [hasUserSearched, setHasUserSearched] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [starRating, setStarRating] = useState(0);
   const [userReview, setUserReview] = useState("");
@@ -21,18 +17,6 @@ export default function Context(props) {
   const [watchlist, setWatchlist] = useState([]);
   const [popular, setPopular] = useState([]);
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
-
-  const getMovies = async () => {
-    try {
-      let movieResponse = await axios?.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_MOVIE_API}&query=${search}`
-      );
-      setMovies(movieResponse?.data);
-      setTotalResults(movieResponse?.data?.total_results);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const addToWatchlist = async (film, res) => {
     if (isAuthenticated) {
@@ -85,7 +69,6 @@ export default function Context(props) {
   };
 
   useEffect(() => {
-    getMovies();
     getPopularFilms();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -93,19 +76,10 @@ export default function Context(props) {
   return (
     <FilmContext.Provider
       value={{
-        search,
-        setSearch,
-        movies,
-        setMovies,
-        totalResults,
-        setTotalResults,
         selectedMovie,
         setSelectedMovie,
         trackedMovies,
         setTrackedMovies,
-        getMovies,
-        hasUserSearched,
-        setHasUserSearched,
         openModal,
         setOpenModal,
         starRating,

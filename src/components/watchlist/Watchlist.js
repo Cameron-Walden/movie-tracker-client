@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { FilmContext } from "../../context/FilmContext";
+import { SearchContext } from "../../context/SearchContext";
 import {
   Container,
   Grid,
@@ -14,13 +14,12 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import Header from "../Header";
 import Films from "../films/Films";
 import styles from "./Watchlist.module.css";
-import { StayPrimaryLandscapeSharp } from "@mui/icons-material";
 
 export default function Watchlist() {
   const [watchlist, setWatchlist] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [hoveredFilmId, setHoveredFilmId] = useState(null);
-  const { hasUserSearched } = useContext(FilmContext);
+  const { hasUserSearched } = useContext(SearchContext);
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
 
   const open = Boolean(anchorEl);

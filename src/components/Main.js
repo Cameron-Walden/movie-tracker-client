@@ -1,13 +1,13 @@
 import { useContext } from "react";
-import { FilmContext } from "../context/FilmContext";
+import { SearchContext } from "../context/SearchContext";
 import Header from "./Header";
 import Films from "./films/Films";
 import Pages from "./pages/Pages";
 import SortFilms from "./SortFilms";
 export default function Main() {
   const { search, setMovies, totalResults, hasUserSearched } =
-    useContext(FilmContext);
-
+    useContext(SearchContext);
+    
   return (
     <div>
       <Header />

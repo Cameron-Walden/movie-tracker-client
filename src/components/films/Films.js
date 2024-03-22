@@ -1,6 +1,7 @@
 import { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { FilmContext } from "../../context/FilmContext";
+import { SearchContext } from "../../context/SearchContext";
 import {
   Container,
   IconButton,
@@ -19,13 +20,10 @@ import { formatDate } from "../../formatDate";
 import styles from "./Films.module.css";
 
 export default function Films() {
-  const {
-    movies,
-    setOpenModal,
-    setSelectedMovie,
-    setHasUserSearched,
-    addToWatchlist,
-  } = useContext(FilmContext);
+  const { setOpenModal, setSelectedMovie, addToWatchlist } =
+    useContext(FilmContext);
+
+  const { movies, setHasUserSearched } = useContext(SearchContext);
 
   const handleOpenModal = (id) => {
     let findId = movies?.results?.find((movie) => movie.id === id);
@@ -68,7 +66,9 @@ export default function Films() {
                               : notAvailable
                           }
                           alt={movie?.title}
-                          className={movie?.poster_path ? "" : styles.notAvailable}
+                          className={
+                            movie?.poster_path ? "" : styles.notAvailable
+                          }
                         />
                       </Link>
                     </div>

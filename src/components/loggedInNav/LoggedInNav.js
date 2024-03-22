@@ -14,11 +14,13 @@ import {
 import LogoutButton from "../logoutButton/LogoutButton";
 import Search from "../search/Search";
 import { FilmContext } from "../../context/FilmContext";
+import { SearchContext } from "../../context/SearchContext";
 import "./LoggedInNav.css";
 
 export default function LoggedInNav() {
   const [isOpen, setIsOpen] = useState(null);
-  const { setHasUserSearched, setSelectedFromDD } = useContext(FilmContext);
+  const { setSelectedFromDD } = useContext(FilmContext);
+  const { setHasUserSearched } = useContext(SearchContext);
 
   const { user } = useAuth0();
 

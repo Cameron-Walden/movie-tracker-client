@@ -3,6 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { FilmContext } from "../../context/FilmContext";
+import { SearchContext } from "../../context/SearchContext.js";
 import Header from "../Header";
 import Films from "../films/Films.js";
 import { formatDate } from "../../formatDate";
@@ -34,7 +35,6 @@ import styles from './TrackedFilm.module.css';
 
 export default function TrackedFilm() {
   const {
-    hasUserSearched,
     trackedMovies,
     setTrackedMovies,
     setSelectedMovie,
@@ -45,6 +45,7 @@ export default function TrackedFilm() {
     date,
     setDate,
   } = useContext(FilmContext);
+  const { hasUserSearched } = useContext(SearchContext);
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedMovieEdit, setSelectedMovieEdit] = useState(null);
   const { isAuthenticated, getIdTokenClaims } = useAuth0();

@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import { FilmContext } from "../../context/FilmContext";
+import { SearchContext } from "../../context/SearchContext";
 import Header from "../Header";
 import Films from "../films/Films";
 import Pages from "../pages/Pages";
@@ -38,7 +38,7 @@ export default function NewList() {
     setTotalResults,
     hasUserSearched,
     setHasUserSearched,
-  } = useContext(FilmContext);
+  } = useContext(SearchContext);
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
 
   const getMovies = async () => {
@@ -73,7 +73,6 @@ export default function NewList() {
 
   const handleAddFilm = () => {
     if (selectedFilm) {
-
       setFilmList([...filmList, selectedFilm]);
       setSelectedFilm(null);
     }
