@@ -3,6 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { FilmContext } from "../../context/FilmContext";
+import { SearchContext } from "../../context/SearchContext";
 import { Container } from "@mui/system";
 import {
   Button,
@@ -27,7 +28,6 @@ import Films from "../films/Films";
 import CrewTab from "../crewTab/CrewTab";
 import MovieModal from "../movieModal/MovieModal";
 import styles from "./Film.module.css";
-import { style } from "../movieModal/style";
 
 export default function Film() {
   const [filmId, setFilmId] = useState(null);
@@ -42,7 +42,6 @@ export default function Film() {
   const {
     setTrackedMovies,
     setStarRating,
-    hasUserSearched,
     setOpenModal,
     setSelectedMovie,
     watchlist,
@@ -50,6 +49,8 @@ export default function Film() {
     addToWatchlist,
   } = useContext(FilmContext);
 
+  const { hasUserSearched } = useContext(SearchContext);
+  
   const { id } = useParams();
 
   const openPosterModal = () => setOpenPoster(true);
@@ -253,14 +254,18 @@ export default function Film() {
                   <div className={styles.filmInfo}>
                     <div className={styles.titleRunContainer}>
                       <span className={styles.filmTitle}>{filmId?.title}</span>
-                      <span className={styles.runtime}>{filmId.runtime} min.</span>
+                      <span className={styles.runtime}>
+                        {filmId.runtime} min.
+                      </span>
                     </div>
 
                     {director && (
                       <div className={styles.directorContainer}>
                         <span className={styles.directedBy}>
                           Directed by:{" "}
-                          <span className={styles.directorName}>{director}</span>
+                          <span className={styles.directorName}>
+                            {director}
+                          </span>
                         </span>
                       </div>
                     )}
@@ -302,7 +307,9 @@ export default function Film() {
                                       removeFromWatchlist(filmId?._id)
                                     }
                                   />
-                                  <span className={styles.removeText}>Remove</span>
+                                  <span className={styles.removeText}>
+                                    Remove
+                                  </span>
                                 </div>
                               ) : (
                                 <div className={styles.addWatchlist}>
@@ -313,7 +320,9 @@ export default function Film() {
                                     }}
                                     onClick={handleAddFilmToWL}
                                   />
-                                  <span className={styles.wlText}>Watchlist</span>
+                                  <span className={styles.wlText}>
+                                    Watchlist
+                                  </span>
                                 </div>
                               )}
                               <Snackbar

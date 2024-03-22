@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { FilmContext } from "../../context/FilmContext";
+import { SearchContext } from "../../context/SearchContext";
 import Header from "../Header";
 import Films from "../films/Films";
 import Pages from "../pages/Pages";
@@ -8,7 +8,7 @@ import "./Welcome.css";
 
 export default function Welcome() {
   const { search, setMovies, totalResults, hasUserSearched } =
-    useContext(FilmContext);
+    useContext(SearchContext);
 
   return (
     <div>

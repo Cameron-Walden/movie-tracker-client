@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import { FilmContext } from "../../context/FilmContext";
+import { SearchContext } from "../../context/SearchContext";
 import Header from "../Header";
 import Films from "../films/Films";
 import {
@@ -33,7 +33,7 @@ export default function Profile() {
     setHasUserSearched,
     setMovies,
     setTotalResults,
-  } = useContext(FilmContext);
+  } = useContext(SearchContext);
   const { user, isLoading, isAuthenticated, getIdTokenClaims } = useAuth0();
 
   const getMovies = async () => {

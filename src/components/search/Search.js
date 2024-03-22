@@ -1,29 +1,34 @@
 import { useContext } from "react";
-import { FilmContext } from "../../context/FilmContext";
+import { SearchContext } from "../../context/SearchContext";
 import SearchIcon from "@mui/icons-material/Search";
 import { Searchbar } from "./searchStyles";
 import { SearchIconWrapper } from "./searchStyles";
 import { StyledInputBase } from "./searchStyles";
 
 export default function Search() {
-  const { search, setSearch, getMovies, setHasUserSearched } = useContext(FilmContext)
+  const { search, setSearch, getMovies, setHasUserSearched } =
+    useContext(SearchContext);
 
   const handleSearch = (e) => {
     e.preventDefault();
     setSearch(e.target.value);
-    setHasUserSearched(false)
+    setHasUserSearched(false);
   };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       getMovies();
-      setHasUserSearched(true)
+      setHasUserSearched(true);
     }
   };
 
   return (
     <div>
-      <Searchbar onChange={handleSearch} value={search} onKeyDown={handleKeyDown}>
+      <Searchbar
+        onChange={handleSearch}
+        value={search}
+        onKeyDown={handleKeyDown}
+      >
         <SearchIconWrapper>
           <SearchIcon />
         </SearchIconWrapper>
