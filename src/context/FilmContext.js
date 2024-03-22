@@ -6,10 +6,6 @@ export const FilmContext = createContext();
 export default function FilmProvider(props) {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [trackedMovies, setTrackedMovies] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
-  const [starRating, setStarRating] = useState(0);
-  const [userReview, setUserReview] = useState("");
-  const [date, setDate] = useState("");
   const [genres, setGenres] = useState([]);
   const [selectGenre, setSelectGenre] = useState(null);
   const [selectedFromDD, setSelectedFromDD] = useState(false);
@@ -80,14 +76,6 @@ export default function FilmProvider(props) {
         setSelectedMovie,
         trackedMovies,
         setTrackedMovies,
-        openModal,
-        setOpenModal,
-        starRating,
-        setStarRating,
-        userReview,
-        setUserReview,
-        date,
-        setDate,
         genres,
         setGenres,
         selectGenre,

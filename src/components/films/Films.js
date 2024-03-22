@@ -2,6 +2,7 @@ import { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { FilmContext } from "../../context/FilmContext";
 import { SearchContext } from "../../context/SearchContext";
+import { ModalContext } from "../../context/ModalContext";
 import {
   Container,
   IconButton,
@@ -20,10 +21,9 @@ import { formatDate } from "../../formatDate";
 import styles from "./Films.module.css";
 
 export default function Films() {
-  const { setOpenModal, setSelectedMovie, addToWatchlist } =
-    useContext(FilmContext);
-
+  const { setSelectedMovie, addToWatchlist } = useContext(FilmContext);
   const { movies, setHasUserSearched } = useContext(SearchContext);
+  const { setOpenModal } = useContext(ModalContext);
 
   const handleOpenModal = (id) => {
     let findId = movies?.results?.find((movie) => movie.id === id);
