@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FilmContext } from "../../context/FilmContext";
+import { ModalContext } from "../../context/ModalContext";
 import axios from "axios";
 import {
   Modal,
@@ -17,10 +18,9 @@ import { style } from "./style";
 import { DatePicker } from "@mui/x-date-pickers";
 
 export default function MovieModal({ handleCloseModal }) {
+  const { trackedMovies, setTrackedMovies, selectedMovie } =
+    useContext(FilmContext);
   const {
-    trackedMovies,
-    setTrackedMovies,
-    selectedMovie,
     openModal,
     starRating,
     setStarRating,
@@ -28,7 +28,7 @@ export default function MovieModal({ handleCloseModal }) {
     setUserReview,
     date,
     setDate,
-  } = useContext(FilmContext);
+  } = useContext(ModalContext);
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
 
   const addUserReview = async (e) => {
@@ -53,13 +53,13 @@ export default function MovieModal({ handleCloseModal }) {
         const response = await axios.post(url, config.data, {
           headers: {
             "Content-type": "application/json",
-            Authorization: `Bearer ${jwtToken}`
-          }
+            Authorization: `Bearer ${jwtToken}`,
+          },
         });
         setTrackedMovies([...trackedMovies, response.data]);
         handleCloseModal();
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
   };

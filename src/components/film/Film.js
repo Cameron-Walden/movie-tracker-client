@@ -3,6 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { FilmContext } from "../../context/FilmContext";
+import { ModalContext } from "../../context/ModalContext";
 import { SearchContext } from "../../context/SearchContext";
 import { Container } from "@mui/system";
 import {
@@ -41,13 +42,12 @@ export default function Film() {
 
   const {
     setTrackedMovies,
-    setStarRating,
-    setOpenModal,
     setSelectedMovie,
     watchlist,
     setWatchlist,
     addToWatchlist,
   } = useContext(FilmContext);
+  const { setOpenModal, setStarRating } = useContext(ModalContext);
 
   const { hasUserSearched } = useContext(SearchContext);
   

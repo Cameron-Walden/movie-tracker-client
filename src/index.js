@@ -4,6 +4,7 @@ import reportWebVitals from "./reportWebVitals";
 import App from "./App";
 import FilmProvider from "./context/FilmContext";
 import SearchProvider from "./context/SearchContext";
+import ModalProvider from "./context/ModalContext";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Auth0Provider } from "@auth0/auth0-react";
@@ -21,11 +22,13 @@ root.render(
       }}
     >
       <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <ModalProvider>
         <SearchProvider>
           <FilmProvider>
             <App />
           </FilmProvider>
         </SearchProvider>
+        </ModalProvider>
       </LocalizationProvider>
     </Auth0Provider>
   </React.StrictMode>
