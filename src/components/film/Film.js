@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { FilmContext } from "../../context/FilmContext";
 import { ModalContext } from "../../context/ModalContext";
 import { SearchContext } from "../../context/SearchContext";
+import { WatchlistContext } from "../../context/WatchlistContext";
 import { Container } from "@mui/system";
 import {
   Button,
@@ -40,17 +41,13 @@ export default function Film() {
   const [openRmvSnack, setOpenRmvSnack] = useState(false);
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
 
-  const {
-    setTrackedMovies,
-    setSelectedMovie,
-    watchlist,
-    setWatchlist,
-    addToWatchlist,
-  } = useContext(FilmContext);
+  const { setTrackedMovies, setSelectedMovie } = useContext(FilmContext);
   const { setOpenModal, setStarRating } = useContext(ModalContext);
+  const { watchlist, setWatchlist, addToWatchlist } =
+    useContext(WatchlistContext);
 
   const { hasUserSearched } = useContext(SearchContext);
-  
+
   const { id } = useParams();
 
   const openPosterModal = () => setOpenPoster(true);

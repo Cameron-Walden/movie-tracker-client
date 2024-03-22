@@ -3,6 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
+import { WatchlistContext } from "../../context/WatchlistContext";
 import {
   Container,
   Grid,
@@ -16,9 +17,9 @@ import Films from "../films/Films";
 import styles from "./Watchlist.module.css";
 
 export default function Watchlist() {
-  const [watchlist, setWatchlist] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [hoveredFilmId, setHoveredFilmId] = useState(null);
+  const { watchlist, setWatchlist } = useContext(WatchlistContext);
   const { hasUserSearched } = useContext(SearchContext);
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
 

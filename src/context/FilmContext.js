@@ -1,6 +1,5 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
 export const FilmContext = createContext();
 
 export default function FilmProvider(props) {
@@ -10,37 +9,7 @@ export default function FilmProvider(props) {
   const [selectGenre, setSelectGenre] = useState(null);
   const [selectedFromDD, setSelectedFromDD] = useState(false);
   const [ddMovies, setDDMovies] = useState([]);
-  const [watchlist, setWatchlist] = useState([]);
   const [popular, setPopular] = useState([]);
-  const { isAuthenticated, getIdTokenClaims } = useAuth0();
-
-  const addToWatchlist = async (film, res) => {
-    if (isAuthenticated) {
-      const idTokenClaims = await getIdTokenClaims();
-      const jwtToken = idTokenClaims.__raw;
-      const config = {
-        headers: { "Content-type": "application/json" },
-        data: {
-          title: film.title,
-          description: film.overview,
-          poster: film.poster_path,
-          watched: false,
-          tmdb_id: film.id,
-        },
-      };
-      try {
-        const url = "http://localhost:3001/watchlist";
-        const response = await axios.post(url, config.data, {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        });
-        setWatchlist([...watchlist, response.data]);
-      } catch (error) {
-        res.status(500).send(error);
-      }
-    }
-  };
 
   const getPopularFilms = async () => {
     try {
@@ -84,9 +53,6 @@ export default function FilmProvider(props) {
         setSelectedFromDD,
         ddMovies,
         setDDMovies,
-        watchlist,
-        setWatchlist,
-        addToWatchlist,
         popular,
         setPopular,
         getPopularFilms,
