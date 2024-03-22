@@ -76,7 +76,7 @@ export default function Watchlist() {
         <Films />
       ) : (
         <>
-          <Container sx={{ maxWidth: "300px", paddingLeft: 0 }}>
+          <Container sx={{ maxWidth: "100%", padding: 0, marginLeft: '8%' }}>
             <div
               className="watchlist-text"
               style={{ paddingTop: "3em", color: "#9ab" }}
