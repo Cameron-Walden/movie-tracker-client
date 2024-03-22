@@ -4,7 +4,8 @@
   justify-items: center !important;
   row-gap: .5rem !important;
   padding-top: 3em !important;
-  padding-left: 4.5em !important;
+  width: 100% !important;
+  margin: auto;
 }
 
 .film-grid > div:last-child {
@@ -14,7 +15,7 @@
 .watchlist-text {
   color: #9ab;
   width: 100%;
-  text-align: center;
+  text-align: left;
 }
 
 .remove-icon-container{
