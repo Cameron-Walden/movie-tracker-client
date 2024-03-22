@@ -13,7 +13,8 @@ import {
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Header from "../Header";
 import Films from "../films/Films";
-import "./Watchlist.css";
+import styles from "./Watchlist.module.css";
+import { StayPrimaryLandscapeSharp } from "@mui/icons-material";
 
 export default function Watchlist() {
   const [watchlist, setWatchlist] = useState([]);
@@ -76,9 +77,9 @@ export default function Watchlist() {
         <Films />
       ) : (
         <>
-          <Container sx={{ maxWidth: "100%", padding: 0, marginLeft: '8%' }}>
+          <Container sx={{ maxWidth: "100%", padding: 0, marginLeft: "8%" }}>
             <div
-              className="watchlist-text"
+              className={styles.watchlistText}
               style={{ paddingTop: "3em", color: "#9ab" }}
             >
               {watchlist.length === 0 ? (
@@ -93,7 +94,7 @@ export default function Watchlist() {
               )}
             </div>
             <Grid
-              className="film-grid"
+              className={styles.filmGrid}
               container
               rowSpacing={4}
               columnSpacing={4}
@@ -111,7 +112,7 @@ export default function Watchlist() {
                   }}
                 >
                   <Popover
-                    id="mouse-over-popover"
+                    className={styles.mouseOverPopover}
                     sx={{
                       pointerEvents: "none",
                     }}
@@ -131,20 +132,20 @@ export default function Watchlist() {
                       <Typography sx={{ p: 1 }}>{film.title}.</Typography>
                     )}
                   </Popover>
-                  <Link to={`/film/${film.tmdb_id}`} className="movie-link">
+                  <Link to={`/film/${film.tmdb_id}`} className={styles.movieLink}>
                     <img
                       src={`https://image.tmdb.org/t/p/w185/${film?.poster}`}
                       alt={film.title}
                       aria-owns={open ? "mouse-over-popover" : undefined}
                     />
                   </Link>
-                  <div className="remove-icon-container">
+                  <div className={styles.removeIconContainer}>
                     <IconButton
-                      className="remove-button"
+                      className={styles.removeButton}
                       aria-label="remove from watchlist"
                       onClick={() => removeFromWatchlist(film._id)}
                     >
-                      <VisibilityIcon className="remove-icon" />
+                      <VisibilityIcon className={styles.removeIcon} />
                     </IconButton>
                   </div>
                 </div>

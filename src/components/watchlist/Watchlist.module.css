@@ -1,4 +1,4 @@
-.film-grid {
+.filmGrid {
   display: grid !important;
   grid-template-columns: repeat(7, 1fr) !important;
   justify-items: center !important;
@@ -8,33 +8,33 @@
   margin: auto;
 }
 
-.film-grid > div:last-child {
+.filmGrid > div:last-child {
   margin-right: 1px !important;
 }
 
-.watchlist-text {
+.watchlistText {
   color: #9ab;
   width: 100%;
   text-align: left;
 }
 
-.remove-icon-container{
+.removeIconContainer{
   display: flex;
   justify-content: center;
 }
 
-.remove-icon{
+.removeIcon{
   color: #9ab;
 }
 
-.remove-icon:hover{
+.removeIcon:hover{
   color: orange;
 }
 
-.remove-button:hover{
+.removeButton:hover{
   color: orange;
 }
 
-.remove-popover:hover{
+.removePopover:hover{
   color: orange !important;
 }
