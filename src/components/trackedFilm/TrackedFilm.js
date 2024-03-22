@@ -30,7 +30,7 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import EditIcon from "@mui/icons-material/Edit";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
-import "./TrackedFilm.css";
+import styles from './TrackedFilm.module.css';
 
 export default function TrackedFilm() {
   const {
@@ -156,40 +156,40 @@ export default function TrackedFilm() {
         <Films />
       ) : (
         <Container>
-          <TableContainer className="table-container">
+          <TableContainer className={styles.tableContainer}>
             <Table sx={{ minWidth: 700 }}>
               <TableHead>
                 <TableRow>
-                  <TableCell className="thead-cell">Month</TableCell>
-                  <TableCell className="thead-cell">Day</TableCell>
-                  <TableCell className="thead-cell">Film</TableCell>
-                  <TableCell className="thead-cell"></TableCell>
-                  <TableCell className="thead-cell" align="right">
+                  <TableCell className={styles.tHeadCell}>Month</TableCell>
+                  <TableCell className={styles.tHeadCell}>Day</TableCell>
+                  <TableCell className={styles.tHeadCell}>Film</TableCell>
+                  <TableCell className={styles.tHeadCell}></TableCell>
+                  <TableCell className={styles.tHeadCell} align="right">
                     Released
                   </TableCell>
-                  <TableCell className="thead-cell" align="left">
+                  <TableCell className={styles.tHeadCell} align="left">
                     Rating
                   </TableCell>
-                  <TableCell className="thead-cell" align="right">
+                  <TableCell className={styles.tHeadCell} align="right">
                     Like
                   </TableCell>
-                  <TableCell className="thead-cell" align="right">
+                  <TableCell className={styles.tHeadCell} align="right">
                     Rewatch
                   </TableCell>
-                  <TableCell className="thead-cell" align="right">
+                  <TableCell className={styles.tHeadCell} align="right">
                     Review
                   </TableCell>
-                  <TableCell className="thead-cell" align="right">
+                  <TableCell className={styles.tHeadCell} align="right">
                     Delete
                   </TableCell>
-                  <TableCell className="thead-cell" align="right">
+                  <TableCell className={styles.tHeadCell} align="right">
                     Edit
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {sortFilms?.map((film) => (
-                  <TableRow key={film?._id} className="table-row">
+                  <TableRow key={film?._id} className={styles.tableRow}>
                     <TableCell align="right">
                       <Box display="flex" alignItems="center">
                         <Box sx={{ fontSize: "28px" }}>
@@ -211,7 +211,7 @@ export default function TrackedFilm() {
                       <h3> {formatDate(film.date_watched, "day")}</h3>
                     </TableCell>
                     <TableCell>
-                      <Link to={`/film/${film.tmdb_id}`} className="movie-link">
+                      <Link to={`/film/${film.tmdb_id}`} className={styles.movieLink}>
                         <img
                           src={
                             film.poster
@@ -224,7 +224,7 @@ export default function TrackedFilm() {
                       </Link>
                     </TableCell>
                     <TableCell component="th" scope="row">
-                      <h3 className="film-title" style={{ color: "white" }}>
+                      <h3 className={styles.filmTitle} style={{ color: "white" }}>
                         {film.title}
                       </h3>
                     </TableCell>
@@ -249,18 +249,18 @@ export default function TrackedFilm() {
                     <TableCell align="right">{film.user_review}</TableCell>
                     <TableCell align="right">
                       <DeleteIcon
-                        className="delete-icon"
+                        className={styles.deleteIcon}
                         onClick={() => deleteFromTracked(film._id)}
                       />
                     </TableCell>
                     <TableCell align="right">
                       <EditIcon
-                        className="edit-icon"
+                        className={styles.editIcon}
                         onClick={() => handleOpenEdit(film?._id)}
                       />
                     </TableCell>
                     <Modal
-                      className="edit-modal"
+                      className={styles.editModal}
                       open={openEdit}
                       onClose={handleCloseEdit}
                       aria-labelledby="modal-modal-title"
