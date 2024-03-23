@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { FilmContext } from "../../context/FilmContext";
 import { SearchContext } from "../../context/SearchContext.js";
+import { ModalContext } from "../../context/ModalContext.js";
+import { TrackedContext } from "../../context/TrackedContext.js";
 import Header from "../Header";
 import Films from "../films/Films.js";
 import { formatDate } from "../../formatDate";
@@ -31,23 +33,27 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import EditIcon from "@mui/icons-material/Edit";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
-import styles from './TrackedFilm.module.css';
+import styles from "./TrackedFilm.module.css";
 
 export default function TrackedFilm() {
+  const { hasUserSearched } = useContext(SearchContext);
+  const { setSelectedMovie } = useContext(FilmContext);
   const {
-    trackedMovies,
-    setTrackedMovies,
-    setSelectedMovie,
     starRating,
     setStarRating,
     userReview,
     setUserReview,
     date,
     setDate,
-  } = useContext(FilmContext);
-  const { hasUserSearched } = useContext(SearchContext);
-  const [openEdit, setOpenEdit] = useState(false);
-  const [selectedMovieEdit, setSelectedMovieEdit] = useState(null);
+  } = useContext(ModalContext);
+  const {
+    trackedMovies,
+    setTrackedMovies,
+    openEdit,
+    setOpenEdit,
+    selectedMovieEdit,
+    setSelectedMovieEdit,
+  } = useContext(TrackedContext);
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
 
   const handleOpenEdit = (id) => {
@@ -212,7 +218,10 @@ export default function TrackedFilm() {
                       <h3> {formatDate(film.date_watched, "day")}</h3>
                     </TableCell>
                     <TableCell>
-                      <Link to={`/film/${film.tmdb_id}`} className={styles.movieLink}>
+                      <Link
+                        to={`/film/${film.tmdb_id}`}
+                        className={styles.movieLink}
+                      >
                         <img
                           src={
                             film.poster
@@ -225,7 +234,10 @@ export default function TrackedFilm() {
                       </Link>
                     </TableCell>
                     <TableCell component="th" scope="row">
-                      <h3 className={styles.filmTitle} style={{ color: "white" }}>
+                      <h3
+                        className={styles.filmTitle}
+                        style={{ color: "white" }}
+                      >
                         {film.title}
                       </h3>
                     </TableCell>
