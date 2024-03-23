@@ -1,7 +1,7 @@
 import { useEffect, useContext } from "react";
 import axios from "axios";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import { FilmContext } from "../context/FilmContext";
+import { GenreContext } from "../context/GenreContext";
 import Popular from "./popular/Popular";
 import FilmsByGenre from "./filmsByGenre/FilmsByGenre";
 
@@ -14,7 +14,7 @@ export default function SortFilms() {
     selectedFromDD,
     setSelectedFromDD,
     setDDMovies,
-  } = useContext(FilmContext);
+  } = useContext(GenreContext);
 
   const getGenres = async (genreId) => {
     try {
