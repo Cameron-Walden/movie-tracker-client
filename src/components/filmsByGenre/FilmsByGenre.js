@@ -1,14 +1,14 @@
-import { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { Grid } from '@mui/material';
-import { FilmContext } from '../../context/FilmContext';
-import styles from './FilmsByGenre.module.css';
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { Grid } from "@mui/material";
+import { GenreContext } from "../../context/GenreContext";
+import styles from "./FilmsByGenre.module.css";
 
 export default function FilmsByGenre() {
-  const { ddMovies } = useContext(FilmContext)
+  const { ddMovies } = useContext(GenreContext);
   return (
     <>
-      <Grid className={styles.filmGrid} container >
+      <Grid className={styles.filmGrid} container>
         {ddMovies.map((film) => (
           <div key={film._id} className={styles.imgContainer}>
             <Link to={`/film/${film.id}`} className={styles.movieLink}>
@@ -18,7 +18,7 @@ export default function FilmsByGenre() {
                 style={{
                   width: "12em",
                   height: "20em",
-                  paddingLeft: "5px"
+                  paddingLeft: "5px",
                 }}
               />
             </Link>

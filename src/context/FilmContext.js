@@ -5,10 +5,6 @@ export const FilmContext = createContext();
 export default function FilmProvider(props) {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [trackedMovies, setTrackedMovies] = useState([]);
-  const [genres, setGenres] = useState([]);
-  const [selectGenre, setSelectGenre] = useState(null);
-  const [selectedFromDD, setSelectedFromDD] = useState(false);
-  const [ddMovies, setDDMovies] = useState([]);
   const [popular, setPopular] = useState([]);
 
   const getPopularFilms = async () => {
@@ -45,14 +41,6 @@ export default function FilmProvider(props) {
         setSelectedMovie,
         trackedMovies,
         setTrackedMovies,
-        genres,
-        setGenres,
-        selectGenre,
-        setSelectGenre,
-        selectedFromDD,
-        setSelectedFromDD,
-        ddMovies,
-        setDDMovies,
         popular,
         setPopular,
         getPopularFilms,
