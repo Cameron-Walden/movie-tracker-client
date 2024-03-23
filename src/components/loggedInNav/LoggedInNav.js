@@ -13,13 +13,13 @@ import {
 } from "@mui/material";
 import LogoutButton from "../logoutButton/LogoutButton";
 import Search from "../search/Search";
-import { FilmContext } from "../../context/FilmContext";
+import { GenreContext } from "../../context/GenreContext";
 import { SearchContext } from "../../context/SearchContext";
 import "./LoggedInNav.css";
 
 export default function LoggedInNav() {
   const [isOpen, setIsOpen] = useState(null);
-  const { setSelectedFromDD } = useContext(FilmContext);
+  const { setSelectedFromDD } = useContext(GenreContext);
   const { setHasUserSearched } = useContext(SearchContext);
 
   const { user } = useAuth0();
