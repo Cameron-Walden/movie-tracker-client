@@ -7,7 +7,6 @@ import SearchProvider from "./context/SearchContext";
 import ModalProvider from "./context/ModalContext";
 import WatchlistProvider from "./context/WatchlistContext";
 import GenreProvider from "./context/GenreContext";
-import TrackedProvider from "./context/TrackedContext";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Auth0Provider } from "@auth0/auth0-react";
@@ -25,19 +24,17 @@ root.render(
       }}
     >
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <TrackedProvider>
-          <GenreProvider>
-            <WatchlistProvider>
-              <ModalProvider>
-                <SearchProvider>
-                  <FilmProvider>
-                    <App />
-                  </FilmProvider>
-                </SearchProvider>
-              </ModalProvider>
-            </WatchlistProvider>
-          </GenreProvider>
-        </TrackedProvider>
+        <GenreProvider>
+          <WatchlistProvider>
+            <ModalProvider>
+              <SearchProvider>
+                <FilmProvider>
+                  <App />
+                </FilmProvider>
+              </SearchProvider>
+            </ModalProvider>
+          </WatchlistProvider>
+        </GenreProvider>
       </LocalizationProvider>
     </Auth0Provider>
   </React.StrictMode>
