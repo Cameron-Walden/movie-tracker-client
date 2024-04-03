@@ -72,9 +72,7 @@ export default function Film() {
     const idTokenClaims = isAuthenticated ? await getIdTokenClaims() : null;
     const jwtToken = isAuthenticated ? idTokenClaims.__raw : null;
     try {
-      const movieResponse = await axios?.get(
-        `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_MOVIE_API}`
-      );
+      const movieResponse = await axios.get(`http://localhost:3001/movies/${id}`)
 
       const watchlistResponse = isAuthenticated
         ? await axios?.get("http://localhost:3001/watchlist", {
