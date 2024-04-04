@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Pagination } from "@mui/material";
-import './Pages.css';
+import "./Pages.css";
 
 export default function Pages({ search, setMovies, totalResults }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -9,8 +9,8 @@ export default function Pages({ search, setMovies, totalResults }) {
 
   const nextPage = async (page) => {
     try {
-      let movieResponse = await axios?.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_MOVIE_API}&query=${search}&page=${page}`
+      const movieResponse = await axios.get(
+        `http://localhost:3001/movies?title=${search}&page=${page}`
       );
       setMovies(movieResponse?.data);
       setCurrentPage(page);
