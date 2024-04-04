@@ -38,9 +38,7 @@ export default function HomePanel() {
         });
         const tmdbId = watchlist.data.map((film) => film.tmdb_id);
         for (const id of tmdbId) {
-          const idRes = await axios.get(
-            `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${process.env.REACT_APP_MOVIE_API}`
-          );
+          const idRes = await axios.get(`http://localhost:3001/movies/${id}/recommendations`);
           if (idRes.data.results.length > 0) {
             const randomIdx = Math.floor(
               Math.random() * idRes.data.results.length
