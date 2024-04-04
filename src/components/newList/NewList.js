@@ -43,9 +43,8 @@ export default function NewList() {
 
   const getMovies = async () => {
     try {
-      let movieResponse = await axios.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_MOVIE_API}&query=${search}`
-      );
+      const movieResponse = await axios.get(`http://localhost:3001/movies?title=${search}`);
+      console.log(movieResponse, 'movieResponse'); 
       const films = movieResponse.data.results.map((film) => ({
         label: film.title,
         id: film.id,
