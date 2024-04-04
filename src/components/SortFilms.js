@@ -16,16 +16,10 @@ export default function SortFilms() {
     setDDMovies,
   } = useContext(GenreContext);
 
-  const getGenres = async (genreId) => {
+  const getGenres = async (id) => {
     try {
-      let url = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_MOVIE_API}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`;
-      if (genreId) {
-        url += `&with_genres=${genreId}`;
-      }
-      const genreResponse = await axios.get(
-        `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_MOVIE_API}&language=en-US`
-      );
-      const movieResponse = await axios.get(url);
+      const genreResponse = await axios.get('http://localhost:3001/genres');
+      const movieResponse = await axios.get(`http://localhost:3001/discover/${id}`);
       setGenres(genreResponse.data.genres);
       setDDMovies(movieResponse.data.results);
     } catch (error) {
