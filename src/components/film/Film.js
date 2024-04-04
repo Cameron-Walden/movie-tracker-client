@@ -144,9 +144,7 @@ export default function Film() {
 
   const getFilmCredits = async () => {
     try {
-      let response = await axios.get(
-        `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.REACT_APP_MOVIE_API}`
-      );
+      const response = await axios.get(`http://localhost:3001/movies/${id}/credits`);
       setCrew(response.data.crew);
       setCast(response.data.cast);
     } catch (error) {
