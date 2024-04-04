@@ -10,8 +10,8 @@ export default function SearchProvider(props) {
 
   const getMovies = async () => {
     try {
-      let movieResponse = await axios?.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_MOVIE_API}&query=${search}`
+      const movieResponse = await axios.get(
+        `http://localhost:3001/movies?title=${search}`
       );
       setMovies(movieResponse?.data);
       setTotalResults(movieResponse?.data?.total_results);
