@@ -1,10 +1,14 @@
 import { useState } from "react";
+import { useContext } from "react";
+import { SearchContext } from "../../context/SearchContext";
 import axios from "axios";
 import { Pagination } from "@mui/material";
 import "./Pages.css";
 
-export default function Pages({ search, setMovies, totalResults }) {
+export default function Pages() {
   const [currentPage, setCurrentPage] = useState(1);
+  const { search, setMovies, totalResults } = useContext(SearchContext);
+
   const moviesShown = Math.floor(totalResults / 20);
 
   const nextPage = async (page) => {

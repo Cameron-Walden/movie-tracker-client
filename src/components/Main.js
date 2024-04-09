@@ -5,20 +5,15 @@ import Films from "./films/Films";
 import Pages from "./pages/Pages";
 import SortFilms from "./SortFilms";
 export default function Main() {
-  const { search, setMovies, totalResults, hasUserSearched } =
-    useContext(SearchContext);
-    
+  const { hasUserSearched } = useContext(SearchContext);
+
   return (
     <div>
       <Header />
       {hasUserSearched ? (
         <>
           <Films />
-          <Pages
-            search={search}
-            setMovies={setMovies}
-            totalResults={totalResults}
-          />
+          <Pages />
         </>
       ) : (
         <SortFilms />
