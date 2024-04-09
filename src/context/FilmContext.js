@@ -6,23 +6,11 @@ export default function FilmProvider(props) {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [popular, setPopular] = useState([]);
 
+
   const getPopularFilms = async () => {
     try {
-      const p1Res = await axios.get(
-        `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_MOVIE_API}&page=1`
-      );
-      const p2Res = await axios.get(
-        `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_MOVIE_API}&page=2`
-      );
-      const p3Res = await axios.get(
-        `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_MOVIE_API}&page=3`
-      );
-      const results = [
-        ...p1Res.data.results,
-        ...p2Res.data.results,
-        ...p3Res.data.results,
-      ];
-      setPopular(results);
+      const res = await axios.get('http://localhost:3001/movies/popular');
+      setPopular(res.data);
     } catch (error) {
       console.log(error);
     }
