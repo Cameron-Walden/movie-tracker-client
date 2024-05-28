@@ -74,7 +74,7 @@ export default function TrackedFilm() {
       const idTokenClaims = await getIdTokenClaims();
       const jwtToken = idTokenClaims.__raw;
       try {
-        const trackedMovie = "http://localhost:3001/tracked";
+        const trackedMovie = "http://tracked";
         const response = await axios.get(trackedMovie, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
@@ -92,7 +92,7 @@ export default function TrackedFilm() {
       const idTokenClaims = await getIdTokenClaims();
       const jwtToken = idTokenClaims.__raw;
       try {
-        await axios.delete(`http://localhost:3001/tracked/${id}`, {
+        await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/tracked/${id}`, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
@@ -123,7 +123,7 @@ export default function TrackedFilm() {
         },
       };
       try {
-        const url = `http://localhost:3001/tracked/${selectedMovieEdit._id}`;
+        const url = `${process.env.REACT_APP_API_BASE_URL}/tracked/${selectedMovieEdit._id}`;
         const response = await axios.put(url, config.data, {
           headers: {
             "Content-type": "application/json",

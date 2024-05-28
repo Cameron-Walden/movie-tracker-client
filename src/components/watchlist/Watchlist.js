@@ -30,7 +30,7 @@ export default function Watchlist() {
       const idTokenClaims = await getIdTokenClaims();
       const jwtToken = idTokenClaims.__raw;
       try {
-        let response = await axios.get("http://localhost:3001/watchlist", {
+        let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/watchlist`, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
@@ -52,7 +52,7 @@ export default function Watchlist() {
       const idTokenClaims = await getIdTokenClaims();
       const jwtToken = idTokenClaims.__raw;
       try {
-        const removeFilm = `http://localhost:3001/watchlist/${id}`;
+        const removeFilm = `${process.env.REACT_APP_API_BASE_URL}/watchlist/${id}`;
         await axios.delete(removeFilm, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,

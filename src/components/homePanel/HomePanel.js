@@ -31,14 +31,14 @@ export default function HomePanel() {
       const idTokenClaims = await getIdTokenClaims();
       const jwtToken = idTokenClaims.__raw;
       try {
-        let watchlist = await axios.get("http://localhost:3001/watchlist", {
+        let watchlist = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/watchlist`, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
         });
         const tmdbId = watchlist.data.map((film) => film.tmdb_id);
         for (const id of tmdbId) {
-          const idRes = await axios.get(`http://localhost:3001/movies/${id}/recommendations`);
+          const idRes = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/movies/${id}/recommendations`);
           if (idRes.data.results.length > 0) {
             const randomIdx = Math.floor(
               Math.random() * idRes.data.results.length

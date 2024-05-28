@@ -49,7 +49,7 @@ export default function MovieModal({ handleCloseModal }) {
         },
       };
       try {
-        const url = "http://localhost:3001/tracked";
+        const url = `${process.env.REACT_APP_API_BASE_URL}/tracked`;
         const response = await axios.post(url, config.data, {
           headers: {
             "Content-type": "application/json",

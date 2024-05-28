@@ -43,8 +43,7 @@ export default function NewList() {
 
   const getMovies = async () => {
     try {
-      const movieResponse = await axios.get(`http://localhost:3001/movies?title=${search}`);
-      console.log(movieResponse, 'movieResponse'); 
+      const movieResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/movies?title=${search}`);
       const films = movieResponse.data.results.map((film) => ({
         label: film.title,
         id: film.id,
@@ -97,7 +96,7 @@ export default function NewList() {
       };
 
       try {
-        await axios.post("http://localhost:3001/lists", listData, {
+        await axios.post(`${process.env.REACT_APP_API_BASE_URL}/lists`, listData, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },

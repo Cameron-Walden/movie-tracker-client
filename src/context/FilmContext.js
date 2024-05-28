@@ -9,7 +9,7 @@ export default function FilmProvider(props) {
 
   const getPopularFilms = async () => {
     try {
-      const res = await axios.get('http://localhost:3001/movies/popular');
+      const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/movies/popular`);
       setPopular(res.data);
     } catch (error) {
       console.log(error);

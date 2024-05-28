@@ -7,7 +7,7 @@ export default function LogoutButton() {
   return (
     <Button sx={{ color: "#9ab" }}
       onClick={() =>
-        logout({ logoutParams: { returnTo: "http://localhost:3000" } })
+        logout({ logoutParams: { returnTo: "https://movietrack3r.netlify.app" } })
       }
     >
       Log Out

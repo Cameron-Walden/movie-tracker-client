@@ -18,8 +18,8 @@ export default function SortFilms() {
 
   const getGenres = async (id) => {
     try {
-      const genreResponse = await axios.get('http://localhost:3001/genres');
-      const movieResponse = await axios.get(`http://localhost:3001/discover/${id}`);
+      const genreResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/genres`);
+      const movieResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/discover/${id}`);
       setGenres(genreResponse.data.genres);
       setDDMovies(movieResponse.data.results);
     } catch (error) {

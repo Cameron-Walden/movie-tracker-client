@@ -42,7 +42,7 @@ export default function Settings() {
 
       dropzoneRef.current.click();
 
-      let userResponse = await axios.post("http://localhost:3001/user", {
+      let userResponse = await axios.post("http://user", {
         name,
         email,
         picture,

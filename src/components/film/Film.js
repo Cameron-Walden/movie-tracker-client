@@ -72,10 +72,10 @@ export default function Film() {
     const idTokenClaims = isAuthenticated ? await getIdTokenClaims() : null;
     const jwtToken = isAuthenticated ? idTokenClaims.__raw : null;
     try {
-      const movieResponse = await axios.get(`http://localhost:3001/movies/${id}`)
+      const movieResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/movies/${id}`)
 
       const watchlistResponse = isAuthenticated
-        ? await axios?.get("http://localhost:3001/watchlist", {
+        ? await axios?.get(`${process.env.REACT_APP_API_BASE_URL}/watchlist`, {
             headers: {
               Authorization: `Bearer ${jwtToken}`,
             },
@@ -83,7 +83,7 @@ export default function Film() {
         : { data: [] };
 
       const trackedResponse = isAuthenticated
-        ? await axios?.get("http://localhost:3001/tracked", {
+        ? await axios?.get(`${process.env.REACT_APP_API_BASE_URL}/tracked`, {
             headers: {
               Authorization: `Bearer ${jwtToken}`,
             },
@@ -120,7 +120,7 @@ export default function Film() {
       const idTokenClaims = await getIdTokenClaims();
       const jwtToken = idTokenClaims.__raw;
       try {
-        let response = await axios.get("http://localhost:3001/watchlist", {
+        let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/watchlist`, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
@@ -144,7 +144,7 @@ export default function Film() {
 
   const getFilmCredits = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/movies/${id}/credits`);
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/movies/${id}/credits`);
       setCrew(response.data.crew);
       setCast(response.data.cast);
     } catch (error) {
@@ -163,7 +163,7 @@ export default function Film() {
       const idTokenClaims = await getIdTokenClaims();
       const jwtToken = idTokenClaims.__raw;
       try {
-        const trackedMovie = "http://localhost:3001/tracked";
+        const trackedMovie = `${process.env.REACT_APP_API_BASE_URL}/tracked`;
         const response = await axios.get(trackedMovie, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
@@ -183,7 +183,7 @@ export default function Film() {
 
   const removeFromWatchlist = async (id) => {
     try {
-      const removeFilm = `http://localhost:3001/watchlist/${id}`;
+      const removeFilm = `${process.env.REACT_APP_API_BASE_URL}/watchlist/${id}`;
       await axios.delete(removeFilm);
       setWatchlist((prevWl) => prevWl.filter((film) => film.tmdb_id !== id));
     } catch (error) {

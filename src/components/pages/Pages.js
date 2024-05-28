@@ -14,7 +14,7 @@ export default function Pages() {
   const nextPage = async (page) => {
     try {
       const movieResponse = await axios.get(
-        `http://localhost:3001/movies?title=${search}&page=${page}`
+        `${process.env.REACT_APP_API_BASE_URL}/movies?title=${search}&page=${page}`
       );
       setMovies(movieResponse?.data);
       setCurrentPage(page);

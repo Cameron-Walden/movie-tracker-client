@@ -38,7 +38,7 @@ export default function Profile() {
 
   const getMovies = async () => {
     try {
-      const movieResponse = await axios.get(`http://localhost:3001/movies?title=${search}`)
+      const movieResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/movies?title=${search}`)
       const films = movieResponse.data.results.map((film) => ({
         label: film.title,
         poster_path: film.poster_path,
@@ -123,7 +123,7 @@ export default function Profile() {
         (film) => film !== null && film.label
       );
       try {
-        const url = "http://localhost:3001/topFive";
+        const url = `${process.env.REACT_APP_API_BASE_URL}/topFive`;
         const payload = { favoriteFilms: updatedTopFive };
         let response;
   
@@ -155,7 +155,7 @@ export default function Profile() {
       const idTokenClaims = await getIdTokenClaims();
       const jwtToken = idTokenClaims.__raw;
       try {
-        const response = await axios.get(`http://localhost:3001/topFive`, {
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/topFive`, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },

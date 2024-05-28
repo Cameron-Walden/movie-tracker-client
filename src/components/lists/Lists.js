@@ -25,7 +25,7 @@ export default function Lists() {
       const idTokenClaims = await getIdTokenClaims();
       const jwtToken = idTokenClaims.__raw;
       try {
-        let response = await axios.get("http://localhost:3001/lists", {
+        let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/lists`, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
