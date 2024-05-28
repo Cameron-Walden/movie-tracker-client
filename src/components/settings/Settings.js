@@ -9,7 +9,7 @@ import Pages from "../pages/Pages";
 import "./Settings.css";
 
 export default function Settings() {
-  const [newUser, setNewUser] = useState({});
+  // const [newUser, setNewUser] = useState({});
   const { search, setMovies, totalResults, hasUserSearched } =
     useContext(SearchContext);
 
@@ -38,17 +38,17 @@ export default function Settings() {
 
   const handleUpdateProfilePic = async () => {
     try {
-      const { name, email, picture } = user;
+      // const { name, email, picture } = user;
 
-      dropzoneRef.current.click();
+      // dropzoneRef.current.click();
 
-      let userResponse = await axios.post("http://user", {
-        name,
-        email,
-        picture,
-      });
+      // let userResponse = await axios.post("http://user", {
+      //   name,
+      //   email,
+      //   picture,
+      // });
 
-      setNewUser(userResponse);
+      // setNewUser(userResponse);
     } catch (error) {
       console.error("Error updating profile picture:", error);
     }

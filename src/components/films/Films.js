@@ -27,19 +27,29 @@ export default function Films() {
   const { addToWatchlist } = useContext(WatchlistContext);
   const { setOpenModal } = useContext(ModalContext);
 
-  const handleOpenModal = (id) => {
-    let findId = movies?.results?.find((movie) => movie.id === id);
-    setOpenModal(true);
-    setSelectedMovie(findId);
-  };
+  // const handleOpenModal = (id) => {
+  //   let findId = movies?.results?.find((movie) => movie.id === id);
+  //   setOpenModal(true);
+  //   setSelectedMovie(findId);
+  // };
+
+  useEffect(() => {
+    const handleOpenModal = (id) => {
+      let findId = movies?.results?.find((movie) => movie.id === id);
+      setOpenModal(true);
+      setSelectedMovie(findId);
+    };
+
+    handleOpenModal();
+  }, [movies, setOpenModal, setSelectedMovie]);
 
   const handleCloseModal = () => setOpenModal(false);
 
   const resetSearch = () => setHasUserSearched(false);
 
-  useEffect(() => {
-    handleOpenModal();
-  }, []);
+  // useEffect(() => {
+  //   handleOpenModal();
+  // }, []);
 
   return (
     <Container className={styles.container}>

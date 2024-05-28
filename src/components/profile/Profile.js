@@ -16,7 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import styles from './Profile.module.css';
+import styles from "./Profile.module.css";
 
 export default function Profile() {
   const [openPosterModal, setOpenPosterModal] = useState(false);
@@ -38,7 +38,9 @@ export default function Profile() {
 
   const getMovies = async () => {
     try {
-      const movieResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/movies?title=${search}`)
+      const movieResponse = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/movies?title=${search}`
+      );
       const films = movieResponse.data.results.map((film) => ({
         label: film.title,
         poster_path: film.poster_path,
@@ -95,7 +97,11 @@ export default function Profile() {
     const userFaveFilm = userTopFive[idx];
 
     return (
-      <Paper onClick={handleOpenSearch} key={idx} className={styles.emptyTopFive}>
+      <Paper
+        onClick={handleOpenSearch}
+        key={idx}
+        className={styles.emptyTopFive}
+      >
         {userFaveFilm ? (
           <img
             src={`https://image.tmdb.org/t/p/w500${userFaveFilm.poster_path}`}
@@ -126,7 +132,7 @@ export default function Profile() {
         const url = `${process.env.REACT_APP_API_BASE_URL}/topFive`;
         const payload = { favoriteFilms: updatedTopFive };
         let response;
-  
+
         if (userTopFive.length > 0) {
           response = await axios.put(url, payload, {
             headers: {
@@ -140,9 +146,9 @@ export default function Profile() {
             },
           });
         }
-  
+
         const responseData = JSON.parse(response.config.data);
-  
+
         setUserTopFive(responseData.favoriteFilms);
       } catch (error) {
         console.log(error);
@@ -150,26 +156,50 @@ export default function Profile() {
     }
   };
 
-  const getTopFive = async () => {
-    if (isAuthenticated) {
-      const idTokenClaims = await getIdTokenClaims();
-      const jwtToken = idTokenClaims.__raw;
-      try {
-        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/topFive`, {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        });
-        setUserTopFive(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
+  // const getTopFive = async () => {
+  //   if (isAuthenticated) {
+  //     const idTokenClaims = await getIdTokenClaims();
+  //     const jwtToken = idTokenClaims.__raw;
+  //     try {
+  //       const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/topFive`, {
+  //         headers: {
+  //           Authorization: `Bearer ${jwtToken}`,
+  //         },
+  //       });
+  //       setUserTopFive(response.data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getTopFive();
+  // }, []);
 
   useEffect(() => {
+    const getTopFive = async () => {
+      if (isAuthenticated) {
+        const idTokenClaims = await getIdTokenClaims();
+        const jwtToken = idTokenClaims.__raw;
+        try {
+          const response = await axios.get(
+            `${process.env.REACT_APP_API_BASE_URL}/topFive`,
+            {
+              headers: {
+                Authorization: `Bearer ${jwtToken}`,
+              },
+            }
+          );
+          setUserTopFive(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
     getTopFive();
-  }, []);
+  }, [isAuthenticated, getIdTokenClaims, setUserTopFive]);
 
   if (isLoading)
     return (
