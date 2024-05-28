@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+// import { useAuth0 } from "@auth0/auth0-react";
 // import axios from "axios";
 import { SearchContext } from "../../context/SearchContext";
 import Dropzone from "dropzone";
