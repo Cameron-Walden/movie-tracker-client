@@ -20,31 +20,6 @@ export default function Lists() {
 
   const handleChange = (newValue) => setValue(newValue);
 
-  // const getUserLists = async () => {
-  //   if (isAuthenticated) {
-  //     const idTokenClaims = await getIdTokenClaims();
-  //     const jwtToken = idTokenClaims.__raw;
-  //     try {
-  //       let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/lists`, {
-  //         headers: {
-  //           Authorization: `Bearer ${jwtToken}`,
-  //         },
-  //       });
-  //       const userListData = response.data.map((list) => ({
-  //         ...list,
-  //         movies: list.movies,
-  //       }));
-  //       setUserLists(userListData);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getUserLists();
-  // }, []);
-
   useEffect(() => {
     const getUserLists = async () => {
       if (isAuthenticated) {

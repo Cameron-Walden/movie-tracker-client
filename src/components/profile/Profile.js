@@ -156,27 +156,6 @@ export default function Profile() {
     }
   };
 
-  // const getTopFive = async () => {
-  //   if (isAuthenticated) {
-  //     const idTokenClaims = await getIdTokenClaims();
-  //     const jwtToken = idTokenClaims.__raw;
-  //     try {
-  //       const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/topFive`, {
-  //         headers: {
-  //           Authorization: `Bearer ${jwtToken}`,
-  //         },
-  //       });
-  //       setUserTopFive(response.data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getTopFive();
-  // }, []);
-
   useEffect(() => {
     const getTopFive = async () => {
       if (isAuthenticated) {

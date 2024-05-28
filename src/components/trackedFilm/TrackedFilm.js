@@ -74,7 +74,7 @@ export default function TrackedFilm() {
       const idTokenClaims = await getIdTokenClaims();
       const jwtToken = idTokenClaims.__raw;
       try {
-        const trackedMovie = "http://tracked";
+        const trackedMovie = `${process.env.REACT_APP_API_BASE_URL}/tracked`;
         const response = await axios.get(trackedMovie, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,

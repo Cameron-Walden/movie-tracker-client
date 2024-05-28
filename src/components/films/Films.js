@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useContext, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { FilmContext } from "../../context/FilmContext";
 import { SearchContext } from "../../context/SearchContext";
@@ -26,30 +26,16 @@ export default function Films() {
   const { movies, setHasUserSearched } = useContext(SearchContext);
   const { addToWatchlist } = useContext(WatchlistContext);
   const { setOpenModal } = useContext(ModalContext);
-
-  // const handleOpenModal = (id) => {
-  //   let findId = movies?.results?.find((movie) => movie.id === id);
-  //   setOpenModal(true);
-  //   setSelectedMovie(findId);
-  // };
-
-  useEffect(() => {
-    const handleOpenModal = (id) => {
-      let findId = movies?.results?.find((movie) => movie.id === id);
-      setOpenModal(true);
-      setSelectedMovie(findId);
-    };
-
-    handleOpenModal();
+  
+  const handleOpenModal = useCallback((id) => {
+    let findId = movies?.results?.find((movie) => movie.id === id);
+    setOpenModal(true);
+    setSelectedMovie(findId);
   }, [movies, setOpenModal, setSelectedMovie]);
 
   const handleCloseModal = () => setOpenModal(false);
 
   const resetSearch = () => setHasUserSearched(false);
-
-  // useEffect(() => {
-  //   handleOpenModal();
-  // }, []);
 
   return (
     <Container className={styles.container}>

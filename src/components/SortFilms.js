@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useCallback } from "react";
 import axios from "axios";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { GenreContext } from "../context/GenreContext";
@@ -15,36 +15,21 @@ export default function SortFilms() {
     setSelectedFromDD,
     setDDMovies,
   } = useContext(GenreContext);
-
-  // const getGenres = async (id) => {
-  //   try {
-  //     const genreResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/genres`);
-  //     const movieResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/discover/${id}`);
-  //     setGenres(genreResponse.data.genres);
-  //     setDDMovies(movieResponse.data.results);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getGenres(selectGenre);
-  // }, [selectGenre]);
+  
+  const getGenres = useCallback(async (id) => {
+    try {
+      const genreResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/genres`);
+      const movieResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/discover/${id}`);
+      setGenres(genreResponse.data.genres);
+      setDDMovies(movieResponse.data.results);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [setGenres, setDDMovies]);
 
   useEffect(() => {
-    const getGenres = async (id) => {
-      try {
-        const genreResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/genres`);
-        const movieResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/discover/${id}`);
-        setGenres(genreResponse.data.genres);
-        setDDMovies(movieResponse.data.results);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  
     getGenres(selectGenre);
-  }, [selectGenre, setGenres, setDDMovies]);
+  }, [selectGenre, getGenres]);
 
   return (
     <div>
