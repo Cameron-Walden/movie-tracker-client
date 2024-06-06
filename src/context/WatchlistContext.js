@@ -22,7 +22,7 @@ export default function WatchlistProvider(props) {
         },
       };
       try {
-        const url = "http://watchlist";
+        const url = `${process.env.REACT_APP_API_BASE_URL}/watchlist`;
         const response = await axios.post(url, config.data, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
