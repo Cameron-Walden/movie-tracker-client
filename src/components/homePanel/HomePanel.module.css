@@ -62,3 +62,10 @@
 .description {
   width: 210px;
 }
+
+.firstFiveProgressBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
