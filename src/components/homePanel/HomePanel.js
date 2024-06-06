@@ -1,9 +1,18 @@
 import { useState, useContext, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useLoading } from "../../context/LoadingContext";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { FilmContext } from "../../context/FilmContext";
-import { Button, Container, Grid, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Grid,
+  Paper,
+  Typography,
+} from "@mui/material";
 import Slider from "react-slick";
 import notAvailable from "../../img/no_image.jpeg";
 import styles from "./HomePanel.module.css";
@@ -15,6 +24,7 @@ export default function HomePanel() {
   const [recommendations, setRecommendations] = useState([]);
   const [fetchRecs, setFetchRecs] = useState(false);
   const { loginWithRedirect, isAuthenticated, getIdTokenClaims } = useAuth0();
+  const { isRecsLoading, setIsRecsLoading, isFirstFiveLoading } = useLoading();
 
   const firstFiveMovies = popular.slice(0, 5);
 
@@ -30,15 +40,21 @@ export default function HomePanel() {
     if (isAuthenticated) {
       const idTokenClaims = await getIdTokenClaims();
       const jwtToken = idTokenClaims.__raw;
+      setIsRecsLoading(true);
       try {
-        let watchlist = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/watchlist`, {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        });
+        let watchlist = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/watchlist`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          }
+        );
         const tmdbId = watchlist.data.map((film) => film.tmdb_id);
         for (const id of tmdbId) {
-          const idRes = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/movies/${id}/recommendations`);
+          const idRes = await axios.get(
+            `${process.env.REACT_APP_API_BASE_URL}/movies/${id}/recommendations`
+          );
           if (idRes.data.results.length > 0) {
             const randomIdx = Math.floor(
               Math.random() * idRes.data.results.length
@@ -49,6 +65,8 @@ export default function HomePanel() {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsRecsLoading(false);
       }
     }
   };
@@ -64,12 +82,15 @@ export default function HomePanel() {
       movieRecs();
       setFetchRecs(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchRecs]);
 
   return (
     <div className={styles.homePanelContainer}>
-      <div className={styles.welcomeTextContainer} style={{ textAlign: "center" }}>
+      <div
+        className={styles.welcomeTextContainer}
+        style={{ textAlign: "center" }}
+      >
         <h1>Track films you’ve watched.</h1>
         <h1>Save those you want to watch.</h1>
         <h1>Tell your friends what's worth watching.</h1>
@@ -79,53 +100,72 @@ export default function HomePanel() {
           <strong className={styles.filmRecsTagline}>
             Today you might be interested in...
           </strong>
-          <Slider {...settings}>
-            {recommendations?.map((film) => (
-              <Link
-                to={`/film/${film.id}`}
-                className={styles.movieLink}
-                key={film.id}
-              >
-                <img
-                  className={styles.movieRecPoster}
-                  src={
-                    film.poster_path
-                      ? `https://image.tmdb.org/t/p/w185/${film.poster_path}`
-                      : notAvailable
-                  }
-                  alt={film.title}
-                />
-              </Link>
-            ))}
-          </Slider>
+          {isRecsLoading ? (
+            <Box>
+              <CircularProgress />
+            </Box>
+          ) : (
+            <Slider {...settings}>
+              {recommendations?.map((film) => (
+                <Link
+                  to={`/film/${film.id}`}
+                  className={styles.movieLink}
+                  key={film.id}
+                >
+                  <img
+                    className={styles.movieRecPoster}
+                    src={
+                      film.poster_path
+                        ? `https://image.tmdb.org/t/p/w185/${film.poster_path}`
+                        : notAvailable
+                    }
+                    alt={film.title}
+                  />
+                </Link>
+              ))}
+            </Slider>
+          )}
         </Container>
       ) : (
-        <Button className={styles.getStartedBtn} onClick={() => loginWithRedirect()}>
+        <Button
+          className={styles.getStartedBtn}
+          onClick={() => loginWithRedirect()}
+        >
           START TRACKING- IT'S FREE!
         </Button>
       )}
       <strong className={styles.tagline}>
         The movie tracking social network for film enthusiasts.
       </strong>
-      <Container>
-        <Grid
-          className={styles.poopularGrid}
-          container
-          direction="row"
-          alignItems="center"
-          justifyContent="center"
-        >
-          {firstFiveMovies.map((film) => (
-            <Link to={`/film/${film.id}`} className={styles.movieLink} key={film.id}>
-              <img
-                src={`https://image.tmdb.org/t/p/w185/${film.poster_path}`}
-                alt={film.title}
-              />
-            </Link>
-          ))}
-        </Grid>
-      </Container>
-      <Grid className={styles.welcomeGrid}container spacing={2}>
+      {isFirstFiveLoading ? (
+        <Box className={styles.firstFiveProgressBox}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <Container>
+          <Grid
+            className={styles.poopularGrid}
+            container
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+          >
+            {firstFiveMovies.map((film) => (
+              <Link
+                to={`/film/${film.id}`}
+                className={styles.movieLink}
+                key={film.id}
+              >
+                <img
+                  src={`https://image.tmdb.org/t/p/w185/${film.poster_path}`}
+                  alt={film.title}
+                />
+              </Link>
+            ))}
+          </Grid>
+        </Container>
+      )}
+      <Grid className={styles.welcomeGrid} container spacing={2}>
         <Grid className={styles.gridPanels} item xs={12} sm={6} md={4}>
           <Link
             to="/welcome"
