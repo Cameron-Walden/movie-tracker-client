@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { FilmContext } from "../../context/FilmContext";
 import { ModalContext } from "../../context/ModalContext";
 import { SearchContext } from "../../context/SearchContext";
+import { TrackedContext } from "../../context/TrackedContext";
 import { WatchlistContext } from "../../context/WatchlistContext";
 import { Container } from "@mui/system";
 import {
@@ -41,7 +42,8 @@ export default function Film() {
   const [openRmvSnack, setOpenRmvSnack] = useState(false);
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
 
-  const { setTrackedMovies, setSelectedMovie } = useContext(FilmContext);
+  const { setSelectedMovie } = useContext(FilmContext);
+  const { setTrackedMovies } = useContext(TrackedContext);
   const { setOpenModal, setStarRating } = useContext(ModalContext);
   const { watchlist, setWatchlist, addToWatchlist } =
     useContext(WatchlistContext);
@@ -72,7 +74,9 @@ export default function Film() {
     const idTokenClaims = isAuthenticated ? await getIdTokenClaims() : null;
     const jwtToken = isAuthenticated ? idTokenClaims.__raw : null;
     try {
-      const movieResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/movies/${id}`)
+      const movieResponse = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/movies/${id}`
+      );
 
       const watchlistResponse = isAuthenticated
         ? await axios?.get(`${process.env.REACT_APP_API_BASE_URL}/watchlist`, {
@@ -120,11 +124,14 @@ export default function Film() {
       const idTokenClaims = await getIdTokenClaims();
       const jwtToken = idTokenClaims.__raw;
       try {
-        let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/watchlist`, {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        });
+        let response = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/watchlist`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          }
+        );
         const updatedWatchlist = response.data.map((film) => ({
           ...film,
         }));
@@ -144,7 +151,9 @@ export default function Film() {
 
   const getFilmCredits = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/movies/${id}/credits`);
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/movies/${id}/credits`
+      );
       setCrew(response.data.crew);
       setCast(response.data.cast);
     } catch (error) {
@@ -182,17 +191,27 @@ export default function Film() {
   };
 
   const removeFromWatchlist = async (id) => {
-    try {
-      const removeFilm = `${process.env.REACT_APP_API_BASE_URL}/watchlist/${id}`;
-      await axios.delete(removeFilm);
-      setWatchlist((prevWl) => prevWl.filter((film) => film.tmdb_id !== id));
-    } catch (error) {
-      console.log(error);
+    console.log(id, 'id to be removed');
+    if (isAuthenticated) {
+      const idTokenClaims = await getIdTokenClaims();
+      const jwtToken = idTokenClaims.__raw;
+      try {
+        const removeFilm = `${process.env.REACT_APP_API_BASE_URL}/watchlist/${id}`;
+        await axios.delete(removeFilm, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+        setWatchlist((prevWl) => prevWl.filter((film) => film.tmdb_id !== id));
+      } catch (error) {
+        console.log(error);
+      }
     }
     getWatchlist();
     handleOpenRmvSnack();
   };
 
+  
   useEffect(() => {
     getFilm();
     getFilmCredits();
