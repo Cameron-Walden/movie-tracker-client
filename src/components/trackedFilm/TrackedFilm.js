@@ -70,9 +70,11 @@ export default function TrackedFilm() {
   const handleCloseEdit = () => setOpenEdit(false);
 
   const getTrackedMovies = async () => {
+    console.log("getTrackedMovies");
     if (isAuthenticated) {
       const idTokenClaims = await getIdTokenClaims();
       const jwtToken = idTokenClaims.__raw;
+      console.log(jwtToken)
       try {
         const trackedMovie = `${process.env.REACT_APP_API_BASE_URL}/tracked`;
         const response = await axios.get(trackedMovie, {
