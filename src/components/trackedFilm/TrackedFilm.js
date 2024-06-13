@@ -70,7 +70,6 @@ export default function TrackedFilm() {
   const handleCloseEdit = () => setOpenEdit(false);
 
   const getTrackedMovies = async () => {
-    console.log("getTrackedMovies");
     if (isAuthenticated) {
       const idTokenClaims = await getIdTokenClaims();
       const jwtToken = idTokenClaims.__raw;
